@@ -30,47 +30,62 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState<string>("hero");
 
+    const updateActiveSection = useCallback(() => {
+        if (!isHome) return;
+
+        const sections = Array.from(document.querySelectorAll<HTMLElement>("section[id]"));
+        if (sections.length === 0) return;
+
+        const referencePoint = window.innerHeight * 0.35;
+        let closestSectionId = "hero";
+        let smallestDistance = Number.POSITIVE_INFINITY;
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > window.innerHeight) {
+                return;
+            }
+
+            const sectionCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(sectionCenter - referencePoint);
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                closestSectionId = section.id;
+            }
+        });
+
+        setActiveSection(closestSectionId);
+    }, [isHome]);
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
+            updateActiveSection();
         };
 
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+        window.addEventListener("resize", updateActiveSection);
+        updateActiveSection();
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", updateActiveSection);
+        };
+    }, [updateActiveSection]);
 
     useEffect(() => {
         if (!isHome) {
             setActiveSection("hero");
             return;
         }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id);
-                    }
-                });
-            },
-            {
-                threshold: 0.2,
-                rootMargin: "-10% 0px -50% 0px",
-            },
-        );
-
-        const sections = document.querySelectorAll("section[id]");
-        sections.forEach((section) => observer.observe(section));
-
-        return () => {
-            sections.forEach((section) => observer.unobserve(section));
-        };
-    }, [isHome]);
+        updateActiveSection();
+    }, [isHome, updateActiveSection]);
 
     const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
         if (!isHome) return;
         event.preventDefault();
         document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+        setActiveSection(sectionId);
     };
 
     const navLinkClass = (sectionId: string) =>
@@ -95,70 +110,68 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
                 </Link>
 
                 <div className="flex items-center gap-4 md:gap-8">
-                    {isHome && (
-                        <div className="hidden md:flex items-center gap-8 font-serif tracking-[0.35em] text-xs">
-                            <Link
-                                href="#lore"
-                                onClick={(e) => scrollToSection(e, "lore")}
-                                className={navLinkClass("lore")}
-                            >
-                                {content.nav.story}
-                                <span
-                                    className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
-                                        activeSection === "lore" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                                    }`}
-                                ></span>
-                            </Link>
-                            <Link
-                                href="#about"
-                                onClick={(e) => scrollToSection(e, "about")}
-                                className={navLinkClass("about")}
-                            >
-                                {content.nav.game}
-                                <span
-                                    className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
-                                        activeSection === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                                    }`}
-                                ></span>
-                            </Link>
-                            <Link
-                                href="#crowdfunding"
-                                onClick={(e) => scrollToSection(e, "crowdfunding")}
-                                className={navLinkClass("crowdfunding")}
-                            >
-                                {content.nav.campaign}
-                                <span
-                                    className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
-                                        activeSection === "crowdfunding"
-                                            ? "scale-x-100"
-                                            : "scale-x-0 group-hover:scale-x-100"
-                                    }`}
-                                ></span>
-                            </Link>
-                            <Link
-                                href="#gallery"
-                                onClick={(e) => scrollToSection(e, "gallery")}
-                                className={navLinkClass("gallery")}
-                            >
-                                {content.nav.gallery}
-                                <span
-                                    className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
-                                        activeSection === "gallery"
-                                            ? "scale-x-100"
-                                            : "scale-x-0 group-hover:scale-x-100"
-                                    }`}
-                                ></span>
-                            </Link>
-                            <Link
-                                href={STEAM_URL}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-white border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all uppercase text-xs shadow-lg"
-                            >
-                                {content.nav.steam}
-                            </Link>
-                        </div>
-                    )}
+                    <div className="hidden md:flex items-center gap-8 font-serif tracking-[0.35em] text-xs">
+                        <Link
+                            href={isHome ? "#lore" : "/#lore"}
+                            onClick={(e) => scrollToSection(e, "lore")}
+                            className={navLinkClass("lore")}
+                        >
+                            {content.nav.story}
+                            <span
+                                className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
+                                    activeSection === "lore" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                                }`}
+                            ></span>
+                        </Link>
+                        <Link
+                            href={isHome ? "#about" : "/#about"}
+                            onClick={(e) => scrollToSection(e, "about")}
+                            className={navLinkClass("about")}
+                        >
+                            {content.nav.game}
+                            <span
+                                className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
+                                    activeSection === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                                }`}
+                            ></span>
+                        </Link>
+                        <Link
+                            href={isHome ? "#crowdfunding" : "/#crowdfunding"}
+                            onClick={(e) => scrollToSection(e, "crowdfunding")}
+                            className={navLinkClass("crowdfunding")}
+                        >
+                            {content.nav.campaign}
+                            <span
+                                className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
+                                    activeSection === "crowdfunding"
+                                        ? "scale-x-100"
+                                        : "scale-x-0 group-hover:scale-x-100"
+                                }`}
+                            ></span>
+                        </Link>
+                        <Link
+                            href={isHome ? "#gallery" : "/#gallery"}
+                            onClick={(e) => scrollToSection(e, "gallery")}
+                            className={navLinkClass("gallery")}
+                        >
+                            {content.nav.gallery}
+                            <span
+                                className={`absolute -bottom-1 left-0 w-full h-px bg-blood transform origin-left transition-transform duration-300 ${
+                                    activeSection === "gallery"
+                                        ? "scale-x-100"
+                                        : "scale-x-0 group-hover:scale-x-100"
+                                }`}
+                            ></span>
+                        </Link>
+                        <Link
+                            href={STEAM_URL}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-white border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all uppercase text-xs shadow-lg"
+                        >
+                            {content.nav.steam}
+                        </Link>
+                    </div>
 
                     <div className="flex items-center gap-3 md:border-l md:border-zinc-700 md:pl-6 ml-2">
                         <Globe
