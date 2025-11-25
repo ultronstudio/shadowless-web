@@ -10,11 +10,11 @@ import { Language, type Content } from "@/types";
 import LanguageContext from "@/context/LanguageContext";
 import { STEAM_URL } from "@/constants";
 import Footer from "@/sections/Footer";
-
-const SUPPORTED_LANGUAGES: Language[] = ["en", "cs", "de"];
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/lib/language";
 
 interface RootLayoutClientProps {
     children: ReactNode;
+    initialLang?: Language;
 }
 
 interface NavigationProps {
@@ -202,8 +202,8 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
     );
 }
 
-export default function RootLayoutClient({ children }: RootLayoutClientProps) {
-    const [lang, setLang] = useState<Language>("en");
+export default function RootLayoutClient({ children, initialLang }: RootLayoutClientProps) {
+    const [lang, setLang] = useState<Language>(initialLang ?? DEFAULT_LANGUAGE);
     const [isSwitching, setIsSwitching] = useState(false);
 
     const content = TRANSLATIONS[lang];
@@ -227,6 +227,7 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
     useEffect(() => {
         if (typeof window === "undefined") return;
         window.localStorage?.setItem("shadowless-lang", lang);
+        document.documentElement.lang = lang;
     }, [lang]);
 
     const handleLangChange = useCallback((newLang: Language) => {
