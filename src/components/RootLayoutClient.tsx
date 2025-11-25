@@ -11,6 +11,47 @@ import LanguageContext from "@/context/LanguageContext";
 import { STEAM_URL } from "@/constants";
 import Footer from "@/sections/Footer";
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/lib/language";
+import { BASE_META, PAGE_META } from "@/constants/meta";
+
+type PageKey = keyof typeof PAGE_META;
+
+const FALLBACK_PAGE: PageKey = "home";
+
+function resolvePageKey(pathname: string): PageKey {
+    if (pathname === "/" || pathname === "") {
+        return "home";
+    }
+
+    if (pathname.startsWith("/terms")) {
+        return "terms";
+    }
+
+    if (pathname.startsWith("/thank-you")) {
+        return "thankYou";
+    }
+
+    return FALLBACK_PAGE;
+}
+
+function upsertNameMeta(name: string, content: string) {
+    let element = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+    if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute("name", name);
+        document.head.appendChild(element);
+    }
+    element.setAttribute("content", content);
+}
+
+function upsertPropertyMeta(property: string, content: string) {
+    let element = document.head.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+    if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute("property", property);
+        document.head.appendChild(element);
+    }
+    element.setAttribute("content", content);
+}
 
 interface RootLayoutClientProps {
     children: ReactNode;
@@ -203,8 +244,11 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
 }
 
 export default function RootLayoutClient({ children, initialLang }: RootLayoutClientProps) {
+    const pathname = usePathname();
     const [lang, setLang] = useState<Language>(initialLang ?? DEFAULT_LANGUAGE);
     const [isSwitching, setIsSwitching] = useState(false);
+
+    const currentPage = useMemo<PageKey>(() => resolvePageKey(pathname || "/"), [pathname]);
 
     const content = TRANSLATIONS[lang];
 
@@ -229,6 +273,29 @@ export default function RootLayoutClient({ children, initialLang }: RootLayoutCl
         window.localStorage?.setItem("shadowless-lang", lang);
         document.documentElement.lang = lang;
     }, [lang]);
+
+    useEffect(() => {
+        if (typeof document === "undefined") return;
+
+        const baseMeta = BASE_META[lang];
+        const pageMeta = PAGE_META[currentPage][lang];
+
+        if (!baseMeta || !pageMeta) {
+            return;
+        }
+
+        const pageTitle = currentPage === "home" ? pageMeta.title : `${pageMeta.title} | ${baseMeta.siteTitle}`;
+        document.title = pageTitle;
+
+        upsertNameMeta("description", pageMeta.description);
+        upsertNameMeta("keywords", baseMeta.keywords.join(", "));
+        upsertPropertyMeta("og:title", pageMeta.title);
+        upsertPropertyMeta("og:description", pageMeta.description);
+        upsertPropertyMeta("og:site_name", baseMeta.siteTitle);
+        upsertPropertyMeta("og:locale", baseMeta.locale);
+        upsertNameMeta("twitter:title", pageMeta.title);
+        upsertNameMeta("twitter:description", pageMeta.description);
+    }, [lang, currentPage]);
 
     const handleLangChange = useCallback((newLang: Language) => {
         if (newLang === lang) return;
