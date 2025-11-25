@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { STEAM_URL, INSTAGRAM_URL } from "@/constants";
 import type { Content } from "@/types";
 import { FaInstagram, FaSteam } from "react-icons/fa";
@@ -56,6 +57,11 @@ export default function Footer({ content }: FooterProps) {
         <p className="font-serif text-zinc-500 text-sm tracking-widest uppercase mb-2">
           &copy; {new Date().getFullYear()} <a href="https://petrvurm.cz?utm_source=shadowless_web&utm_medium=referral" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Petr Vurm</a>. {content.rights}
         </p>
+        <div className="mb-4">
+          <Link href="/terms" className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 hover:text-white transition-colors">
+            {content.termsLink}
+          </Link>
+        </div>
         <p className="font-body text-zinc-600 text-xs mb-6">
           {content.madeIn}
         </p>

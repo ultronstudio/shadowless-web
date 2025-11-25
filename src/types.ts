@@ -57,6 +57,31 @@ export interface StretchGoal {
   description: string;
 }
 
+export interface TermsSection {
+  id: string;
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+}
+
+export interface TermsContent {
+  title: string;
+  lastUpdatedLabel: string;
+  lastUpdatedValue: string;
+  intro: string;
+  sections: TermsSection[];
+  pledgeReminderHeading: string;
+  pledgeReminderBody: string;
+  contactHeading: string;
+  contactBusinessLabel: string;
+  contactBusinessValue: string;
+  contactBusinessIdLabel: string;
+  contactBusinessIdValue: string;
+  contactEmailLabel: string;
+  contactEmail: string;
+  backLinkLabel: string;
+}
+
 export interface Content {
   nav: {
     story: string;
@@ -146,10 +171,12 @@ export interface Content {
     emailNote: string;
     backBtn: string;
   };
+  terms: TermsContent;
   footer: {
     rights: string;
     madeIn: string;
     quote: string;
+    termsLink: string;
   };
 }
 

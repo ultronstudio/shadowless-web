@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -49,8 +50,6 @@ export default function ThankYouPage() {
           </div>
         )}
       </main>
-
-      <Footer content={content.footer} />
     </div>
   );
 }

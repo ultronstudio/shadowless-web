@@ -9,6 +9,7 @@ import { TRANSLATIONS } from "@/translations";
 import { Language, type Content } from "@/types";
 import LanguageContext from "@/context/LanguageContext";
 import { STEAM_URL } from "@/constants";
+import Footer from "@/sections/Footer";
 
 const SUPPORTED_LANGUAGES: Language[] = ["en", "cs", "de"];
 
@@ -241,6 +242,7 @@ export default function RootLayoutClient({ children }: RootLayoutClientProps) {
                 onLangChange={handleLangChange}
             />
             {children}
+            <Footer content={content.footer} />
         </LanguageContext.Provider>
     );
 }

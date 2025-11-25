@@ -88,8 +88,6 @@ export default function Home() {
         />
         <Gallery content={resolvedContent.gallery} />
       </main>
-
-      <Footer content={resolvedContent.footer} />
     </div>
   );
 }
