@@ -3,10 +3,10 @@ import { Content, Language } from "@/types";
 export const TRANSLATIONS: Record<Language, Content> = {
   en: {
     nav: {
-      story: "The Trauma",
-      game: "Experience",
+      story: "The Story",
+      game: "Game",
       campaign: "Crowdfunding",
-      gallery: "Evidence",
+      gallery: "Gallery",
       steam: "Steam"
     },
     hero: {
@@ -304,10 +304,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
   },
   cs: {
     nav: {
-      story: "Trauma",
-      game: "Zážitek",
+      story: "Příběh",
+      game: "Hra",
       campaign: "Kampaň",
-      gallery: "Důkazy",
+      gallery: "Galerie",
       steam: "Steam"
     },
     hero: {
@@ -605,10 +605,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
   },
   de: {
     nav: {
-      story: "Das Trauma",
-      game: "Erlebnis",
+      story: "Geschichte",
+      game: "Spiel",
       campaign: "Kampagne",
-      gallery: "Beweise",
+      gallery: "Galerie",
       steam: "Steam"
     },
     hero: {
