@@ -1,5 +1,7 @@
 'use client';
 
+import { useLanguageContext } from '@/context/LanguageContext';
+import { formatAmountForLanguage } from '@/lib/currency';
 import type { DonationTier } from '@/types';
 
 interface CrowdfundingTierCardProps {
@@ -9,6 +11,7 @@ interface CrowdfundingTierCardProps {
 }
 
 export default function CrowdfundingTierCard({ tier, onSelect, recommendedLabel = 'Recommended' }: CrowdfundingTierCardProps) {
+  const { lang } = useLanguageContext();
   const cardStateClasses = tier.recommended
     ? 'bg-zinc-900 border-blood/50 hover:border-blood shadow-[0_0_15px_rgba(138,11,11,0.1)]'
     : 'bg-black border-zinc-800 hover:border-zinc-600';
@@ -26,7 +29,7 @@ export default function CrowdfundingTierCard({ tier, onSelect, recommendedLabel 
       )}
       <div className="flex justify-between items-start mb-2">
         <h4 className="font-serif text-lg text-white group-hover:text-blood transition-colors">{tier.name}</h4>
-        <span className="font-bold text-xl text-white">{tier.price.toLocaleString()}{tier.currency}</span>
+        <span className="font-bold text-xl text-white">{formatAmountForLanguage(tier.price, tier.currency, lang)}</span>
       </div>
       <ul className="text-sm text-zinc-400 space-y-1">
         {tier.rewards.map((reward, index) => (

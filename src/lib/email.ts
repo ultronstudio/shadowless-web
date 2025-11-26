@@ -1,3 +1,4 @@
+import { formatAmountFromCurrencyCode } from "@/lib/currency";
 import type { Content, OrderDetails } from "@/types";
 
 interface BuildEmailParams {
@@ -46,7 +47,11 @@ export function buildOrderConfirmationEmail({
     .trim();
 
   const supporterNotes = order.donor.notes?.trim();
-  const formattedAmount = `${order.tier.price.toLocaleString()}${order.tier.currency}`;
+  const formattedAmount = formatAmountFromCurrencyCode(
+    order.tier.price,
+    order.currencyCode,
+    order.tier.currency,
+  );
   const paymentId = order.stripePaymentIntentId ?? "—";
   const baseUrl = origin ? origin.replace(/\/$/, "") : "";
   const thankYouUrl = baseUrl ? `${baseUrl}/thank-you` : "";

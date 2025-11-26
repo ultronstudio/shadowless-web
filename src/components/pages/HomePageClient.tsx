@@ -2,7 +2,7 @@
 
 /* eslint-disable react-hooks/purity */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Hero from "@/sections/Hero";
 import Lore from "@/sections/Lore";
@@ -22,19 +22,30 @@ import {
 } from "@/types";
 import { useLanguageContext } from "@/context/LanguageContext";
 
-export default function HomePageClient() {
+type HomePageClientProps = {
+  initialStats?: CrowdfundingStats;
+};
+
+export default function HomePageClient({ initialStats }: HomePageClientProps) {
   const { lang, content, isSwitching } = useLanguageContext();
   const resolvedContent = content;
   const router = useRouter();
-  const [baseStats, setBaseStats] = useState<CrowdfundingStats>(CROWDFUNDING_DATA);
+  const fallbackStats = initialStats ?? CROWDFUNDING_DATA;
+  const [baseStats, setBaseStats] = useState<CrowdfundingStats>(fallbackStats);
+
+  useEffect(() => {
+    setBaseStats(initialStats ?? CROWDFUNDING_DATA);
+  }, [initialStats]);
 
   const currentRate = RATES[lang];
   const currencySymbol = CURRENCY_SYMBOLS[lang];
 
+  const toCurrencyAmount = (value: number) => Math.round(value * currentRate);
+
   const displayedStats: CrowdfundingStats = {
     ...baseStats,
-    currentAmount: Math.round(baseStats.currentAmount * currentRate),
-    targetAmount: Math.round(baseStats.targetAmount * currentRate),
+    currentAmount: toCurrencyAmount(baseStats.currentAmount),
+    targetAmount: toCurrencyAmount(baseStats.targetAmount),
     daysLeft: Math.max(
       0,
       Math.ceil((CAMPAIGN_END_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -51,13 +62,7 @@ export default function HomePageClient() {
       paymentIntentId,
     });
 
-    const amountInUSD = tier.price / currentRate;
-
-    setBaseStats((prev) => ({
-      ...prev,
-      currentAmount: prev.currentAmount + amountInUSD,
-      backers: prev.backers + 1,
-    }));
+    const amountInUSD = Math.round(((tier.price / currentRate) + Number.EPSILON) * 100) / 100;
 
     const order: OrderDetails = {
       tier,
@@ -78,7 +83,7 @@ export default function HomePageClient() {
 
     const dispatchConfirmationEmail = async () => {
       try {
-        await fetch("/api/send-confirmation", {
+        const response = await fetch("/api/send-confirmation", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -89,8 +94,42 @@ export default function HomePageClient() {
             origin,
           }),
         });
+
+        if (!response.ok) {
+          throw new Error(`Failed with status ${response.status}`);
+        }
+
+        const data = (await response.json()) as {
+          totals?: {
+            totalAmountUsd?: number;
+            totalAmountCzk?: number;
+            totalAmountEur?: number;
+            backers?: number;
+          };
+        };
+
+        if (data?.totals &&
+            typeof data.totals.totalAmountUsd === "number" &&
+            typeof data.totals.backers === "number") {
+          setBaseStats((prev) => ({
+            ...prev,
+            currentAmount: data.totals.totalAmountUsd,
+            backers: data.totals.backers,
+          }));
+        } else {
+          setBaseStats((prev) => ({
+            ...prev,
+            currentAmount: prev.currentAmount + amountInUSD,
+            backers: prev.backers + 1,
+          }));
+        }
       } catch (error) {
         console.error("Failed to send confirmation email", error);
+        setBaseStats((prev) => ({
+          ...prev,
+          currentAmount: prev.currentAmount + amountInUSD,
+          backers: prev.backers + 1,
+        }));
       }
     };
 

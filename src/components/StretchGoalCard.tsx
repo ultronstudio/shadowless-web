@@ -1,6 +1,8 @@
 'use client';
 
 import { Check, Lock } from 'lucide-react';
+import { useLanguageContext } from '@/context/LanguageContext';
+import { formatAmountForLanguage } from '@/lib/currency';
 import type { StretchGoal } from '@/types';
 
 interface StretchGoalCardProps {
@@ -10,6 +12,7 @@ interface StretchGoalCardProps {
 }
 
 export default function StretchGoalCard({ goal, currencySymbol, isUnlocked }: StretchGoalCardProps) {
+  const { lang } = useLanguageContext();
   const containerClasses = isUnlocked
     ? 'bg-gradient-to-r from-zinc-900 to-black border-blood/30 shadow-[0_0_20px_rgba(138,11,11,0.1)]'
     : 'bg-black border-zinc-800 opacity-60 grayscale';
@@ -27,7 +30,7 @@ export default function StretchGoalCard({ goal, currencySymbol, isUnlocked }: St
           {isUnlocked ? <Check size={16} /> : <Lock size={16} />}
         </div>
         <span className={`font-bold font-serif text-xl ${isUnlocked ? 'text-white' : 'text-zinc-500'}`}>
-          {goal.amount.toLocaleString()}{currencySymbol}
+          {formatAmountForLanguage(goal.amount, currencySymbol, lang)}
         </span>
       </div>
 

@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useLanguageContext } from "@/context/LanguageContext";
+import { formatAmountForLanguage } from "@/lib/currency";
 import type { DonationTier, Content, DonorDetails } from "@/types";
 
 type CheckoutStep = "card" | "review";
@@ -27,11 +29,12 @@ export default function StripeCheckoutForm({
 }: StripeCheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
+  const { lang } = useLanguageContext();
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAdvancing, setIsAdvancing] = useState(false);
 
-  const formattedAmount = `${tier.price.toLocaleString()}${tier.currency}`;
+  const formattedAmount = formatAmountForLanguage(tier.price, tier.currency, lang);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

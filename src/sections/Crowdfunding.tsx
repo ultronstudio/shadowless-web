@@ -7,6 +7,7 @@ import CrowdfundingTierCard from '@/components/CrowdfundingTierCard';
 import StretchGoalCard from '@/components/StretchGoalCard';
 import StripeCheckoutForm from '@/components/StripeCheckoutForm';
 import { getStripe } from '@/lib/stripe';
+import { formatAmountForLanguage } from '@/lib/currency';
 import { useLanguageContext } from '@/context/LanguageContext';
 import type { Content, DonationTier, CrowdfundingStats, DonorDetails, Language } from '@/types';
 
@@ -295,8 +296,8 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                     <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div className="space-y-6">
                             <div className="flex justify-between items-end mb-2">
-                                <span className="text-4xl md:text-5xl font-serif text-white">{currentAmount.toLocaleString()}{currencySymbol}</span>
-                                <span className="text-zinc-400 font-body">/ {targetAmount.toLocaleString()}{currencySymbol}</span>
+                                <span className="text-4xl md:text-5xl font-serif text-white">{formatAmountForLanguage(currentAmount, currencySymbol, lang)}</span>
+                                <span className="text-zinc-400 font-body">/ {formatAmountForLanguage(targetAmount, currencySymbol, lang)}</span>
                             </div>
                             <div className="h-4 bg-black border border-zinc-700 rounded-full overflow-hidden relative" ref={progressRef}>
                                 <div
@@ -490,7 +491,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                                 <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
                                                 <div className="text-white font-serif">{selectedTier.name}</div>
                                             </div>
-                                            <div className="text-blood font-bold text-xl">{selectedTier.price.toLocaleString()}{selectedTier.currency}</div>
+                                            <div className="text-blood font-bold text-xl">{formatAmountForLanguage(selectedTier.price, selectedTier.currency, lang)}</div>
                                         </div>
 
                                         <form onSubmit={handleDetailsSubmit} className="space-y-4">
@@ -571,7 +572,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                                 <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
                                                 <div className="text-white font-serif">{selectedTier.name}</div>
                                             </div>
-                                            <div className="text-blood font-bold text-xl">{selectedTier.price.toLocaleString()}{selectedTier.currency}</div>
+                                            <div className="text-blood font-bold text-xl">{formatAmountForLanguage(selectedTier.price, selectedTier.currency, lang)}</div>
                                         </div>
 
                                         {intentError && (

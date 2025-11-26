@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Check, ArrowLeft } from 'lucide-react';
+import { Check } from 'lucide-react';
+import { useLanguageContext } from '@/context/LanguageContext';
+import { formatAmountForLanguage } from '@/lib/currency';
 import type { Content, OrderDetails } from '@/types';
 
 interface ThankYouProps {
@@ -11,6 +13,7 @@ interface ThankYouProps {
 }
 
 export default function ThankYou({ content, orderDetails, onBack }: ThankYouProps) {
+  const { lang } = useLanguageContext();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -52,7 +55,7 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
             </div>
             <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.amountLabel}</span>
-              <span className="text-white font-bold text-xl">{orderDetails.tier.price}{orderDetails.tier.currency}</span>
+              <span className="text-white font-bold text-xl">{formatAmountForLanguage(orderDetails.tier.price, orderDetails.tier.currency, lang)}</span>
             </div>
             <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.paymentIdLabel}</span>

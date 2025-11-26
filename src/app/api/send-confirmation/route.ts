@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildOrderConfirmationEmail } from "@/lib/email";
-import { recordDonation } from "@/lib/db";
+import { recordDonation, getCrowdfundingTotals } from "@/lib/db";
 import type { Content, OrderDetails } from "@/types";
 
 export const runtime = "nodejs";
@@ -35,6 +35,7 @@ export async function POST(request: Request) {
     }
 
     const insertedId = await recordDonation(order);
+    const totals = await getCrowdfundingTotals();
 
     const { subject, html, text } = buildOrderConfirmationEmail({ order, thankYouContent, origin });
 
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to send email" }, { status: 502 });
     }
 
-    return NextResponse.json({ success: true, recordId: insertedId });
+    return NextResponse.json({ success: true, recordId: insertedId, totals });
   } catch (error) {
     console.error("Unexpected error sending confirmation email", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
