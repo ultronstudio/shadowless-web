@@ -61,10 +61,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Gallery of Dread",
       subtitle: "Visual evidence of the decline",
       items: [
-        { title: " The Threshold", desc: "Once a welcome. Now a warning." },
-        { title: "The Descent", desc: "Some stairs only go down." },
-        { title: "The Archive", desc: "Memories preserved in dust and regret." },
-        { title: "The Altar", desc: "Whatever happened here, it wasn't prayer." }
+        { title: "Bedroom", desc: "A place that once welcomed. Now warns." },
+        { title: "Hallway", desc: "Some stairs lead only down." },
+        { title: "Living Room", desc: "Memories preserved in dust and regret." },
+        { title: "Bathroom", desc: "Whatever happened here, it wasn't prayer." }
       ]
     },
     crowdfunding: {
@@ -401,10 +401,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Galerie úzkosti",
       subtitle: "Vizuální důkazy úpadku",
       items: [
-        { title: "Práh", desc: "Dříve uvítání. Nyní varování." },
-        { title: "Sestup", desc: "Některé schody vedou jen dolů." },
-        { title: "Archiv", desc: "Vzpomínky konzervované v prachu." },
-        { title: "Oltář", desc: "Cokoliv se tu stalo, modlitba to nebyla." }
+        { title: "Ložnice", desc: "Místo, které kdysi vítalo. Teď varuje." },
+        { title: "Předsíň", desc: "Některé schody vedou jen dolů." },
+        { title: "Obývací pokoj", desc: "Vzpomínky zachované v prachu a lítosti." },
+        { title: "Koupelna", desc: "Cokoliv se tu stalo, modlitba to nebyla." }
       ]
     },
     crowdfunding: {
@@ -741,10 +741,10 @@ export const TRANSLATIONS: Record<Language, Content> = {
       title: "Galerie der Angst",
       subtitle: "Visuelle Beweise des Verfalls",
       items: [
-        { title: "Die Schwelle", desc: "Einst ein Willkommen. Jetzt eine Warnung." },
-        { title: "Der Abstieg", desc: "Manche Treppen führen nur nach unten." },
-        { title: "Das Archiv", desc: "Erinnerungen, konserviert in Staub." },
-        { title: "Der Altar", desc: "Was auch immer hier geschah, es war kein Gebet." }
+        { title: "Schlafzimmer", desc: "Ein Ort, der einst willkommen hieß. Jetzt warnt." },
+        { title: "Flur", desc: "Manche Treppen führen nur nach unten." },
+        { title: "Wohnzimmer", desc: "Erinnerungen, konserviert in Staub und Reue." },
+        { title: "Badezimmer", desc: "Was auch immer hier passiert ist, es war kein Gebet." }
       ]
     },
     crowdfunding: {
