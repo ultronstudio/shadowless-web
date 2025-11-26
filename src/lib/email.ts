@@ -47,7 +47,7 @@ export function buildOrderConfirmationEmail({
 
   const supporterNotes = order.donor.notes?.trim();
   const formattedAmount = `${order.tier.price.toLocaleString()}${order.tier.currency}`;
-  const thankYouUrl = origin ? `${origin.replace(/\/$/, "")}/thank-you` : "";
+  const webUrl = origin ? `${origin.replace(/\/$/, "")}` : "";
 
   const subject = `${thankYouContent.title} – ${order.orderId}`;
 
@@ -111,8 +111,8 @@ export function buildOrderConfirmationEmail({
                 </tr>
               </table>
 
-              ${thankYouUrl
-                ? `<a href="${thankYouUrl}" style="${baseStyles.button}" target="_blank" rel="noreferrer">${thankYouContent.backBtn}</a>`
+              ${webUrl
+                ? `<a href="${webUrl}" style="${baseStyles.button}" target="_blank" rel="noreferrer">${thankYouContent.backBtn}</a>`
                 : ""}
             </div>
           </td>
