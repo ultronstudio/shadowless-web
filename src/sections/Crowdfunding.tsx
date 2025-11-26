@@ -277,7 +277,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
     };
 
     return (
-        <section id="crowdfunding" className="py-24 bg-void relative border-t border-zinc-900">
+        <section id="crowdfunding" data-scroll-offset="40" className="py-24 bg-void relative border-t border-zinc-900">
             <div className="max-w-6xl mx-auto px-4">
 
                 {/* Intro */}

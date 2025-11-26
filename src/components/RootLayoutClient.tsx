@@ -72,6 +72,7 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
     const isHome = pathname === "/";
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState<string>("hero");
+    const BASE_OFFSET = 20;
 
     const updateActiveSection = useCallback(() => {
         if (!isHome) return;
@@ -79,17 +80,22 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
         const sections = Array.from(document.querySelectorAll<HTMLElement>("section[id]"));
         if (sections.length === 0) return;
 
+        const navHeight = document.querySelector("nav")?.getBoundingClientRect().height ?? 0;
         const referencePoint = window.innerHeight * 0.35;
         let closestSectionId = "hero";
         let smallestDistance = Number.POSITIVE_INFINITY;
 
         sections.forEach((section) => {
             const rect = section.getBoundingClientRect();
-            if (rect.bottom < 0 || rect.top > window.innerHeight) {
+            const customOffset = Number.parseFloat(section.dataset.scrollOffset ?? "0") || 0;
+            const adjustedTop = rect.top - navHeight + BASE_OFFSET + customOffset;
+            const adjustedBottom = rect.bottom - navHeight + BASE_OFFSET + customOffset;
+
+            if (adjustedBottom < 0 || adjustedTop > window.innerHeight) {
                 return;
             }
 
-            const sectionCenter = rect.top + rect.height / 2;
+            const sectionCenter = (adjustedTop + adjustedBottom) / 2;
             const distance = Math.abs(sectionCenter - referencePoint);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
@@ -127,7 +133,26 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
     const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, sectionId: string) => {
         if (!isHome) return;
         event.preventDefault();
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+        const target = document.getElementById(sectionId);
+        if (!target) return;
+
+        const navElement = document.querySelector("nav");
+        const navHeight = navElement?.getBoundingClientRect().height ?? 0;
+        const customOffset = Number.parseFloat(target.dataset.scrollOffset ?? "0") || 0;
+        const initialRect = target.getBoundingClientRect();
+        const initialY = initialRect.top + window.scrollY;
+        const initialOffset = Math.max(initialY - navHeight + BASE_OFFSET + customOffset, 0);
+
+        window.scrollTo({ top: initialOffset, behavior: "smooth" });
+
+        window.setTimeout(() => {
+            const updatedNavHeight = navElement?.getBoundingClientRect().height ?? navHeight;
+            const updatedRect = target.getBoundingClientRect();
+            const updatedY = updatedRect.top + window.scrollY;
+            const adjustedOffset = Math.max(updatedY - updatedNavHeight + BASE_OFFSET + customOffset, 0);
+            window.scrollTo({ top: adjustedOffset, behavior: "smooth" });
+        }, 220);
+
         setActiveSection(sectionId);
     };
 
