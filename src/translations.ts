@@ -258,65 +258,73 @@ export const TRANSLATIONS: Record<Language, Content> = {
     terms: {
       title: "Terms & Conditions",
       lastUpdatedLabel: "Last updated",
-      lastUpdatedValue: "25 November 2025",
-      intro: "These Terms & Conditions govern your participation in the Shadowless crowdfunding campaign operated by Petr Vurm (the \"Creator\"). By submitting a pledge you agree to the obligations set out below.",
+      lastUpdatedValue: "26 November 2025",
+      intro: "These Terms & Conditions govern your participation in the Shadowless crowdfunding campaign operated by Petr Vurm (the \"Creator\"). By making a pledge you acknowledge and accept the provisions below.",
       sections: [
         {
           id: "campaign",
-          heading: "1. Nature of the Campaign",
+          heading: "1. Campaign Overview",
           paragraphs: [
-            "Shadowless is an independent video game project currently in active development. Pledges collected through this site are voluntary contributions that enable the Creator to finance production milestones.",
-            "A pledge is not an equity investment nor a guarantee of commercial release. It represents your support for the Creator's vision and acceptance of the development risks inherent to creative projects."
+            "Shadowless is an independent video game currently under development by the Creator. Pledges collected through this website are voluntary contributions that finance ongoing production milestones and campaign administration.",
+            "A pledge does not create any partnership, equity stake, or guarantee of commercial release. By supporting the campaign you recognise the inherent uncertainties associated with creative software projects."
           ]
         },
         {
           id: "eligibility",
-          heading: "2. Eligibility & Account Information",
+          heading: "2. Eligibility and Registration",
           paragraphs: [
-            "You confirm that you are at least 18 years old, or that you have obtained the consent of a legal guardian, and that you are legally permitted to enter into these Terms under the laws of your jurisdiction.",
-            "You agree to provide accurate contact details so that the Creator can communicate updates and deliver any rewards associated with your selected pledge tier."
+            "You confirm that you are at least 18 years old, or have obtained the consent of a legal guardian, and that you have the legal capacity to enter into these Terms under the laws applicable to you.",
+            "You agree to provide accurate contact and delivery details and to update them promptly so the Creator can issue legally required notices and deliver any rewards linked to your pledge tier."
           ]
         },
         {
           id: "pledges",
-          heading: "3. Pledges and Payments",
+          heading: "3. Pledges, Payments and Taxes",
           paragraphs: [
-            "Payments are processed by Stripe. When you confirm your pledge, the full pledge amount is charged immediately in the currency displayed for your tier.",
-            "All pledges are final and non-refundable, even if the campaign does not reach its aspirational funding goal or the scope of the project changes. The Creator commits to applying every collected contribution toward the continued development of Shadowless."
+            "Stripe processes all payments. When you confirm your pledge, the amount displayed for your tier is charged immediately in the listed currency.",
+            "Pledges are final and non-refundable except where mandatory consumer legislation grants you a statutory right of withdrawal. The Creator applies all received funds exclusively to the development and administration of Shadowless."
           ],
           bullets: [
-            "Your financial institution may apply additional fees or currency conversion charges, which you agree to bear.",
-            "Stripe securely stores and handles all payment credentials; the Creator does not receive or retain your card details."
+            "Your bank or card issuer may add conversion fees, taxes, or other charges, which remain your responsibility.",
+            "Stripe securely stores and protects payment credentials; the Creator never receives or retains your card information."
           ]
         },
         {
           id: "rewards",
-          heading: "4. Rewards",
+          heading: "4. Rewards and Fulfilment",
           paragraphs: [
-            "Each pledge tier lists the planned rewards. Digital rewards may be delivered electronically, while physical items (if any) will require a valid shipping address and may incur customs duties based on your location.",
-            "Delivery timelines are estimates. Development realities may necessitate adjustments, and the Creator will provide status updates via the email supplied with your pledge.",
-            "If a promised reward becomes impracticable, the Creator will offer a reasonable substitute of equal or greater value. Refunds remain unavailable under any circumstances."
+            "Each pledge tier describes the intended rewards. Digital rewards may be delivered electronically, while any physical goods require a valid shipping address and may trigger customs duties, import taxes, or local handling fees.",
+            "Delivery timelines are estimates. Production or logistics constraints may require adjustments, and the Creator will communicate updates via the email associated with your pledge.",
+            "If a specific reward becomes impracticable, the Creator will provide a reasonable substitute of equal or greater value. Refunds are not available in lieu of such substitutions."
           ]
         },
         {
           id: "changes",
-          heading: "5. Project Changes & Delays",
+          heading: "5. Project Changes and Timelines",
           paragraphs: [
-            "Creative projects can evolve. The Creator may refine features, adjust milestones, or reprioritise stretch goals to protect the overall quality of Shadowless.",
-            "Should material delays occur, the Creator will inform backers and outline a revised plan for fulfilment. Your entitlement to the rewards of your chosen tier remains intact regardless of funding totals."
+            "The Creator may refine scope, features, or stretch goals to respond to technical, legal, or financial constraints while safeguarding the overall quality of Shadowless.",
+            "In the event of material delays, the Creator will inform backers and supply an updated fulfilment plan. Your entitlement to the rewards of your selected tier remains valid regardless of the total amount ultimately raised."
           ]
         },
         {
           id: "data",
-          heading: "6. Communication & Data",
+          heading: "6. Communication and Data Protection",
           paragraphs: [
-            "Your contact information is used solely to administer pledges, deliver rewards, and share campaign updates. The Creator will never sell your data to third parties.",
-            "You may unsubscribe from non-essential updates at any time, but transactional emails regarding fulfilment will continue to ensure you receive the rewards you are owed."
+            "The Creator uses your personal data solely to administer pledges, comply with legal obligations, deliver rewards, and communicate campaign information. Your data will never be sold to third parties.",
+            "You may opt out of non-essential updates at any time. Transactional or fulfilment-related communications will continue while your pledge remains outstanding to ensure you receive the rewards owed to you."
+          ]
+        },
+        {
+          id: "liability",
+          heading: "7. Liability and Governing Law",
+          paragraphs: [
+            "To the maximum extent permitted by law, the Creator is liable only for damages caused by intent or gross negligence and excludes liability for indirect or consequential losses.",
+            "These Terms are governed by the laws of the Czech Republic, excluding its conflict-of-law rules. Any dispute will be submitted to the competent Czech courts unless mandatory law in your country of residence grants you a different forum."
           ]
         }
       ],
-      pledgeReminderHeading: "Important non-refundable pledge notice",
-      pledgeReminderBody: "All contributions to the Shadowless campaign are non-refundable, even if the campaign does not reach its target amount. Your contractual right to receive the rewards attached to your selected tier survives regardless of final funding totals, and the Creator remains obliged to deliver them once produced.",
+      pledgeReminderHeading: "Important notice on non-refundable pledges",
+      pledgeReminderBody: "All contributions to the Shadowless campaign are treated as non-refundable donations unless mandatory consumer law provides otherwise. Your right to receive the rewards attached to your selected tier survives regardless of the final funding amount, and the Creator remains obliged to deliver them once produced.",
       contactHeading: "Contact",
       contactBusinessLabel: "Registered owner",
       contactBusinessValue: "Petr Vurm, sole proprietor (Czech Republic)",
@@ -590,65 +598,73 @@ export const TRANSLATIONS: Record<Language, Content> = {
     terms: {
       title: "Všeobecné obchodní podmínky",
       lastUpdatedLabel: "Poslední aktualizace",
-      lastUpdatedValue: "25. listopadu 2025",
-      intro: "Tyto Všeobecné obchodní podmínky upravují účast na crowdfundingové kampani Shadowless, kterou pořádá Petr Vurm (\"Tvůrce\"). Odesláním příspěvku s nimi vyjadřujete souhlas.",
+      lastUpdatedValue: "26. listopadu 2025",
+      intro: "Tyto Všeobecné obchodní podmínky upravují účast na crowdfundingové kampani Shadowless, kterou pořádá Petr Vurm (\"Tvůrce\"). Odesláním příspěvku potvrzujete, že s nimi souhlasíte.",
       sections: [
         {
           id: "campaign",
-          heading: "1. Charakter kampaně",
+          heading: "1. Přehled kampaně",
           paragraphs: [
-            "Shadowless je nezávislý herní projekt ve fázi aktivního vývoje. Příspěvky vybrané prostřednictvím těchto stránek jsou dobrovolnou podporou určenou k financování produkčních milníků.",
-            "Příspěvek není investicí ani zárukou komerčního vydání. Je vyjádřením podpory vize Tvůrce a přijetím rizik spojených s vývojem kreativních projektů."
+            "Shadowless je nezávislá videohra ve vývoji pod vedením Tvůrce. Příspěvky odeslané prostřednictvím těchto stránek představují dobrovolnou podporu financující průběžné produkční milníky a administraci kampaně.",
+            "Příspěvek nezakládá partnerství, podíl na zisku ani garanci komerčního vydání. Podporou kampaně berete na vědomí nejistoty, které jsou pro kreativní softwarové projekty typické."
           ]
         },
         {
           id: "eligibility",
-          heading: "2. Způsobilost a kontaktní údaje",
+          heading: "2. Způsobilost a registrace",
           paragraphs: [
-            "Stvrzujete, že je vám alespoň 18 let, nebo že máte souhlas zákonného zástupce, a že vám právní předpisy vašeho státu umožňují tyto podmínky přijmout.",
-            "Souhlasíte s poskytnutím pravdivých kontaktních údajů, aby vás Tvůrce mohl informovat o novinkách a doručit odměny spojené s vaší zvolenou úrovní."
+            "Stvrzujete, že je vám alespoň 18 let, případně že máte souhlas zákonného zástupce, a že podle platných právních předpisů máte způsobilost k uzavření těchto Podmínek.",
+            "Souhlasíte s poskytnutím přesných kontaktních a doručovacích údajů a s jejich včasnou aktualizací, aby vás Tvůrce mohl informovat a doručit vám odměny spojené s vybranou úrovní."
           ]
         },
         {
           id: "pledges",
-          heading: "3. Příspěvky a platby",
+          heading: "3. Příspěvky, platby a daně",
           paragraphs: [
-            "Platby zpracovává společnost Stripe. Po potvrzení příspěvku je celá částka okamžitě zaúčtována v měně uvedené u zvolené úrovně.",
-            "Všechny příspěvky jsou konečné a nevratné, i v případě, že kampaň nedosáhne cílové částky nebo dojde ke změně rozsahu projektu. Tvůrce se zavazuje využít každou získanou korunu na další vývoj Shadowless."
+            "Veškeré platby zpracovává Stripe. Po potvrzení příspěvku je částka uvedená u vaší úrovně okamžitě stržena v uvedené měně.",
+            "Příspěvky jsou konečné a nevratné, ledaže vám kogentní spotřebitelská legislativa poskytuje zákonné právo na odstoupení. Tvůrce použije všechny obdržené prostředky výhradně na vývoj a administraci projektu Shadowless."
           ],
           bullets: [
-            "Vaše banka může účtovat dodatečné poplatky nebo provést měnovou konverzi, kterou hradíte vy.",
-            "Platební údaje bezpečně spravuje Stripe; Tvůrce k nim nemá přístup ani je neukládá."
+            "Vaše banka nebo vydavatel karty může účtovat směnné poplatky, daně či další náklady, které nesete vy.",
+            "Platební údaje bezpečně uchovává Stripe; Tvůrce k nim nemá přístup ani je neukládá."
           ]
         },
         {
           id: "rewards",
-          heading: "4. Odměny",
+          heading: "4. Odměny a plnění",
           paragraphs: [
-            "Každá úroveň příspěvku uvádí plánované odměny. Digitální odměny budou doručeny elektronicky, fyzické položky (pokud budou) vyžadují platnou dodací adresu a mohou podléhat clu či daním dle vašeho státu.",
-            "Uvedené termíny jsou orientační. Vývoj může vyžadovat úpravy harmonogramu; Tvůrce bude o stavu informovat na e-mailu uvedeném při příspěvku.",
-            "Pokud se ukáže, že slíbenou odměnu nelze zajistit, nabídne Tvůrce přiměřenou alternativu minimálně stejné hodnoty. Vrácení peněz není v žádném případě možné."
+            "Každá úroveň popisuje plánované odměny. Digitální odměny budou doručeny elektronicky, fyzické zboží vyžaduje platnou doručovací adresu a může podléhat clu, daním či místním poplatkům.",
+            "Uvedené termíny jsou orientační. Produkční nebo logistická omezení mohou vyžadovat úpravy; Tvůrce bude o změnách informovat na e-mail připojený k vašemu příspěvku.",
+            "Pokud se konkrétní odměnu nepodaří zajistit, poskytne Tvůrce přiměřenou náhradu stejné či vyšší hodnoty. Náhrada peněžní formou se neposkytuje."
           ]
         },
         {
           id: "changes",
-          heading: "5. Změny a zpoždění projektu",
+          heading: "5. Změny projektu a harmonogram",
           paragraphs: [
-            "Kreativní projekty se mohou vyvíjet. Tvůrce může upravovat funkce, milníky či priority stretch cílů, aby zachoval celkovou kvalitu Shadowless.",
-            "V případě zásadního zpoždění budou přispěvatelé informováni společně s novým plánem dodání. Vaše nárokovaná odměna zůstává zachována bez ohledu na celkovou vybranou částku."
+            "Tvůrce může upravovat rozsah, funkce nebo stretch cíle tak, aby reagoval na technické, právní či finanční okolnosti a zachoval celkovou kvalitu Shadowless.",
+            "V případě podstatného zpoždění budou přispěvatelé informováni a obdrží aktualizovaný plán plnění. Váš nárok na odměny zvoleného stupně zůstává zachován bez ohledu na celkově vybranou částku."
           ]
         },
         {
           id: "data",
-          heading: "6. Komunikace a data",
+          heading: "6. Komunikace a ochrana údajů",
           paragraphs: [
-            "Vaše kontaktní údaje slouží výhradně ke správě příspěvků, doručení odměn a k zasílání informací o kampani. Tvůrce vaše data nikdy neprodá třetím stranám.",
-            "Z nevyžádaných novinek se můžete kdykoli odhlásit, avšak transakční e-maily související s doručením odměn budou zasílány i nadále, aby bylo možné odměny splnit."
+            "Tvůrce používá vaše osobní údaje výhradně ke správě příspěvků, splnění zákonných povinností, doručení odměn a komunikaci o kampani. Údaje nebudou prodány třetím stranám.",
+            "Z nevyžádaných novinek se můžete kdykoli odhlásit. Transakční nebo plnící e-maily budou zasílány po dobu, po kterou je váš příspěvek aktivní, aby bylo zajištěno dodání odměn."
+          ]
+        },
+        {
+          id: "liability",
+          heading: "7. Odpovědnost a rozhodné právo",
+          paragraphs: [
+            "V rozsahu dovoleném zákonem odpovídá Tvůrce pouze za škodu způsobenou úmyslně nebo z hrubé nedbalosti; vylučuje odpovědnost za nepřímé nebo následné škody.",
+            "Tyto Podmínky se řídí právem České republiky s vyloučením kolizních norem. Případné spory budou řešit příslušné české soudy, ledaže vám kogentní předpisy vašeho bydliště přiznávají jiné forum."
           ]
         }
       ],
-      pledgeReminderHeading: "Důležité upozornění na nevratnost příspěvků",
-      pledgeReminderBody: "Všechny příspěvky do kampaně Shadowless jsou nevratné, a to i v případě, že kampaň nedosáhne cílové částky. Váš nárok na odměny přidělené ke zvolené úrovni tím není dotčen a Tvůrce je povinen je po dokončení dodat.",
+      pledgeReminderHeading: "Důležité upozornění k nevratnosti příspěvků",
+      pledgeReminderBody: "Všechny příspěvky do kampaně Shadowless se považují za nevratné dary, pokud vám závazná spotřebitelská legislativa neposkytuje jiné právo. Váš nárok na odměny zvoleného stupně trvá bez ohledu na celkovou vybranou částku a Tvůrce je po jejich výrobě dodá.",
       contactHeading: "Kontakt",
       contactBusinessLabel: "Provozovatel",
       contactBusinessValue: "Petr Vurm, živnostník (Česká republika)",
@@ -922,65 +938,73 @@ export const TRANSLATIONS: Record<Language, Content> = {
     terms: {
       title: "Allgemeine Geschäftsbedingungen",
       lastUpdatedLabel: "Zuletzt aktualisiert",
-      lastUpdatedValue: "25. November 2025",
-      intro: "Diese Allgemeinen Geschäftsbedingungen regeln deine Teilnahme an der Shadowless-Crowdfunding-Kampagne, die von Petr Vurm (der \"Schöpfer\") betrieben wird. Mit deiner Unterstützung akzeptierst du die folgenden Regelungen.",
+      lastUpdatedValue: "26. November 2025",
+      intro: "Diese Allgemeinen Geschäftsbedingungen regeln deine Teilnahme an der Shadowless-Crowdfunding-Kampagne von Petr Vurm (dem \"Schöpfer\"). Mit dem Abschicken eines Beitrags erkennst du die folgenden Bestimmungen an.",
       sections: [
         {
           id: "campaign",
-          heading: "1. Art der Kampagne",
+          heading: "1. Überblick über die Kampagne",
           paragraphs: [
-            "Shadowless ist ein unabhängiges Videospielprojekt in aktiver Entwicklung. Die über diese Seite eingezogenen Beiträge sind freiwillige Unterstützungszahlungen zur Finanzierung der Produktionsmeilensteine.",
-            "Ein Beitrag ist weder eine Kapitalbeteiligung noch eine Garantie für eine Markteinführung. Er ist ein Ausdruck deiner Unterstützung für die Vision des Schöpfers und deiner Zustimmung zu den Risiken kreativer Projekte."
+            "Shadowless ist ein unabhängiges Videospiel, das sich unter Leitung des Schöpfers in Entwicklung befindet. Beiträge über diese Website sind freiwillige Unterstützungen zur Finanzierung laufender Produktionsmeilensteine und der Kampagnenverwaltung.",
+            "Ein Beitrag begründet keine Partnerschaft, keinen Gewinnanteil und garantiert keine Markteinführung. Mit deiner Unterstützung akzeptierst du die Unwägbarkeiten kreativer Softwareprojekte."
           ]
         },
         {
           id: "eligibility",
-          heading: "2. Teilnahmeberechtigung und Angaben",
+          heading: "2. Teilnahmeberechtigung und Registrierung",
           paragraphs: [
-            "Du bestätigst, dass du mindestens 18 Jahre alt bist oder die Zustimmung eines gesetzlichen Vertreters besitzt und dass die Gesetze deines Landes den Abschluss dieser Bedingungen zulassen.",
-            "Du verpflichtest dich, korrekte Kontaktdaten anzugeben, damit der Schöpfer Updates senden und die mit deiner Stufe verbundenen Belohnungen zustellen kann."
+            "Du bestätigst, mindestens 18 Jahre alt zu sein oder die Zustimmung eines gesetzlichen Vertreters zu besitzen und nach dem für dich geltenden Recht geschäftsfähig zu sein.",
+            "Du verpflichtest dich, korrekte Kontakt- und Lieferdaten bereitzustellen und zeitnah zu aktualisieren, damit der Schöpfer gesetzliche Mitteilungen versenden und Belohnungen zustellen kann."
           ]
         },
         {
           id: "pledges",
-          heading: "3. Beiträge und Zahlungen",
+          heading: "3. Beiträge, Zahlungen und Steuern",
           paragraphs: [
-            "Zahlungen werden von Stripe verarbeitet. Mit dem Bestätigen deiner Unterstützung wird der vollständige Betrag sofort in der bei deiner Stufe angegebenen Währung belastet.",
-            "Alle Beiträge sind endgültig und nicht erstattungsfähig, auch wenn das Kampagnenziel nicht erreicht wird oder sich der Projektumfang ändert. Der Schöpfer verpflichtet sich, jeden eingezogenen Betrag in die Weiterentwicklung von Shadowless zu investieren."
+            "Alle Zahlungen werden über Stripe abgewickelt. Mit der Bestätigung deiner Unterstützung wird der bei deiner Stufe angezeigte Betrag sofort in der ausgewiesenen Währung belastet.",
+            "Beiträge sind endgültig und nicht erstattungsfähig, sofern zwingende Verbraucherschutzgesetze dir kein Widerrufsrecht einräumen. Der Schöpfer verwendet sämtliche Mittel ausschließlich für die Entwicklung und Verwaltung von Shadowless."
           ],
           bullets: [
-            "Dein Finanzinstitut kann zusätzliche Gebühren oder Wechselkurskosten erheben, die du übernimmst.",
-            "Stripe speichert und verarbeitet alle Zahlungsdaten sicher; der Schöpfer erhält keinen Zugriff auf deine Kartendaten."
+            "Deine Bank oder Kartenherausgeber kann Umrechnungsgebühren, Steuern oder sonstige Kosten erheben, die von dir zu tragen sind.",
+            "Stripe speichert Zahlungsdaten sicher; der Schöpfer erhält keinen Zugriff auf deine Karteninformationen."
           ]
         },
         {
           id: "rewards",
-          heading: "4. Belohnungen",
+          heading: "4. Belohnungen und Erfüllung",
           paragraphs: [
-            "Jede Unterstützerstufe beschreibt die geplanten Belohnungen. Digitale Inhalte werden elektronisch geliefert; physische Gegenstände (falls vorhanden) erfordern eine gültige Lieferadresse und können je nach Land Zölle oder Steuern auslösen.",
-            "Liefertermine sind Schätzungen. Entwicklungsrealitäten können Anpassungen notwendig machen; der Schöpfer informiert per E-Mail über den Fortschritt.",
-            "Sollte eine Belohnung nicht realisierbar sein, stellt der Schöpfer eine angemessene Alternative von gleichem oder höherem Wert zur Verfügung. Rückerstattungen sind unter keinen Umständen vorgesehen."
+            "Jede Unterstützerstufe beschreibt die vorgesehenen Belohnungen. Digitale Inhalte werden elektronisch geliefert; physische Güter erfordern eine gültige Versandadresse und können Zölle, Einfuhrsteuern oder lokale Gebühren auslösen.",
+            "Die angegebenen Lieferzeiten sind Schätzungen. Produktions- oder Logistikzwänge können Anpassungen erforderlich machen; der Schöpfer informiert per E-Mail über Änderungen.",
+            "Sollte eine bestimmte Belohnung nicht umsetzbar sein, stellt der Schöpfer eine angemessene Alternative gleichen oder höheren Wertes bereit. Rückerstattungen werden nicht gewährt."
           ]
         },
         {
           id: "changes",
-          heading: "5. Projektänderungen und Verzögerungen",
+          heading: "5. Projektänderungen und Zeitpläne",
           paragraphs: [
-            "Kreative Projekte entwickeln sich weiter. Der Schöpfer kann Funktionen anpassen, Meilensteine verschieben oder Stretch-Goals neu priorisieren, um die Qualität von Shadowless zu sichern.",
-            "Bei wesentlichen Verzögerungen informiert der Schöpfer die Unterstützer und legt einen aktualisierten Erfüllungsplan vor. Dein Anspruch auf die Belohnungen deiner gewählten Stufe bleibt unabhängig vom Endbetrag bestehen."
+            "Der Schöpfer darf Umfang, Funktionen oder Stretch-Goals anpassen, um auf technische, rechtliche oder finanzielle Rahmenbedingungen zu reagieren und die Qualität von Shadowless zu sichern.",
+            "Bei wesentlichen Verzögerungen informiert der Schöpfer die Unterstützer und stellt einen aktualisierten Erfüllungsplan zur Verfügung. Dein Anspruch auf die Belohnungen deiner Stufe bleibt unabhängig vom Endbetrag bestehen."
           ]
         },
         {
           id: "data",
-          heading: "6. Kommunikation und Daten",
+          heading: "6. Kommunikation und Datenschutz",
           paragraphs: [
-            "Deine Kontaktdaten werden ausschließlich zur Verwaltung der Beiträge, zur Lieferung der Belohnungen und für Kampagnen-Updates verwendet. Eine Weitergabe an Dritte findet nicht statt.",
-            "Du kannst dich jederzeit von optionalen Updates abmelden; transaktionsbezogene E-Mails zur Erfüllung werden jedoch weiterhin gesendet, damit du deine Belohnungen erhältst."
+            "Der Schöpfer verwendet deine personenbezogenen Daten ausschließlich zur Verwaltung der Beiträge, zur Erfüllung gesetzlicher Pflichten, zur Lieferung der Belohnungen und zur Kampagnenkommunikation. Eine Weitergabe an Dritte findet nicht statt.",
+            "Du kannst dich jederzeit von nicht zwingenden Benachrichtigungen abmelden. Transaktions- und Erfüllungsnachrichten werden jedoch weiterhin versendet, solange dein Beitrag offen ist, damit du deine Belohnungen erhältst."
+          ]
+        },
+        {
+          id: "liability",
+          heading: "7. Haftung und anwendbares Recht",
+          paragraphs: [
+            "Soweit gesetzlich zulässig, haftet der Schöpfer nur für Schäden, die vorsätzlich oder grob fahrlässig verursacht wurden; eine Haftung für indirekte oder Folgeschäden ist ausgeschlossen.",
+            "Diese Bedingungen unterliegen dem Recht der Tschechischen Republik unter Ausschluss der Kollisionsnormen. Streitigkeiten werden den zuständigen tschechischen Gerichten vorgelegt, sofern zwingende Bestimmungen deines Wohnsitzstaates nichts anderes vorsehen."
           ]
         }
       ],
-      pledgeReminderHeading: "Wichtiger Hinweis zur Nicht-Rückerstattung",
-      pledgeReminderBody: "Alle Beiträge für die Shadowless-Kampagne sind endgültig und werden nicht zurückerstattet, selbst wenn das Finanzierungsziel verfehlt wird. Dein Anspruch auf die Belohnungen deiner gewählten Stufe bleibt davon unberührt, und der Schöpfer ist verpflichtet, sie nach Fertigstellung zu liefern.",
+      pledgeReminderHeading: "Wichtiger Hinweis zur Nicht-Rückerstattung von Beiträgen",
+      pledgeReminderBody: "Alle Beiträge für die Shadowless-Kampagne gelten als nicht erstattungsfähige Zuwendungen, es sei denn, zwingendes Verbraucherrecht sieht etwas anderes vor. Dein Anspruch auf die Belohnungen deiner gewählten Stufe bleibt unabhängig vom endgültigen Finanzierungsbetrag bestehen und der Schöpfer liefert sie nach Fertigstellung aus.",
       contactHeading: "Kontakt",
       contactBusinessLabel: "Betreiber",
       contactBusinessValue: "Petr Vurm, Einzelunternehmer (Tschechische Republik)",

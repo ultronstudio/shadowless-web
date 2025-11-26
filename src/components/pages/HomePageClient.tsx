@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Hero from "@/sections/Hero";
 import Lore from "@/sections/Lore";
 import About from "@/sections/About";
+import InvestigationStatus from "@/components/InvestigationStatus";
 import Crowdfunding from "@/sections/Crowdfunding";
 import Gallery from "@/sections/Gallery";
 import { CAMPAIGN_END_DATE, CROWDFUNDING_DATA } from "@/constants";
@@ -108,21 +109,12 @@ export default function HomePageClient({ initialStats }: HomePageClientProps) {
           };
         };
 
-        if (data?.totals &&
-            typeof data.totals.totalAmountUsd === "number" &&
-            typeof data.totals.backers === "number") {
-          setBaseStats((prev) => ({
-            ...prev,
-            currentAmount: data.totals.totalAmountUsd,
-            backers: data.totals.backers,
-          }));
-        } else {
-          setBaseStats((prev) => ({
-            ...prev,
-            currentAmount: prev.currentAmount + amountInUSD,
-            backers: prev.backers + 1,
-          }));
-        }
+        // Merge totals safely: use server-provided numbers when present, otherwise fall back to computed values
+        setBaseStats((prev) => ({
+          ...prev,
+          currentAmount: data?.totals?.totalAmountUsd ?? prev.currentAmount + amountInUSD,
+          backers: data?.totals?.backers ?? prev.backers + 1,
+        }));
       } catch (error) {
         console.error("Failed to send confirmation email", error);
         setBaseStats((prev) => ({
