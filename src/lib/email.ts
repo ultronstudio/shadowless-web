@@ -25,10 +25,10 @@ const baseStyles = {
   blockValue:
     "margin:4px 0 0 0;font-size:18px;color:#f9fafb;font-family:'Segoe UI',Arial,sans-serif;",
   blockValueAccent:
-    "margin:4px 0 0 0;font-size:20px;color:#f87171;font-family:'Segoe UI',Arial,sans-serif;font-weight:bold;",
+    "margin:4px 0 0 0;font-size:20px;color:#8a0b0b;font-family:'Segoe UI',Arial,sans-serif;font-weight:bold;",
   divider: "width:100%;border:none;height:1px;background:#1f1f29;margin:24px 0;",
   button:
-    "display:inline-block;padding:14px 24px;background-color:#8a0b0b;color:#ffffff;text-decoration:none;text-transform:uppercase;letter-spacing:0.3em;font-size:12px;border-radius:999px;font-family:'Segoe UI',Arial,sans-serif;",
+    "display:inline-block;margin-top:16px;padding:14px 24px;background-color:#8a0b0b;color:#ffffff;text-decoration:none;text-transform:uppercase;letter-spacing:0.3em;font-size:12px;border-radius:999px;font-family:'Segoe UI',Arial,sans-serif;",
   footer:
     "margin-top:32px;font-size:11px;line-height:1.6;color:#71717a;text-align:center;font-family:'Segoe UI',Arial,sans-serif;",
 };
