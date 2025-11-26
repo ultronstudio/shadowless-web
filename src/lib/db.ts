@@ -3,6 +3,7 @@ import type { OrderDetails } from "@/types";
 
 let pool: mysql.Pool | null = null;
 let schemaInitialization: Promise<void> | null = null;
+let databaseInitialization: Promise<void> | null = null;
 
 const SUPPORTED_CURRENCIES = ["USD", "CZK", "EUR"] as const;
 type SupportedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
@@ -56,13 +57,45 @@ function convertAmounts(amountValue: number, currencyCode: string | null | undef
   return { amountUsd, amountCzk, amountEur };
 }
 
-function getPool(): mysql.Pool | null {
+async function ensureDatabaseExists(connectionString: string): Promise<void> {
+  if (databaseInitialization) {
+    return databaseInitialization;
+  }
+
+  databaseInitialization = (async () => {
+    try {
+      const url = new URL(connectionString);
+      const databaseName = url.pathname.replace(/^\//, "");
+
+      if (!databaseName) {
+        return;
+      }
+
+      url.pathname = "/";
+
+      const connection = await mysql.createConnection(url.toString());
+      await connection.query(
+        `CREATE DATABASE IF NOT EXISTS \`${databaseName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
+      );
+      await connection.end();
+    } catch (error) {
+      databaseInitialization = null;
+      console.error("Failed to ensure database exists", error);
+      throw error;
+    }
+  })();
+
+  await databaseInitialization;
+}
+
+async function getPool(): Promise<mysql.Pool | null> {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     return null;
   }
 
   if (!pool) {
+    await ensureDatabaseExists(connectionString);
     pool = mysql.createPool(connectionString);
   }
 
@@ -139,7 +172,7 @@ async function ensureSchema(db: mysql.Pool): Promise<void> {
 }
 
 export async function recordDonation(order: OrderDetails): Promise<number | null> {
-  const db = getPool();
+  const db = await getPool();
 
   if (!db) {
     console.warn("Database connection not configured. Set DATABASE_URL for MariaDB/MySQL integration.");
@@ -219,7 +252,7 @@ export interface CrowdfundingTotals {
 }
 
 export async function getCrowdfundingTotals(): Promise<CrowdfundingTotals> {
-  const db = getPool();
+  const db = await getPool();
 
   if (!db) {
     return { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0 };
