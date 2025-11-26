@@ -140,6 +140,8 @@ export interface Content {
     backers: string;
     daysLeft: string;
     developerTitle: string;
+    developerName: string;
+    developerRole: string;
     developerBio: string;
     developerQuote: string;
     breakdownTitle: string;
@@ -156,6 +158,7 @@ export interface Content {
     cta: string;
     modal: {
       title: string;
+      recommendedLabel: string;
       stepTitles: {
         tier: string;
         details: string;

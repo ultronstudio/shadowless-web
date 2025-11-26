@@ -76,12 +76,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
         success: "SUCCESS",
         failed: "CLOSED"
       },
-      backers: "Souls Joined",
+      backers: "Souls Pledged",
       daysLeft: "Days Remaining",
-      developerTitle: "The Architect",
+      developerTitle: "The Developer",
+      developerName: "Petr Vurm",
+      developerRole: "Solo Developer",
       developerBio: "I am Petr. A student, a developer, a horror enthusiast. I don't just want to make a game; I want to create a scar on your psyche. Shadowless is my vision of what happens when the lights go out inside your head.",
       developerQuote: "\"Help me build a nightmare we can all share.\"",
-      breakdownTitle: "Resource Allocation",
+      breakdownTitle: "Allocation of Resources",
       breakdown: {
         dev: "Core Development",
         devDesc: "Assets, mocap, licensing, polishing",
@@ -106,6 +108,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Back this Project",
       modal: {
         title: "Choose Your Fate",
+        recommendedLabel: "Recommended",
         stepTitles: {
           tier: "Select a Tier",
           details: "Backer Details",
@@ -408,7 +411,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       ]
     },
     crowdfunding: {
-      title: "Vstupte do stínů",
+      title: "Podpořte stíny",
       intro: "Shadowless je projekt zrozený z čisté posedlosti hororem. Kostra je hotová, noční můra je napsaná. Teď potřebuji vás, abychom stíny probudili k životu.",
       funded: "Vybráno",
       statusLabel: {
@@ -416,12 +419,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
         success: "ÚSPĚCH",
         failed: "UZAVŘENO"
       },
-      backers: "Duší se připojilo",
+      backers: "Duší se upsalo",
       daysLeft: "Dní do konce",
-      developerTitle: "Architekt",
+      developerTitle: "Vývojář",
+      developerName: "Petr Vurm",
+      developerRole: "Samostatný vývojář",
       developerBio: "Jsem Petr. Student, vývojář, fanatik do hororu. Nechci jen vyrobit hru. Chci vám vytvořit jizvu na psychice. Shadowless je moje vize toho, co se stane, když v hlavě zhasne světlo.",
       developerQuote: "\"Pomozte mi vybudovat noční můru, kterou budeme sdílet.\"",
-      breakdownTitle: "Alokace zdrojů",
+      breakdownTitle: "Využití darovaných prostředků",
       breakdown: {
         dev: "Základní vývoj",
         devDesc: "Assety, mocap, licence, optimalizace.",
@@ -446,6 +451,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Podpořit projekt",
       modal: {
         title: "Zvolte svůj osud",
+        recommendedLabel: "Doporučeno",
         stepTitles: {
           tier: "Vyberte úroveň",
           details: "Údaje podporovatele",
@@ -756,12 +762,14 @@ export const TRANSLATIONS: Record<Language, Content> = {
         success: "ERFOLG",
         failed: "GESCHLOSSEN"
       },
-      backers: "Verlorene Seelen",
+      backers: "Seelen verpflichtet",
       daysLeft: "Verbleibende Tage",
-      developerTitle: "Der Architekt",
+      developerTitle: "Der Developer",
+      developerName: "Petr Vurm",
+      developerRole: "Einzelentwickler",
       developerBio: "Ich bin Petr. Schüler, Entwickler, Horror-Fanatiker. Ich will nicht nur ein Spiel machen; ich will eine Narbe auf deiner Psyche hinterlassen. Shadowless ist meine Vision dessen, was passiert, wenn im Kopf das Licht ausgeht.",
       developerQuote: "\"Hilf mir, einen Albtraum zu bauen, den wir alle teilen können.\"",
-      breakdownTitle: "Ressourcenverteilung",
+      breakdownTitle: "Verwendung der Mittel",
       breakdown: {
         dev: "Grundlegende Entwicklung",
         devDesc: "Assets, Mocap, Lizenzen, Politur.",
@@ -786,6 +794,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Projekt unterstützen",
       modal: {
         title: "Wähle dein Schicksal",
+        recommendedLabel: "Empfohlen",
         stepTitles: {
           tier: "Stufe wählen",
           details: "Unterstützerdaten",

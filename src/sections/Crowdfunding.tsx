@@ -352,8 +352,8 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                     <div>
                         <h3 className="font-serif text-2xl text-white mb-6 border-l-4 border-blood pl-4 uppercase">{content.developerTitle}</h3>
                         <div className="bg-zinc-900/50 p-6 border border-zinc-800">
-                            <p className="font-serif text-lg text-white mb-2">Petr Vurm</p>
-                            <p className="text-xs text-blood uppercase tracking-widest mb-4">Solo Developer</p>
+                            <p className="font-serif text-lg text-white mb-2">{content.developerName}</p>
+                            <p className="text-xs text-blood uppercase tracking-widest mb-4">{content.developerRole}</p>
                             <p className="font-body text-zinc-300 text-sm leading-relaxed mb-4">
                                 {content.developerBio}
                             </p>
@@ -474,6 +474,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                                 <CrowdfundingTierCard
                                                     key={tier.id}
                                                     tier={tier}
+                                                    recommendedLabel={content.modal.recommendedLabel}
                                                     onSelect={handleTierSelect}
                                                 />
                                             ))}
