@@ -2,7 +2,7 @@
 
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import ThankYou from "@/sections/ThankYou";
 import { LAST_ORDER_STORAGE_KEY } from "@/constants/storage";
@@ -13,8 +13,16 @@ export default function ThankYouPageClient() {
   const { content, isSwitching } = useLanguageContext();
   const router = useRouter();
   const [order, setOrder] = useState<OrderDetails | null>(null);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
+    if (isInitialized.current) {
+      return;
+    }
+
+    // Prevent Strict Mode double invocation from re-running the redirect logic
+    isInitialized.current = true;
+
     try {
       const stored = sessionStorage.getItem(LAST_ORDER_STORAGE_KEY);
       if (!stored) {
