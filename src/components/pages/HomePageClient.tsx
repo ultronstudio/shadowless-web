@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import Hero from "@/sections/Hero";
 import Lore from "@/sections/Lore";
 import About from "@/sections/About";
-import InvestigationStatus from "@/components/InvestigationStatus";
 import Crowdfunding from "@/sections/Crowdfunding";
 import Gallery from "@/sections/Gallery";
 import { CAMPAIGN_END_DATE, CROWDFUNDING_DATA } from "@/constants";
