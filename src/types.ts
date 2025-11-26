@@ -45,10 +45,18 @@ export interface DonationTier {
   recommended?: boolean;
 }
 
+export interface DonorDetails {
+  firstName: string;
+  lastName: string;
+  email: string;
+  notes?: string;
+}
+
 export interface OrderDetails {
   tier: DonationTier;
   orderId: string;
   date: string;
+  donor: DonorDetails;
 }
 
 export interface StretchGoal {
@@ -146,19 +154,45 @@ export interface Content {
     cta: string;
     modal: {
       title: string;
-      step1: string;
-      step2: string;
-      cardLabel: string;
-      expiryLabel: string;
-      cvcLabel: string;
+      stepTitles: {
+        tier: string;
+        details: string;
+        card: string;
+        review: string;
+      };
+      stepDescriptions: {
+        tier: string;
+        details: string;
+        card: string;
+        review: string;
+      };
       payBtn: string;
+      continueBtn: string;
+      reviewBtn: string;
       processing: string;
       successTitle: string;
       successMsg: string;
       closeBtn: string;
       backToTiers: string;
+      backToDetails: string;
+      editDetails: string;
+      editPayment: string;
       selectedTier: string;
       testCardNotice: string;
+      firstNameLabel: string;
+      lastNameLabel: string;
+      emailLabel: string;
+      notesLabel: string;
+      notesOptionalHint: string;
+      summaryHeading: string;
+      summaryContact: string;
+      summaryNotes: string;
+      summaryAmount: string;
+      notesEmpty: string;
+      validation: {
+        required: string;
+        email: string;
+      };
       tiers: DonationTier[];
     };
   };
@@ -168,6 +202,10 @@ export interface Content {
     orderLabel: string;
     tierLabel: string;
     amountLabel: string;
+    supporterLabel: string;
+    emailLabel: string;
+    notesLabel: string;
+    notesEmpty: string;
     emailNote: string;
     backBtn: string;
   };

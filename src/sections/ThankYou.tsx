@@ -15,8 +15,14 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
     window.scrollTo(0, 0);
   }, []);
 
+  const supporterName = [orderDetails.donor?.firstName, orderDetails.donor?.lastName]
+    .filter(Boolean)
+    .join(' ') || '—';
+  const supporterEmail = orderDetails.donor?.email ?? '—';
+  const supporterNotes = orderDetails.donor?.notes?.length ? orderDetails.donor.notes : content.notesEmpty;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-void px-4 pt-20">
+    <div className="min-h-screen flex items-center justify-center bg-void px-4 pt-20 py-12">
       <div className="max-w-2xl w-full bg-zinc-950 border border-zinc-800 p-8 md:p-12 shadow-2xl relative overflow-hidden animate-fade-in">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-blood/10 blur-3xl rounded-full"></div>
@@ -43,9 +49,27 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.tierLabel}</span>
               <span className="text-blood font-serif text-lg">{orderDetails.tier.name}</span>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.amountLabel}</span>
               <span className="text-white font-bold text-xl">{orderDetails.tier.price}{orderDetails.tier.currency}</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
+              <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.supporterLabel}</span>
+              <span className="text-white font-serif text-lg text-right">
+                {supporterName}
+              </span>
+            </div>
+            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
+              <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.emailLabel}</span>
+              <span className="text-zinc-300 text-sm text-right break-words max-w-[60%]">
+                {supporterEmail}
+              </span>
+            </div>
+            <div>
+              <span className="text-zinc-500 text-xs uppercase tracking-wider block mb-2">{content.notesLabel}</span>
+              <p className="text-zinc-300 text-sm whitespace-pre-line">
+                {supporterNotes}
+              </p>
             </div>
           </div>
 
@@ -55,9 +79,8 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
 
           <button 
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors uppercase text-xs tracking-widest group"
+            className="cursor-pointer inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors uppercase text-xs tracking-widest group"
           >
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             {content.backBtn}
           </button>
         </div>

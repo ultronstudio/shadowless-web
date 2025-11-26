@@ -63,7 +63,7 @@ export default function Hero({ content }: HeroProps) {
 
           <button
             onClick={() => document.getElementById("crowdfunding")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-10 py-4 text-zinc-400 hover:text-white transition-all duration-300 font-serif tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-white cursor-pointer"
+            className="cursor-pointer px-10 py-4 text-zinc-400 hover:text-white transition-all duration-300 font-serif tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-white"
           >
             {content.support}
           </button>

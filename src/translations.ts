@@ -106,19 +106,45 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Back this Project",
       modal: {
         title: "Choose Your Fate",
-        step1: "Select Contribution",
-        step2: "Payment Details",
-        cardLabel: "Card Number",
-        expiryLabel: "Expiry",
-        cvcLabel: "CVC",
+        stepTitles: {
+          tier: "Select a Tier",
+          details: "Backer Details",
+          card: "Payment Method",
+          review: "Review & Confirm"
+        },
+        stepDescriptions: {
+          tier: "Pick the pledge that matches your devotion.",
+          details: "Tell us who you are so we can deliver your rewards.",
+          card: "Enter your card details using the secure Stripe form.",
+          review: "Confirm every detail before committing your pledge."
+        },
         payBtn: "Commit",
+        continueBtn: "Continue",
+        reviewBtn: "Go to Summary",
         processing: "Synchronizing...",
         successTitle: "Pact Sealed",
         successMsg: "Your support echoes in the void. Check your inbox for confirmation.",
         closeBtn: "Close",
         backToTiers: "Back to Tiers",
+        backToDetails: "Edit Details",
+        editDetails: "Change Backer Details",
+        editPayment: "Change Payment Method",
         selectedTier: "Chosen Tier",
         testCardNotice: "Use Stripe test card 4242 4242 4242 4242 with any future expiry, CVC 123, ZIP 12345.",
+        firstNameLabel: "First Name",
+        lastNameLabel: "Last Name",
+        emailLabel: "Email",
+        notesLabel: "Additional Notes",
+        notesOptionalHint: "Optional. Anything we should know about your pledge?",
+        summaryHeading: "Final Review",
+        summaryContact: "Contact",
+        summaryNotes: "Notes",
+        summaryAmount: "Total",
+        notesEmpty: "No additional notes provided.",
+        validation: {
+          required: "This field is required.",
+          email: "Enter a valid email address."
+        },
         tiers: [
           {
             id: 'tier1',
@@ -220,9 +246,13 @@ export const TRANSLATIONS: Record<Language, Content> = {
       subtitle: "Your contribution has been accepted.",
       orderLabel: "Order ID",
       tierLabel: "Selected Tier",
-      amountLabel: "Sacrifice Amount",
-      emailNote: "Confirmation and ritual details have been sent to your email.",
-      backBtn: "Return to the Shadows"
+      amountLabel: "Contribution Amount",
+      supporterLabel: "Supporter",
+      emailLabel: "Contact Email",
+      notesLabel: "Notes",
+      notesEmpty: "No additional notes provided.",
+      emailNote: "Confirmation and contribution details have been sent to your email.",
+      backBtn: "Visit Website"
     },
     terms: {
       title: "Terms & Conditions",
@@ -407,19 +437,45 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Podpořit projekt",
       modal: {
         title: "Zvolte svůj osud",
-        step1: "Výběr příspěvku",
-        step2: "Platební údaje",
-        cardLabel: "Číslo karty",
-        expiryLabel: "Platnost",
-        cvcLabel: "CVC",
-        payBtn: "Zpečetit",
+        stepTitles: {
+          tier: "Vyberte úroveň",
+          details: "Údaje podporovatele",
+          card: "Platební metoda",
+          review: "Kontrola a potvrzení"
+        },
+        stepDescriptions: {
+          tier: "Zvolte příspěvek, který odpovídá vaší ochotě pomoct.",
+          details: "Napište nám, komu máme odměny doručit.",
+          card: "Zadejte údaje o kartě v zabezpečeném formuláři Stripe.",
+          review: "Než odešlete platbu, potvrďte všechny údaje."
+        },
+        payBtn: "Přispět",
+        continueBtn: "Pokračovat",
+        reviewBtn: "Přejít na rekapitulaci",
         processing: "Synchronizace...",
-        successTitle: "Pakt uzavřen",
+        successTitle: "Příspěvek přijat",
         successMsg: "Vaše podpora rezonuje v prázdnotě. Potvrzení dorazí emailem.",
         closeBtn: "Zavřít",
         backToTiers: "Zpět na výběr",
+        backToDetails: "Upravit údaje",
+        editDetails: "Změnit údaje podporovatele",
+        editPayment: "Změnit způsob platby",
         selectedTier: "Vybraná úroveň",
         testCardNotice: "Použijte testovací kartu Stripe 4242 4242 4242 4242, libovolné budoucí datum expirace, CVC 123 a PSČ 12345.",
+        firstNameLabel: "Jméno",
+        lastNameLabel: "Příjmení",
+        emailLabel: "Email",
+        notesLabel: "Poznámky",
+        notesOptionalHint: "Volitelné. Cokoliv, co bychom měli vědět o vašem příspěvku",
+        summaryHeading: "Finální rekapitulace",
+        summaryContact: "Kontakt",
+        summaryNotes: "Poznámky",
+        summaryAmount: "Celkem",
+        notesEmpty: "Bez doplňujících poznámek.",
+        validation: {
+          required: "Toto pole je povinné.",
+          email: "Zadejte platný email."
+        },
         tiers: [
           {
             id: 'tier1',
@@ -521,9 +577,13 @@ export const TRANSLATIONS: Record<Language, Content> = {
       subtitle: "Váš příspěvek byl přijat.",
       orderLabel: "ID Objednávky",
       tierLabel: "Zvolená úroveň",
-      amountLabel: "Výše oběti",
-      emailNote: "Potvrzení a detaily rituálu byly odeslány na váš email.",
-      backBtn: "Návrat do stínů"
+      amountLabel: "Částka příspěvku",
+      supporterLabel: "Podporovatel",
+      emailLabel: "Kontaktní email",
+      notesLabel: "Poznámky",
+      notesEmpty: "Žádné doplňující poznámky.",
+      emailNote: "Potvrzení a detaily příspěvku byly odeslány na váš email.",
+      backBtn: "Přejít na web"
     },
     terms: {
       title: "Všeobecné obchodní podmínky",
@@ -708,19 +768,45 @@ export const TRANSLATIONS: Record<Language, Content> = {
       cta: "Projekt unterstützen",
       modal: {
         title: "Wähle dein Schicksal",
-        step1: "Beitrag wählen",
-        step2: "Zahlungsdetails",
-        cardLabel: "Kartennummer",
-        expiryLabel: "Gültigkeit",
-        cvcLabel: "CVC",
-        payBtn: "Besiegeln",
+        stepTitles: {
+          tier: "Stufe wählen",
+          details: "Unterstützerdaten",
+          card: "Zahlungsmethode",
+          review: "Prüfen & Bestätigen"
+        },
+        stepDescriptions: {
+          tier: "Wähle den Beitrag, der zu deiner Hingabe passt.",
+          details: "Sag uns, wohin wir deine Belohnungen schicken sollen.",
+          card: "Gib deine Kartendaten im sicheren Stripe-Formular ein.",
+          review: "Bestätige alle Angaben, bevor du den Beitrag abschließt."
+        },
+        payBtn: "Beitragen",
+        continueBtn: "Weiter",
+        reviewBtn: "Zur Zusammenfassung",
         processing: "Synchronisierung...",
-        successTitle: "Pakt geschlossen",
+        successTitle: "Beitrag angenommen",
         successMsg: "Deine Unterstützung hallt in der Leere wider. Bestätigung per E-Mail.",
         closeBtn: "Schließen",
         backToTiers: "Zurück zur Auswahl",
+        backToDetails: "Details bearbeiten",
+        editDetails: "Unterstützerdaten ändern",
+        editPayment: "Zahlungsmethode ändern",
         selectedTier: "Gewählte Stufe",
         testCardNotice: "Verwende die Stripe-Testkarte 4242 4242 4242 4242 mit beliebigem zukünftigen Ablaufdatum, CVC 123 und PLZ 12345.",
+        firstNameLabel: "Vorname",
+        lastNameLabel: "Nachname",
+        emailLabel: "E-Mail",
+        notesLabel: "Zusätzliche Hinweise",
+        notesOptionalHint: "Optional. Alles, was wir über deinen Beitrag wissen sollten?",
+        summaryHeading: "Letzte Prüfung",
+        summaryContact: "Kontakt",
+        summaryNotes: "Hinweise",
+        summaryAmount: "Gesamt",
+        notesEmpty: "Keine zusätzlichen Hinweise.",
+        validation: {
+          required: "Dieses Feld ist erforderlich.",
+          email: "Bitte eine gültige E-Mail eingeben."
+        },
         tiers: [
           {
             id: 'tier1',
@@ -822,9 +908,13 @@ export const TRANSLATIONS: Record<Language, Content> = {
       subtitle: "Dein Beitrag wurde akzeptiert.",
       orderLabel: "Bestell-ID",
       tierLabel: "Gewählte Stufe",
-      amountLabel: "Opferbetrag",
-      emailNote: "Bestätigung und Ritualdetails wurden an deine E-Mail gesendet.",
-      backBtn: "Zurück in die Schatten"
+      amountLabel: "Beitragsbetrag",
+      supporterLabel: "Unterstützer",
+      emailLabel: "Kontakt-E-Mail",
+      notesLabel: "Hinweise",
+      notesEmpty: "Keine zusätzlichen Hinweise.",
+      emailNote: "Bestätigung und Beitragsdetails wurden an deine E-Mail gesendet.",
+      backBtn: "Zurück zur Website"
     },
     terms: {
       title: "Allgemeine Geschäftsbedingungen",

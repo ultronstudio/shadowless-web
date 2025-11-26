@@ -15,6 +15,7 @@ import {
   CURRENCY_SYMBOLS,
   CrowdfundingStats,
   DonationTier,
+  DonorDetails,
   OrderDetails,
   RATES,
 } from "@/types";
@@ -39,12 +40,13 @@ export default function HomePageClient() {
     ),
   };
 
-  const handleDonate = (tier: DonationTier) => {
+  const handleDonate = (tier: DonationTier, donor: DonorDetails) => {
     console.log(`[API] Processing Donation:`, {
       tierId: tier.id,
       amount: tier.price,
       currency: tier.currency,
       timestamp: new Date().toISOString(),
+      donor,
     });
 
     const amountInUSD = tier.price / currentRate;
@@ -59,6 +61,7 @@ export default function HomePageClient() {
       tier,
       orderId: `SHD-${Math.floor(Math.random() * 100000)}`,
       date: new Date().toLocaleDateString(),
+      donor,
     };
 
     try {
@@ -66,6 +69,28 @@ export default function HomePageClient() {
     } catch (error) {
       console.error("Failed to persist order details", error);
     }
+
+    const origin = typeof window !== "undefined" ? window.location.origin : undefined;
+
+    const dispatchConfirmationEmail = async () => {
+      try {
+        await fetch("/api/send-confirmation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order,
+            thankYouContent: resolvedContent.thankYou,
+            origin,
+          }),
+        });
+      } catch (error) {
+        console.error("Failed to send confirmation email", error);
+      }
+    };
+
+    void dispatchConfirmationEmail();
 
     router.push("/thank-you");
   };

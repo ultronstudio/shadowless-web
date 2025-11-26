@@ -226,7 +226,7 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
                                 <button
                                     key={l}
                                     onClick={() => onLangChange(l)}
-                                    className={`px-3 py-1 text-[10px] font-serif font-bold tracking-widest uppercase rounded transition-all duration-300 ${
+                                    className={`cursor-pointer px-3 py-1 text-[10px] font-serif font-bold tracking-widest uppercase rounded transition-all duration-300 ${
                                         lang === l
                                             ? "bg-blood text-white shadow-[0_0_10px_rgba(138,11,11,0.5)] scale-105"
                                             : "text-zinc-400 hover:text-zinc-200 hover:bg-white/10"

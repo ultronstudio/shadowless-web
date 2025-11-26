@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { Users, Clock, Code, Music, Shield, Banknote, X } from 'lucide-react';
 import CrowdfundingTierCard from '@/components/CrowdfundingTierCard';
@@ -8,7 +8,7 @@ import StretchGoalCard from '@/components/StretchGoalCard';
 import StripeCheckoutForm from '@/components/StripeCheckoutForm';
 import { getStripe } from '@/lib/stripe';
 import { useLanguageContext } from '@/context/LanguageContext';
-import type { Content, DonationTier, CrowdfundingStats, Language } from '@/types';
+import type { Content, DonationTier, CrowdfundingStats, DonorDetails, Language } from '@/types';
 
 const stripePromise = getStripe();
 
@@ -20,11 +20,13 @@ const currencyByLanguage: Record<Language, string> = {
 
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '';
 
+type PaymentStep = 'tier' | 'details' | 'card' | 'review';
+
 interface CrowdfundingProps {
     content: Content['crowdfunding'];
     stats: CrowdfundingStats;
     currencySymbol: string;
-    onDonate: (tier: DonationTier) => void;
+    onDonate: (tier: DonationTier, donor: DonorDetails) => void;
 }
 
 export default function Crowdfunding({ content, stats, currencySymbol, onDonate }: CrowdfundingProps) {
@@ -45,10 +47,17 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTier, setSelectedTier] = useState<DonationTier | null>(null);
-    const [paymentStep, setPaymentStep] = useState<'tier' | 'form' | 'success'>('tier');
+    const [paymentStep, setPaymentStep] = useState<PaymentStep>('tier');
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [isCreatingIntent, setIsCreatingIntent] = useState(false);
     const [intentError, setIntentError] = useState<string | null>(null);
+    const [donorDetails, setDonorDetails] = useState<DonorDetails>({
+        firstName: '',
+        lastName: '',
+        email: '',
+        notes: ''
+    });
+    const [detailsErrors, setDetailsErrors] = useState<Partial<Record<keyof DonorDetails, string>>>({});
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -85,12 +94,16 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
     }, [isModalOpen]);
 
     useEffect(() => {
-        if (paymentStep !== 'form' || !selectedTier) {
+        if (paymentStep !== 'card' || !selectedTier) {
             return;
         }
 
         if (!publishableKey) {
             setIntentError('Stripe publishable key is not configured.');
+            return;
+        }
+
+        if (clientSecret) {
             return;
         }
 
@@ -142,7 +155,9 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         return () => {
             controller.abort();
         };
-    }, [paymentStep, selectedTier, lang]);
+    }, [paymentStep, selectedTier, lang, clientSecret]);
+
+    const createEmptyDonor = (): DonorDetails => ({ firstName: '', lastName: '', email: '', notes: '' });
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -151,6 +166,8 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
+        setDonorDetails(createEmptyDonor());
+        setDetailsErrors({});
     };
 
     const closeModal = () => {
@@ -160,11 +177,16 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
+        setDonorDetails(createEmptyDonor());
+        setDetailsErrors({});
     };
 
     const handleTierSelect = (tier: DonationTier) => {
         setSelectedTier(tier);
-        setPaymentStep('form');
+        setPaymentStep('details');
+        setClientSecret(null);
+        setIntentError(null);
+        setIsCreatingIntent(false);
     };
 
     const handleBackToTiers = () => {
@@ -172,10 +194,84 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
+        setSelectedTier(null);
+        setDonorDetails(createEmptyDonor());
+        setDetailsErrors({});
+    };
+
+    const handleBackToDetails = () => {
+        setPaymentStep('details');
+        setClientSecret(null);
+        setIntentError(null);
+        setIsCreatingIntent(false);
+    };
+
+    const handleDonorChange = (field: keyof DonorDetails) => (value: string) => {
+        setDonorDetails((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+
+        setDetailsErrors((prev) => {
+            if (!prev[field]) {
+                return prev;
+            }
+            const next = { ...prev };
+            delete next[field];
+            return next;
+        });
+    };
+
+    const handleDetailsSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const errors: Partial<Record<keyof DonorDetails, string>> = {};
+        const { validation } = content.modal;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const trimmed = {
+            firstName: donorDetails.firstName.trim(),
+            lastName: donorDetails.lastName.trim(),
+            email: donorDetails.email.trim(),
+            notes: donorDetails.notes?.trim() ?? '',
+        };
+
+        if (!trimmed.firstName) {
+            errors.firstName = validation.required;
+        }
+
+        if (!trimmed.lastName) {
+            errors.lastName = validation.required;
+        }
+
+        if (!trimmed.email) {
+            errors.email = validation.required;
+        } else if (!emailPattern.test(trimmed.email)) {
+            errors.email = validation.email;
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setDetailsErrors(errors);
+            return;
+        }
+
+        setDonorDetails(trimmed);
+        setDetailsErrors({});
+        setPaymentStep('card');
+        setClientSecret(null);
+        setIntentError(null);
+        setIsCreatingIntent(false);
     };
 
     const handleStripeSuccess = (tier: DonationTier) => {
-        onDonate(tier);
+        const sanitizedNotes = donorDetails.notes?.trim();
+        const normalizedDonor: DonorDetails = {
+            firstName: donorDetails.firstName,
+            lastName: donorDetails.lastName,
+            email: donorDetails.email,
+            ...(sanitizedNotes ? { notes: sanitizedNotes } : {}),
+        };
+
+        onDonate(tier, normalizedDonor);
         closeModal();
     };
 
@@ -354,10 +450,13 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
 
                             {/* Modal Header */}
                             <div className="flex justify-between items-center p-6 border-b border-zinc-800 bg-void-light">
-                                <h3 className="font-serif text-xl text-white tracking-widest uppercase">
-                                    {paymentStep === 'tier' ? content.modal.title : content.modal.step2}
-                                </h3>
-                                <button onClick={closeModal} className="text-zinc-500 hover:text-white transition-colors">
+                                <div>
+                                    <p className="text-xs uppercase tracking-[0.35em] text-blood mb-1">{content.modal.title}</p>
+                                    <h3 className="font-serif text-xl text-white tracking-widest uppercase">
+                                        {content.modal.stepTitles[paymentStep]}
+                                    </h3>
+                                </div>
+                                <button onClick={closeModal} className="cursor-pointer text-zinc-500 hover:text-white transition-colors">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -368,7 +467,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                 {/* STEP 1: Select Tier */}
                                 {paymentStep === 'tier' && (
                                     <div className="space-y-4">
-                                        <p className="text-zinc-400 font-body mb-4">{content.modal.step1}</p>
+                                        <p className="text-zinc-400 font-body mb-4">{content.modal.stepDescriptions.tier}</p>
                                         <div className="grid gap-4">
                                             {content.modal.tiers.map((tier) => (
                                                 <CrowdfundingTierCard
@@ -381,9 +480,92 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     </div>
                                 )}
 
-                                {/* STEP 2: Payment Form */}
-                                {paymentStep === 'form' && selectedTier && (
+                                {/* STEP 2: Donor Details */}
+                                {paymentStep === 'details' && selectedTier && (
                                     <div className="space-y-6">
+                                        <p className="text-zinc-400 font-body">{content.modal.stepDescriptions.details}</p>
+
+                                        <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex justify-between items-center">
+                                            <div>
+                                                <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
+                                                <div className="text-white font-serif">{selectedTier.name}</div>
+                                            </div>
+                                            <div className="text-blood font-bold text-xl">{selectedTier.price.toLocaleString()}{selectedTier.currency}</div>
+                                        </div>
+
+                                        <form onSubmit={handleDetailsSubmit} className="space-y-4">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <label className="block text-xs uppercase tracking-widest text-zinc-500">{content.modal.firstNameLabel}</label>
+                                                    <input
+                                                        type="text"
+                                                        autoComplete='first-name'
+                                                        value={donorDetails.firstName}
+                                                        onChange={(event) => handleDonorChange('firstName')(event.target.value)}
+                                                        className="w-full bg-black/60 border border-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:border-blood transition-colors"
+                                                    />
+                                                    {detailsErrors.firstName && <p className="text-xs text-blood">{detailsErrors.firstName}</p>}
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="block text-xs uppercase tracking-widest text-zinc-500">{content.modal.lastNameLabel}</label>
+                                                    <input
+                                                        type="text"
+                                                        autoComplete="family-name"
+                                                        value={donorDetails.lastName}
+                                                        onChange={(event) => handleDonorChange('lastName')(event.target.value)}
+                                                        className="w-full bg-black/60 border border-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:border-blood transition-colors"
+                                                    />
+                                                    {detailsErrors.lastName && <p className="text-xs text-blood">{detailsErrors.lastName}</p>}
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="block text-xs uppercase tracking-widest text-zinc-500">{content.modal.emailLabel}</label>
+                                                <input
+                                                    type="email"
+                                                    autoComplete="email"
+                                                    value={donorDetails.email}
+                                                    onChange={(event) => handleDonorChange('email')(event.target.value)}
+                                                    className="w-full bg-black/60 border border-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:border-blood transition-colors"
+                                                />
+                                                {detailsErrors.email && <p className="text-xs text-blood">{detailsErrors.email}</p>}
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="block text-xs uppercase tracking-widest text-zinc-500">
+                                                    {content.modal.notesLabel}
+                                                    <span className="ml-2 font-normal normal-case text-zinc-600">{content.modal.notesOptionalHint}</span>
+                                                </label>
+                                                <textarea
+                                                    rows={4}
+                                                    autoComplete="off"
+                                                    value={donorDetails.notes ?? ''}
+                                                    onChange={(event) => handleDonorChange('notes')(event.target.value)}
+                                                    className="w-full bg-black/60 border border-zinc-800 px-3 py-2 text-sm text-white focus:outline-none focus:border-blood transition-colors min-h-[96px]"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col-reverse gap-3 md:flex-row md:justify-between md:items-center pt-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleBackToTiers}
+                                                    className="cursor-pointer text-xs uppercase tracking-widest text-zinc-500 transition-colors hover:text-zinc-300"
+                                                >
+                                                    {content.modal.backToTiers}
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    className="cursor-pointer inline-flex items-center justify-center bg-blood px-6 py-3 font-serif uppercase tracking-widest text-white transition-colors hover:bg-red-900"
+                                                >
+                                                    {content.modal.continueBtn}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                )}
+
+                                {/* STEP 3 & 4: Payment + Review */}
+                                {(paymentStep === 'card' || paymentStep === 'review') && selectedTier && (
+                                    <div className="space-y-6">
+                                        <p className="text-zinc-400 font-body">{content.modal.stepDescriptions[paymentStep]}</p>
+
                                         <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex justify-between items-center">
                                             <div>
                                                 <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
@@ -428,8 +610,11 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                                 <StripeCheckoutForm
                                                     tier={selectedTier}
                                                     modalContent={content.modal}
+                                                    paymentStep={paymentStep}
+                                                    onStepChange={(nextStep) => setPaymentStep(nextStep)}
                                                     onSuccess={handleStripeSuccess}
-                                                    onBack={handleBackToTiers}
+                                                    onBackToDetails={handleBackToDetails}
+                                                    donorDetails={donorDetails}
                                                 />
                                             </Elements>
                                         )}
