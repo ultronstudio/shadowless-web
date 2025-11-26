@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@font-face {
+	font-family: "Le Mano";
+	src: url("/assets/fonts/le-mano.ttf") format("truetype"), url("/assets/fonts/le-mano-bold.ttf") format("truetype");
+	font-weight: 400 700;
+}
+
 @theme {
 	--color-void: #050505;
 	--color-void-light: #1a1a1a;
@@ -11,6 +17,8 @@
 
 	--animate-fade-in: fadeIn 2s ease-in forwards;
 	--animate-flicker: flicker 3s infinite;
+
+	--font-le-mano: "Le Mano", serif;
 }
 
 @keyframes flicker {

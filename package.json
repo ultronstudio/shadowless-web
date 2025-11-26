@@ -13,6 +13,7 @@
     "@stripe/stripe-js": "^8.5.3",
     "autoprefixer": "^10.4.22",
     "lucide-react": "^0.554.0",
+    "mysql2": "^3.15.3",
     "next": "16.0.4",
     "postcss": "^8.5.6",
     "react": "19.2.0",

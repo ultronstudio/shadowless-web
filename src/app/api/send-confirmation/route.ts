@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { buildOrderConfirmationEmail } from "@/lib/email";
+import { recordDonation } from "@/lib/db";
 import type { Content, OrderDetails } from "@/types";
+
+export const runtime = "nodejs";
 
 interface RequestBody {
   order: OrderDetails;
@@ -31,6 +34,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 500 });
     }
 
+    const insertedId = await recordDonation(order);
+
     const { subject, html, text } = buildOrderConfirmationEmail({ order, thankYouContent, origin });
 
     const response = await fetch("https://api.resend.com/emails", {
@@ -54,7 +59,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to send email" }, { status: 502 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, recordId: insertedId });
   } catch (error) {
     console.error("Unexpected error sending confirmation email", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

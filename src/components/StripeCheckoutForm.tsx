@@ -11,7 +11,7 @@ interface StripeCheckoutFormProps {
   modalContent: Content["crowdfunding"]["modal"];
   paymentStep: CheckoutStep;
   onStepChange: (step: CheckoutStep) => void;
-  onSuccess: (tier: DonationTier) => void;
+  onSuccess: (tier: DonationTier, paymentIntentId: string) => void;
   onBackToDetails: () => void;
   donorDetails: DonorDetails;
 }
@@ -82,7 +82,7 @@ export default function StripeCheckoutForm({
     }
 
     if (paymentIntent && ["succeeded", "processing", "requires_capture"].includes(paymentIntent.status)) {
-      onSuccess(tier);
+      onSuccess(tier, paymentIntent.id);
       return;
     }
 

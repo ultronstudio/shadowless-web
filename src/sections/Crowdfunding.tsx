@@ -26,7 +26,7 @@ interface CrowdfundingProps {
     content: Content['crowdfunding'];
     stats: CrowdfundingStats;
     currencySymbol: string;
-    onDonate: (tier: DonationTier, donor: DonorDetails) => void;
+    onDonate: (tier: DonationTier, donor: DonorDetails, paymentIntentId: string) => void;
 }
 
 export default function Crowdfunding({ content, stats, currencySymbol, onDonate }: CrowdfundingProps) {
@@ -262,7 +262,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         setIsCreatingIntent(false);
     };
 
-    const handleStripeSuccess = (tier: DonationTier) => {
+    const handleStripeSuccess = (tier: DonationTier, paymentIntentId: string) => {
         const sanitizedNotes = donorDetails.notes?.trim();
         const normalizedDonor: DonorDetails = {
             firstName: donorDetails.firstName,
@@ -271,7 +271,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
             ...(sanitizedNotes ? { notes: sanitizedNotes } : {}),
         };
 
-        onDonate(tier, normalizedDonor);
+        onDonate(tier, normalizedDonor, paymentIntentId);
         closeModal();
     };
 
@@ -370,10 +370,10 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Code size={14} className="text-blood" /> {content.breakdown.dev}</span>
-                                    <span>60%</span>
+                                    <span>50%</span>    
                                 </div>
                                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-zinc-500 w-[60%] group-hover:bg-blood transition-colors duration-500"></div>
+                                    <div className="h-full bg-zinc-500 w-[80%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                                 <p className="text-zinc-400 text-xs mt-1">{content.breakdown.devDesc}</p>
                             </div>
@@ -381,10 +381,10 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Music size={14} className="text-blood" /> {content.breakdown.audio}</span>
-                                    <span>20%</span>
+                                    <span>30%</span>
                                 </div>
                                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-zinc-500 w-[20%] group-hover:bg-blood transition-colors duration-500"></div>
+                                    <div className="h-full bg-zinc-500 w-[60%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                                 <p className="text-zinc-400 text-xs mt-1">{content.breakdown.audioDesc}</p>
                             </div>
@@ -395,7 +395,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     <span>15%</span>
                                 </div>
                                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-zinc-500 w-[15%] group-hover:bg-blood transition-colors duration-500"></div>
+                                    <div className="h-full bg-zinc-500 w-[45%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                             </div>
 
@@ -405,7 +405,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     <span>5%</span>
                                 </div>
                                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                    <div className="h-full bg-zinc-500 w-[5%] group-hover:bg-blood transition-colors duration-500"></div>
+                                    <div className="h-full bg-zinc-500 w-[20%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                             </div>
 

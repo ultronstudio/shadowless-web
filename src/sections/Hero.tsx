@@ -4,6 +4,7 @@
 import { ChevronDown } from "lucide-react";
 import { STEAM_URL } from "@/constants";
 import type { Content } from "@/types";
+import Image from "next/image";
 
 interface HeroProps {
   content: Content["hero"];
@@ -13,6 +14,8 @@ export default function Hero({ content }: HeroProps) {
   const scrollToLore = () => {
     document.getElementById("lore")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const baseLogoSize = 100;
 
   return (
     <section
@@ -38,10 +41,14 @@ export default function Hero({ content }: HeroProps) {
           <div className="h-px w-12 bg-blood"></div>
         </div>
 
-        <div className="mb-8 opacity-0 animate-[fadeIn_2s_ease-out_forwards]">
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold tracking-widest text-transparent bg-clip-text bg-linear-to-b from-white via-zinc-200 to-zinc-600 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] select-none">
-            SHADOWLESS
-          </h1>
+        <div className="mb-8 opacity-0 animate-[fadeIn_2s_ease-out_forwards] drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+          <Image
+            src="/assets/img/logo-big.png"
+            alt="Shadowless Logo"
+            width={baseLogoSize * 8}
+            height={baseLogoSize * 4}
+            priority
+          />
         </div>
 
         <p className="font-body text-zinc-200 text-lg md:text-2xl mb-12 max-w-2xl leading-relaxed italic border-l-2 border-blood pl-6 text-left opacity-0 animate-[fadeIn_1s_ease-in_forwards_0.5s]">

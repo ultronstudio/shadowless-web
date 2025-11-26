@@ -7,6 +7,7 @@
     "axe/name-role-value": "off",
     "compat-api/css": "off",
     "no-inline-styles": "off",
-    "axe/forms": "off"
+    "axe/forms": "off",
+    "axe/aria": "off"
   }
 }

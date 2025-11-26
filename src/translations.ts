@@ -84,11 +84,11 @@ export const TRANSLATIONS: Record<Language, Content> = {
       breakdownTitle: "Resource Allocation",
       breakdown: {
         dev: "Core Development",
-        devDesc: "Assets, mocap, licensing, polish.",
-        audio: "Auditory Trauma",
-        audioDesc: "Professional composition, dubbing, sound engineering.",
-        tax: "Taxes & Reserves",
-        fees: "Platform Fees"
+        devDesc: "Assets, mocap, licensing, polishing",
+        audio: "Auditory Design",
+        audioDesc: "Professional composition, dubbing, sound engineering",
+        tax: "Rewards for Backers",
+        fees: "Taxes and Fees"
       },
       stretchGoalsTitle: "Milestones",
       stretchGoals: [
@@ -249,6 +249,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       amountLabel: "Contribution Amount",
       supporterLabel: "Supporter",
       emailLabel: "Contact Email",
+      paymentIdLabel: "Stripe Payment ID",
       notesLabel: "Notes",
       notesEmpty: "No additional notes provided.",
       emailNote: "Confirmation and contribution details have been sent to your email.",
@@ -414,12 +415,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
       developerQuote: "\"Pomozte mi vybudovat noční můru, kterou budeme sdílet.\"",
       breakdownTitle: "Alokace zdrojů",
       breakdown: {
-        dev: "Vývoj jádra",
+        dev: "Základní vývoj",
         devDesc: "Assety, mocap, licence, optimalizace.",
-        audio: "Sluchové trauma",
+        audio: "Zvukový design",
         audioDesc: "Profesionální skladatel, dabing, zvukový design.",
-        tax: "Daně a rezervy",
-        fees: "Poplatky platformě"
+        tax: "Odměny pro podporovatele",
+        fees: "Daně a poplatky"
       },
       stretchGoalsTitle: "Milníky",
       stretchGoals: [
@@ -580,6 +581,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       amountLabel: "Částka příspěvku",
       supporterLabel: "Podporovatel",
       emailLabel: "Kontaktní email",
+      paymentIdLabel: "ID Stripe platby",
       notesLabel: "Poznámky",
       notesEmpty: "Žádné doplňující poznámky.",
       emailNote: "Potvrzení a detaily příspěvku byly odeslány na váš email.",
@@ -745,12 +747,12 @@ export const TRANSLATIONS: Record<Language, Content> = {
       developerQuote: "\"Hilf mir, einen Albtraum zu bauen, den wir alle teilen können.\"",
       breakdownTitle: "Ressourcenverteilung",
       breakdown: {
-        dev: "Kernentwicklung",
+        dev: "Grundlegende Entwicklung",
         devDesc: "Assets, Mocap, Lizenzen, Politur.",
-        audio: "Akustisches Trauma",
+        audio: "Audiodesign",
         audioDesc: "Professioneller Komponist, Synchronisation, Sounddesign.",
-        tax: "Steuern & Reserven",
-        fees: "Plattformgebühren"
+        tax: "Belohnungen für Unterstützer",
+        fees: "Steuern und Gebühren"
       },
       stretchGoalsTitle: "Meilensteine",
       stretchGoals: [
@@ -911,6 +913,7 @@ export const TRANSLATIONS: Record<Language, Content> = {
       amountLabel: "Beitragsbetrag",
       supporterLabel: "Unterstützer",
       emailLabel: "Kontakt-E-Mail",
+      paymentIdLabel: "Stripe-Zahlungs-ID",
       notesLabel: "Hinweise",
       notesEmpty: "Keine zusätzlichen Hinweise.",
       emailNote: "Bestätigung und Beitragsdetails wurden an deine E-Mail gesendet.",

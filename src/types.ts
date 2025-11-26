@@ -57,6 +57,8 @@ export interface OrderDetails {
   orderId: string;
   date: string;
   donor: DonorDetails;
+  stripePaymentIntentId?: string;
+  currencyCode?: string;
 }
 
 export interface StretchGoal {
@@ -204,6 +206,7 @@ export interface Content {
     amountLabel: string;
     supporterLabel: string;
     emailLabel: string;
+    paymentIdLabel: string;
     notesLabel: string;
     notesEmpty: string;
     emailNote: string;
@@ -228,4 +231,10 @@ export const CURRENCY_SYMBOLS: Record<Language, string> = {
   en: '$',
   cs: ' Kč',
   de: ' €'
+};
+
+export const CURRENCY_CODES: Record<Language, string> = {
+  en: 'USD',
+  cs: 'CZK',
+  de: 'EUR'
 };

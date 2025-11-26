@@ -12,6 +12,7 @@ import Gallery from "@/sections/Gallery";
 import { CAMPAIGN_END_DATE, CROWDFUNDING_DATA } from "@/constants";
 import { LAST_ORDER_STORAGE_KEY } from "@/constants/storage";
 import {
+  CURRENCY_CODES,
   CURRENCY_SYMBOLS,
   CrowdfundingStats,
   DonationTier,
@@ -40,13 +41,14 @@ export default function HomePageClient() {
     ),
   };
 
-  const handleDonate = (tier: DonationTier, donor: DonorDetails) => {
+  const handleDonate = (tier: DonationTier, donor: DonorDetails, paymentIntentId: string) => {
     console.log(`[API] Processing Donation:`, {
       tierId: tier.id,
       amount: tier.price,
       currency: tier.currency,
       timestamp: new Date().toISOString(),
       donor,
+      paymentIntentId,
     });
 
     const amountInUSD = tier.price / currentRate;
@@ -62,6 +64,8 @@ export default function HomePageClient() {
       orderId: `SHD-${Math.floor(Math.random() * 100000)}`,
       date: new Date().toLocaleDateString(),
       donor,
+      stripePaymentIntentId: paymentIntentId,
+      currencyCode: CURRENCY_CODES[lang],
     };
 
     try {

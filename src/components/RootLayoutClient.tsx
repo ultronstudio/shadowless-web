@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { useCallback, useEffect, useMemo, useState, type MouseEvent, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import { TRANSLATIONS } from "@/translations";
@@ -145,9 +147,7 @@ function Navigation({ content, lang, isSwitching, onLangChange }: NavigationProp
                     href="/"
                     className="opacity-90 hover:opacity-100 transition-opacity cursor-pointer select-none"
                 >
-                    <span className="font-serif text-2xl font-bold tracking-[0.2em] text-white drop-shadow-md">
-                        SHADOWLESS
-                    </span>
+                    <Image src="/assets/img/logo.png" alt="Shadowless Logo" width={150} height={40} priority />
                 </Link>
 
                 <div className="flex items-center gap-4 md:gap-8">

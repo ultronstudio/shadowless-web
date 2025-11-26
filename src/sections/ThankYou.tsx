@@ -20,6 +20,7 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
     .join(' ') || '—';
   const supporterEmail = orderDetails.donor?.email ?? '—';
   const supporterNotes = orderDetails.donor?.notes?.length ? orderDetails.donor.notes : content.notesEmpty;
+  const paymentIdentifier = orderDetails.stripePaymentIntentId ?? '—';
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-void px-4 pt-20 py-12">
@@ -52,6 +53,12 @@ export default function ThankYou({ content, orderDetails, onBack }: ThankYouProp
             <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.amountLabel}</span>
               <span className="text-white font-bold text-xl">{orderDetails.tier.price}{orderDetails.tier.currency}</span>
+            </div>
+            <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
+              <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.paymentIdLabel}</span>
+              <span className="text-zinc-300 text-xs font-mono text-right break-all max-w-[60%]">
+                {paymentIdentifier}
+              </span>
             </div>
             <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
               <span className="text-zinc-500 text-xs uppercase tracking-wider">{content.supporterLabel}</span>

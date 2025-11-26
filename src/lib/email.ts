@@ -47,7 +47,9 @@ export function buildOrderConfirmationEmail({
 
   const supporterNotes = order.donor.notes?.trim();
   const formattedAmount = `${order.tier.price.toLocaleString()}${order.tier.currency}`;
-  const webUrl = origin ? `${origin.replace(/\/$/, "")}` : "";
+  const paymentId = order.stripePaymentIntentId ?? "—";
+  const baseUrl = origin ? origin.replace(/\/$/, "") : "";
+  const thankYouUrl = baseUrl ? `${baseUrl}/thank-you` : "";
 
   const subject = `${thankYouContent.title} – ${order.orderId}`;
 
@@ -91,6 +93,14 @@ export function buildOrderConfirmationEmail({
                 </tr>
                 <tr>
                   <td style="padding:16px 0;border-bottom:1px solid #1f1f29;">
+                    <div style="${baseStyles.blockTitle}">${thankYouContent.paymentIdLabel}</div>
+                    <div style="${baseStyles.blockValue};font-size:14px;color:#d1d5db;word-break:break-all;">
+                      ${paymentId}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 0;border-bottom:1px solid #1f1f29;">
                     <div style="${baseStyles.blockTitle}">${thankYouContent.supporterLabel}</div>
                     <div style="${baseStyles.blockValue}">${supporterName || "—"}</div>
                   </td>
@@ -111,8 +121,8 @@ export function buildOrderConfirmationEmail({
                 </tr>
               </table>
 
-              ${webUrl
-                ? `<a href="${webUrl}" style="${baseStyles.button}" target="_blank" rel="noreferrer">${thankYouContent.backBtn}</a>`
+              ${thankYouUrl
+                ? `<a href="${thankYouUrl}" style="${baseStyles.button}" target="_blank" rel="noreferrer">${thankYouContent.backBtn}</a>`
                 : ""}
             </div>
           </td>
@@ -132,12 +142,13 @@ export function buildOrderConfirmationEmail({
       thankYouContent.amountLabel,
       formattedAmount
     ),
+    textLine(thankYouContent.paymentIdLabel, paymentId),
     textLine(thankYouContent.supporterLabel, supporterName || "—"),
     textLine(thankYouContent.emailLabel, order.donor.email),
     `${thankYouContent.notesLabel}: ${supporterNotes || thankYouContent.notesEmpty}`,
     "",
     thankYouContent.emailNote,
-    thankYouUrl ? `View details: ${thankYouUrl}` : "",
+    thankYouUrl ? `${thankYouContent.backBtn}: ${thankYouUrl}` : "",
   ]
     .filter(Boolean)
     .join("\n");
