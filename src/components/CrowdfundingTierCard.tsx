@@ -16,7 +16,7 @@ export default function CrowdfundingTierCard({ tier, onSelect, recommendedLabel 
   const limit = typeof tier.limit === 'number' ? tier.limit : null;
   const sold = typeof tier.sold === 'number' && Number.isFinite(tier.sold) ? Math.max(tier.sold, 0) : 0;
   const remaining = limit !== null ? Math.max(limit - sold, 0) : null;
-  const isSoldOut = limit !== null && remaining <= 0;
+  const isSoldOut = remaining !== null && remaining <= 0 && limit !== null;
   const cardStateClasses = tier.recommended
     ? 'bg-zinc-900 border-blood/50 hover:border-blood shadow-[0_0_15px_rgba(138,11,11,0.1)]'
     : 'bg-black border-zinc-800 hover:border-zinc-600';
