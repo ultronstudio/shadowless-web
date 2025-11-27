@@ -115,12 +115,12 @@ export default function HomePageClient({ initialStats, initialTierCounts }: Home
           if (response.status === 409 && data?.totals) {
             setBaseStats((prev) => ({
               ...prev,
-              currentAmount: data.totals.totalAmountUsd ?? prev.currentAmount,
-              backers: data.totals.backers ?? prev.backers,
+              currentAmount: data?.totals?.totalAmountUsd ?? prev.currentAmount,
+              backers: data?.totals?.backers ?? prev.backers,
             }));
 
-            if (data.totals.tierCounts) {
-              setTierCounts(data.totals.tierCounts);
+            if (data?.totals?.tierCounts) {
+              setTierCounts(data?.totals?.tierCounts as Record<string, number>);
             }
 
             return;
