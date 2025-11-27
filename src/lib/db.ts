@@ -1,5 +1,5 @@
 import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import type { OrderDetails } from "@/types";
+import type { DonorContribution, OrderDetails } from "@/types";
 import { getTierLimit } from "@/constants/tiers";
 
 let pool: mysql.Pool | null = null;
@@ -327,6 +327,12 @@ type TotalsRow = RowDataPacket & {
   backers: number | string | null;
 };
 
+type DonorContributionRow = RowDataPacket & {
+  firstName: string | null;
+  lastName: string | null;
+  totalAmountUsd: number | string | null;
+};
+
 export interface CrowdfundingTotals {
   totalAmountUsd: number;
   totalAmountCzk: number;
@@ -403,5 +409,41 @@ export async function getTierPurchaseCount(tierId: string): Promise<number> {
   } catch (error) {
     console.error("Failed to load tier purchase count", error);
     return 0;
+  }
+}
+
+export async function getDonorContributions(limit = 50): Promise<DonorContribution[]> {
+  const db = await getPool();
+
+  if (!db) {
+    return [];
+  }
+
+  try {
+    await ensureSchema(db);
+
+    const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.min(Math.floor(limit), 500) : 50;
+
+    const [rows] = await db.query<DonorContributionRow[]>(
+      `SELECT
+        COALESCE(MAX(donor_first_name), '') AS firstName,
+        COALESCE(MAX(donor_last_name), '') AS lastName,
+        COALESCE(SUM(amount_usd), 0) AS totalAmountUsd
+       FROM donations
+       WHERE donor_email IS NOT NULL AND donor_email <> ''
+       GROUP BY donor_email
+       ORDER BY totalAmountUsd DESC, firstName ASC, lastName ASC
+       LIMIT ?`,
+      [normalizedLimit]
+    );
+
+    return rows.map<DonorContribution>((row) => ({
+      firstName: row.firstName ? String(row.firstName) : "",
+      lastName: row.lastName ? String(row.lastName) : "",
+      totalAmountUsd: Number(row.totalAmountUsd) || 0,
+    }));
+  } catch (error) {
+    console.error("Failed to load donor contributions", error);
+    return [];
   }
 }

@@ -54,6 +54,12 @@ export interface DonorDetails {
   notes?: string;
 }
 
+export interface DonorContribution {
+  firstName: string;
+  lastName: string;
+  totalAmountUsd: number;
+}
+
 export interface OrderDetails {
   tier: DonationTier;
   orderId: string;
@@ -158,6 +164,18 @@ export interface Content {
     stretchGoalsTitle: string;
     stretchGoals: StretchGoal[];
     cta: string;
+    supporters: {
+      title: string;
+      toggleOpen: string;
+      toggleClose: string;
+      loading: string;
+      error: string;
+      empty: string;
+      tableHeaders: {
+        name: string;
+        amount: string;
+      };
+    };
     modal: {
       title: string;
       recommendedLabel: string;

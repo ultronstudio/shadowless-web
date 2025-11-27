@@ -9,7 +9,8 @@ import StripeCheckoutForm from '@/components/StripeCheckoutForm';
 import { getStripe } from '@/lib/stripe';
 import { formatAmountForLanguage } from '@/lib/currency';
 import { useLanguageContext } from '@/context/LanguageContext';
-import type { Content, DonationTier, CrowdfundingStats, DonorDetails, Language } from '@/types';
+import { RATES } from '@/types';
+import type { Content, DonationTier, CrowdfundingStats, DonorContribution, DonorDetails, Language } from '@/types';
 
 const stripePromise = getStripe();
 
@@ -102,6 +103,9 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
         notes: ''
     });
     const [detailsErrors, setDetailsErrors] = useState<Partial<Record<keyof DonorDetails, string>>>({});
+    const [isSupportersOpen, setIsSupportersOpen] = useState(false);
+    const [supporters, setSupporters] = useState<DonorContribution[]>([]);
+    const [supportersStatus, setSupportersStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const selectedTier = useMemo(() => {
         if (!selectedTierId) {
@@ -109,6 +113,62 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
         }
         return tiers.find((tier) => tier.id === selectedTierId) ?? null;
     }, [tiers, selectedTierId]);
+
+    const fetchSupporters = useCallback(async () => {
+        setSupportersStatus('loading');
+        try {
+            const response = await fetch('/api/supporters');
+            if (!response.ok) {
+                throw new Error(`Failed with status ${response.status}`);
+            }
+
+            const data = (await response.json().catch(() => ({}))) as {
+                supporters?: DonorContribution[];
+            };
+
+            const list = Array.isArray(data?.supporters) ? data.supporters : [];
+            setSupporters(list);
+            setSupportersStatus('success');
+        } catch (error) {
+            console.error('Failed to load supporters', error);
+            setSupporters([]);
+            setSupportersStatus('error');
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isSupportersOpen) {
+            return;
+        }
+
+        if (supportersStatus === 'loading' || supportersStatus === 'success') {
+            return;
+        }
+
+        void fetchSupporters();
+    }, [isSupportersOpen, supportersStatus, fetchSupporters]);
+
+    const convertSupporterAmount = useCallback((amountUsd: number) => {
+        if (!Number.isFinite(amountUsd)) {
+            return 0;
+        }
+
+        const rate = RATES[lang] ?? 1;
+
+        if (lang === 'cs') {
+            return Math.round(amountUsd * rate);
+        }
+
+        return Math.round(amountUsd * rate * 100) / 100;
+    }, [lang]);
+
+    const formatSupporterContribution = useCallback((amountUsd: number) => {
+        return formatAmountForLanguage(convertSupporterAmount(amountUsd), currencySymbol, lang);
+    }, [convertSupporterAmount, currencySymbol, lang]);
+
+    const handleSupportersToggle = () => {
+        setIsSupportersOpen((prev) => !prev);
+    };
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -419,6 +479,65 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                         {content.modal.availability.soldOut}
                     </p>
                 )}
+
+                <div className="mb-20">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                        <h3 className="font-serif text-2xl text-white uppercase tracking-widest">{content.supporters.title}</h3>
+                        <button
+                            onClick={handleSupportersToggle}
+                            className="self-start md:self-auto inline-flex items-center gap-2 border border-zinc-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-zinc-200 hover:border-blood hover:text-white transition-colors"
+                            aria-expanded={isSupportersOpen}
+                            type="button"
+                        >
+                            {isSupportersOpen ? content.supporters.toggleClose : content.supporters.toggleOpen}
+                        </button>
+                    </div>
+                    {isSupportersOpen && (
+                        <div className="mt-6 rounded-lg border border-zinc-800 bg-black/60 p-6">
+                            {(supportersStatus === 'loading' || supportersStatus === 'idle') && (
+                                <p className="text-sm text-zinc-400">{content.supporters.loading}</p>
+                            )}
+                            {supportersStatus === 'error' && (
+                                <p className="text-sm text-blood">{content.supporters.error}</p>
+                            )}
+                            {supportersStatus === 'success' && supporters.length === 0 && (
+                                <p className="text-sm text-zinc-400">{content.supporters.empty}</p>
+                            )}
+                            {supportersStatus === 'success' && supporters.length > 0 && (
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full divide-y divide-zinc-800 text-left">
+                                        <thead>
+                                            <tr className="text-xs uppercase tracking-widest text-zinc-400">
+                                                <th className="py-3 pr-6 font-semibold">{content.supporters.tableHeaders.name}</th>
+                                                <th className="py-3 font-semibold">{content.supporters.tableHeaders.amount}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-zinc-900 text-sm text-zinc-200">
+                                            {supporters.map((supporter, index) => {
+                                                const fullName = [supporter.firstName?.trim(), supporter.lastName?.trim()]
+                                                    .filter(Boolean)
+                                                    .join(' ');
+                                                return (
+                                                    <tr
+                                                        key={`${supporter.firstName ?? 'supporter'}-${supporter.lastName ?? ''}-${index}`}
+                                                        className="transition-colors hover:bg-zinc-900/50"
+                                                    >
+                                                        <td className="whitespace-nowrap py-3 pr-6">
+                                                            {fullName || 'N/A'}
+                                                        </td>
+                                                        <td className="whitespace-nowrap py-3">
+                                                            {formatSupporterContribution(supporter.totalAmountUsd)}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 {/* Developer & Breakdown Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">

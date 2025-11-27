@@ -106,6 +106,18 @@ export const deContent: Content = {
       { amount: 1092000, title: "Konsolen-Debüt", description: "Veröffentlichung auf PlayStation 5 und Xbox Series X/S." }
     ],
     cta: "Projekt unterstützen",
+    supporters: {
+      title: "Beiträge der Unterstützer",
+      toggleOpen: "Unterstützer anzeigen",
+      toggleClose: "Unterstützer verbergen",
+      loading: "Unterstützer werden heraufbeschworen...",
+      error: "Unterstützer konnten gerade nicht geladen werden.",
+      empty: "Noch keine Unterstützer verzeichnet. Sei die erste Seele.",
+      tableHeaders: {
+        name: "Name",
+        amount: "Gesamtbeitrag"
+      }
+    },
     modal: {
       title: "Wähle dein Schicksal",
       recommendedLabel: "Empfohlen",

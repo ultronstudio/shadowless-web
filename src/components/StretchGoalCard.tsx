@@ -15,7 +15,7 @@ export default function StretchGoalCard({ goal, currencySymbol, isUnlocked }: St
   const { lang } = useLanguageContext();
   const containerClasses = isUnlocked
     ? 'bg-gradient-to-r from-zinc-900 to-black border-blood/30 shadow-[0_0_20px_rgba(138,11,11,0.1)]'
-    : 'bg-black border-zinc-800 opacity-60 grayscale';
+    : 'bg-black border-zinc-800 grayscale';
 
   const badgeClasses = isUnlocked
     ? 'bg-blood border-blood text-white'

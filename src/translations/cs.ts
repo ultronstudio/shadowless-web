@@ -106,6 +106,18 @@ export const csContent: Content = {
       { amount: 28800000, title: "Konzolový debut", description: "Vydání pro PlayStation 5 a Xbox Series X/S." }
     ],
     cta: "Podpořit projekt",
+    supporters: {
+      title: "Příspěvky podporovatelů",
+      toggleOpen: "Zobrazit podporovatele",
+      toggleClose: "Skrýt podporovatele",
+      loading: "Vyvolávám podporovatele...",
+      error: "Podporovatele se momentálně nepodařilo načíst.",
+      empty: "Zatím není zaznamenán žádný podporovatel. Buď prvním, kdo se přidá.",
+      tableHeaders: {
+        name: "Jméno",
+        amount: "Celkový příspěvek"
+      }
+    },
     modal: {
       title: "Zvolte svůj osud",
       recommendedLabel: "Doporučeno",

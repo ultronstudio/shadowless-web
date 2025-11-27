@@ -106,6 +106,18 @@ export const enContent: Content = {
       { amount: 1200000, title: "Console Release", description: "PlayStation 5 and Xbox Series X/S versions." }
     ],
     cta: "Back this Project",
+    supporters: {
+      title: "Supporter Contributions",
+      toggleOpen: "Show supporters",
+      toggleClose: "Hide supporters",
+      loading: "Summoning supporters...",
+      error: "Unable to load supporters right now.",
+      empty: "No recorded supporters yet. Be the first to descend.",
+      tableHeaders: {
+        name: "Name",
+        amount: "Total contributed"
+      }
+    },
     modal: {
       title: "Choose Your Fate",
       recommendedLabel: "Recommended",
