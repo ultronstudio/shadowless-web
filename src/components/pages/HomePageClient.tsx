@@ -24,18 +24,24 @@ import { useLanguageContext } from "@/context/LanguageContext";
 
 type HomePageClientProps = {
   initialStats?: CrowdfundingStats;
+  initialTierCounts?: Record<string, number>;
 };
 
-export default function HomePageClient({ initialStats }: HomePageClientProps) {
+export default function HomePageClient({ initialStats, initialTierCounts }: HomePageClientProps) {
   const { lang, content, isSwitching } = useLanguageContext();
   const resolvedContent = content;
   const router = useRouter();
   const fallbackStats = initialStats ?? CROWDFUNDING_DATA;
   const [baseStats, setBaseStats] = useState<CrowdfundingStats>(fallbackStats);
+  const [tierCounts, setTierCounts] = useState<Record<string, number>>(initialTierCounts ?? {});
 
   useEffect(() => {
     setBaseStats(initialStats ?? CROWDFUNDING_DATA);
   }, [initialStats]);
+
+  useEffect(() => {
+    setTierCounts(initialTierCounts ?? {});
+  }, [initialTierCounts]);
 
   const currentRate = RATES[lang];
   const currencySymbol = CURRENCY_SYMBOLS[lang];
@@ -95,18 +101,33 @@ export default function HomePageClient({ initialStats }: HomePageClientProps) {
           }),
         });
 
-        if (!response.ok) {
-          throw new Error(`Failed with status ${response.status}`);
-        }
-
-        const data = (await response.json()) as {
+        const data = (await response.json().catch(() => ({}))) as {
           totals?: {
             totalAmountUsd?: number;
             totalAmountCzk?: number;
             totalAmountEur?: number;
             backers?: number;
+            tierCounts?: Record<string, number>;
           };
         };
+
+        if (!response.ok) {
+          if (response.status === 409 && data?.totals) {
+            setBaseStats((prev) => ({
+              ...prev,
+              currentAmount: data.totals.totalAmountUsd ?? prev.currentAmount,
+              backers: data.totals.backers ?? prev.backers,
+            }));
+
+            if (data.totals.tierCounts) {
+              setTierCounts(data.totals.tierCounts);
+            }
+
+            return;
+          }
+
+          throw new Error(`Failed with status ${response.status}`);
+        }
 
         // Merge totals safely: use server-provided numbers when present, otherwise fall back to computed values
         setBaseStats((prev) => ({
@@ -114,12 +135,25 @@ export default function HomePageClient({ initialStats }: HomePageClientProps) {
           currentAmount: data?.totals?.totalAmountUsd ?? prev.currentAmount + amountInUSD,
           backers: data?.totals?.backers ?? prev.backers + 1,
         }));
+
+        if (data?.totals?.tierCounts) {
+          setTierCounts(data.totals.tierCounts);
+        } else {
+          setTierCounts((prev) => ({
+            ...prev,
+            [tier.id]: (prev?.[tier.id] ?? 0) + 1,
+          }));
+        }
       } catch (error) {
         console.error("Failed to send confirmation email", error);
         setBaseStats((prev) => ({
           ...prev,
           currentAmount: prev.currentAmount + amountInUSD,
           backers: prev.backers + 1,
+        }));
+        setTierCounts((prev) => ({
+          ...prev,
+          [tier.id]: (prev?.[tier.id] ?? 0) + 1,
         }));
       }
     };
@@ -144,6 +178,7 @@ export default function HomePageClient({ initialStats }: HomePageClientProps) {
           stats={displayedStats}
           currencySymbol={currencySymbol}
           onDonate={handleDonate}
+          tierAvailability={tierCounts}
         />
         <Gallery content={resolvedContent.gallery} />
       </main>

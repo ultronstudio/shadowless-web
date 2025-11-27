@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getTierLimit } from "@/constants/tiers";
+import { getTierPurchaseCount } from "@/lib/db";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripeApiVersion: Stripe.LatestApiVersion = "2024-06-20";
@@ -25,6 +27,16 @@ export async function POST(request: NextRequest) {
 
   if (!Number.isInteger(amount) || amount <= 0) {
     return NextResponse.json({ error: "Amount must be a positive integer representing the smallest currency unit." }, { status: 400 });
+  }
+
+  const tierLimit = getTierLimit(tierId);
+
+  if (tierLimit !== null) {
+    const soldCount = await getTierPurchaseCount(tierId);
+
+    if (soldCount >= tierLimit) {
+      return NextResponse.json({ error: "Tier sold out.", code: "tier_sold_out" }, { status: 409 });
+    }
   }
 
   const stripe = new Stripe(stripeSecretKey, { apiVersion: stripeApiVersion });

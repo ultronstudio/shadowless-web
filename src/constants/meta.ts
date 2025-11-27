@@ -1,6 +1,7 @@
 import type { Language } from "@/types";
-
-export const SITE_URL = "https://shadowless.game";
+// get site_url from actual host
+const host = process.env.NEXT_PUBLIC_SITE_URL;
+export const SITE_URL = host ? host.replace(/\/+$/, "") : "https://shadowlessthegame.eu";
 export const OG_IMAGE = "/assets/img/cover.png";
 
 interface BaseMeta {

@@ -1,5 +1,6 @@
 import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import type { OrderDetails } from "@/types";
+import { getTierLimit } from "@/constants/tiers";
 
 let pool: mysql.Pool | null = null;
 let schemaInitialization: Promise<void> | null = null;
@@ -21,6 +22,18 @@ const USD_TO_CURRENCY: Record<SupportedCurrency, number> = {
   CZK: 24,
   EUR: 0.91,
 };
+
+export class TierSoldOutError extends Error {
+  readonly tierId: string;
+  readonly limit: number;
+
+  constructor(tierId: string, limit: number) {
+    super(`Tier ${tierId} is sold out.`);
+    this.name = "TierSoldOutError";
+    this.tierId = tierId;
+    this.limit = limit;
+  }
+}
 
 function normalizeCurrencyCode(code: string | null | undefined): SupportedCurrency {
   const upper = code?.toUpperCase();
@@ -55,6 +68,43 @@ function convertAmounts(amountValue: number, currencyCode: string | null | undef
   const amountEur = code === "EUR" ? roundToWhole(amountValue) : roundToWhole(amountUsdRaw * USD_TO_CURRENCY.EUR);
 
   return { amountUsd, amountCzk, amountEur };
+}
+
+type TierCountRow = RowDataPacket & {
+  tierId: string | null;
+  sold: number | string | null;
+};
+
+type TierCountSingleRow = RowDataPacket & {
+  sold: number | string | null;
+};
+
+async function fetchTierCounts(executor: mysql.Pool | mysql.PoolConnection): Promise<Record<string, number>> {
+  const [rows] = await executor.query<TierCountRow[]>(
+    `SELECT tier_id AS tierId, COUNT(*) AS sold FROM donations GROUP BY tier_id`
+  );
+
+  return rows.reduce<Record<string, number>>((accumulator, row) => {
+    if (!row.tierId) {
+      return accumulator;
+    }
+    accumulator[row.tierId] = Number(row.sold) || 0;
+    return accumulator;
+  }, {});
+}
+
+async function fetchTierSoldCount(
+  executor: mysql.Pool | mysql.PoolConnection,
+  tierId: string,
+  options: { forUpdate?: boolean } = {}
+): Promise<number> {
+  const lockClause = options.forUpdate ? " FOR UPDATE" : "";
+  const [rows] = await executor.query<TierCountSingleRow[]>(
+    `SELECT COUNT(*) AS sold FROM donations WHERE tier_id = ?${lockClause}`,
+    [tierId]
+  );
+
+  return Number(rows[0]?.sold) || 0;
 }
 
 async function ensureDatabaseExists(connectionString: string): Promise<void> {
@@ -179,6 +229,9 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
     return null;
   }
 
+  let connection: mysql.PoolConnection | null = null;
+  let transactionStarted = false;
+
   try {
     await ensureSchema(db);
 
@@ -187,7 +240,21 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
     const currencyCode = order.currencyCode ?? null;
     const { amountUsd, amountCzk, amountEur } = convertAmounts(amountValue, currencyCode);
 
-    const [result] = await db.execute<ResultSetHeader>(
+    connection = await db.getConnection();
+    await connection.beginTransaction();
+    transactionStarted = true;
+
+    const tierLimit = getTierLimit(order.tier.id);
+
+    if (tierLimit !== null) {
+      const soldCount = await fetchTierSoldCount(connection, order.tier.id, { forUpdate: true });
+      if (soldCount >= tierLimit) {
+        await connection.rollback();
+        throw new TierSoldOutError(order.tier.id, tierLimit);
+      }
+    }
+
+    const [result] = await connection.execute<ResultSetHeader>(
       `INSERT INTO donations (
         order_public_id,
         stripe_payment_id,
@@ -223,10 +290,26 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
       ]
     );
 
+    await connection.commit();
+
     return typeof result.insertId === "number" ? result.insertId : null;
   } catch (error) {
+    if (connection && transactionStarted) {
+      try {
+        await connection.rollback();
+      } catch (rollbackError) {
+        console.error("Failed to roll back donation transaction", rollbackError);
+      }
+    }
+
+    if (error instanceof TierSoldOutError) {
+      throw error;
+    }
+
     console.error("Failed to persist donation record", error);
     return null;
+  } finally {
+    connection?.release();
   }
 }
 
@@ -249,13 +332,14 @@ export interface CrowdfundingTotals {
   totalAmountCzk: number;
   totalAmountEur: number;
   backers: number;
+  tierCounts: Record<string, number>;
 }
 
 export async function getCrowdfundingTotals(): Promise<CrowdfundingTotals> {
   const db = await getPool();
 
   if (!db) {
-    return { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0 };
+    return { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0, tierCounts: {} };
   }
 
   try {
@@ -271,15 +355,53 @@ export async function getCrowdfundingTotals(): Promise<CrowdfundingTotals> {
     );
 
     const row = rows[0] ?? { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0 };
+    const tierCounts = await fetchTierCounts(db);
 
     return {
       totalAmountUsd: Number(row.totalAmountUsd) || 0,
       totalAmountCzk: Number(row.totalAmountCzk) || 0,
       totalAmountEur: Number(row.totalAmountEur) || 0,
       backers: Number(row.backers) || 0,
+      tierCounts,
     };
   } catch (error) {
     console.error("Failed to load crowdfunding totals", error);
-    return { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0 };
+    return { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0, tierCounts: {} };
+  }
+}
+
+export async function getTierPurchaseCounts(): Promise<Record<string, number>> {
+  const db = await getPool();
+
+  if (!db) {
+    return {};
+  }
+
+  try {
+    await ensureSchema(db);
+    return await fetchTierCounts(db);
+  } catch (error) {
+    console.error("Failed to load tier purchase counts", error);
+    return {};
+  }
+}
+
+export async function getTierPurchaseCount(tierId: string): Promise<number> {
+  if (!tierId) {
+    return 0;
+  }
+
+  const db = await getPool();
+
+  if (!db) {
+    return 0;
+  }
+
+  try {
+    await ensureSchema(db);
+    return await fetchTierSoldCount(db, tierId);
+  } catch (error) {
+    console.error("Failed to load tier purchase count", error);
+    return 0;
   }
 }

@@ -43,6 +43,8 @@ export interface DonationTier {
   currency: string;
   rewards: string[];
   recommended?: boolean;
+  limit?: number;
+  sold?: number;
 }
 
 export interface DonorDetails {
@@ -197,6 +199,10 @@ export interface Content {
       validation: {
         required: string;
         email: string;
+      };
+      availability: {
+        available: string;
+        soldOut: string;
       };
       tiers: DonationTier[];
     };

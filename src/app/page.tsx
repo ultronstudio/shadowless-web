@@ -21,5 +21,5 @@ export default async function HomePage() {
     backers: totals.backers ?? CROWDFUNDING_DATA.backers,
   };
 
-  return <HomePageClient initialStats={initialStats} />;
+  return <HomePageClient initialStats={initialStats} initialTierCounts={totals.tierCounts} />;
 }

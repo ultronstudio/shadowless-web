@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { Users, Clock, Code, Music, Shield, Banknote, X } from 'lucide-react';
 import CrowdfundingTierCard from '@/components/CrowdfundingTierCard';
@@ -28,10 +28,53 @@ interface CrowdfundingProps {
     stats: CrowdfundingStats;
     currencySymbol: string;
     onDonate: (tier: DonationTier, donor: DonorDetails, paymentIntentId: string) => void;
+    tierAvailability: Record<string, number>;
 }
 
-export default function Crowdfunding({ content, stats, currencySymbol, onDonate }: CrowdfundingProps) {
+export default function Crowdfunding({ content, stats, currencySymbol, onDonate, tierAvailability }: CrowdfundingProps) {
     const { lang } = useLanguageContext();
+    const baseTiers = content.modal.tiers;
+    const tiers = useMemo(() => {
+        return baseTiers.map((tier) => {
+            const directSold = tierAvailability[tier.id];
+            const normalizedSold = typeof directSold === 'number' && Number.isFinite(directSold)
+                ? Math.max(0, directSold)
+                : (typeof tier.sold === 'number' && Number.isFinite(tier.sold) ? Math.max(0, tier.sold) : 0);
+
+            return {
+                ...tier,
+                sold: normalizedSold,
+            };
+        });
+    }, [baseTiers, tierAvailability]);
+
+    const isTierSoldOut = useCallback((tier: DonationTier) => {
+        const limit = typeof tier.limit === 'number' && Number.isFinite(tier.limit) ? tier.limit : null;
+        if (limit === null) {
+            return false;
+        }
+        const soldCount = typeof tier.sold === 'number' && Number.isFinite(tier.sold) ? Math.max(0, tier.sold) : 0;
+        return soldCount >= limit;
+    }, []);
+
+    const hasAvailableTier = useMemo(() => tiers.some((tier) => !isTierSoldOut(tier)), [tiers, isTierSoldOut]);
+    const formatAvailabilityLabel = useCallback((tier: DonationTier) => {
+        const limit = typeof tier.limit === 'number' && Number.isFinite(tier.limit) ? tier.limit : null;
+        if (limit === null) {
+            return null;
+        }
+
+        const soldCount = typeof tier.sold === 'number' && Number.isFinite(tier.sold) ? Math.max(0, tier.sold) : 0;
+        const remaining = Math.max(limit - soldCount, 0);
+
+        if (remaining <= 0) {
+            return content.modal.availability.soldOut;
+        }
+
+        return content.modal.availability.available
+            .replace('{remaining}', remaining.toString())
+            .replace('{total}', limit.toString());
+    }, [content.modal.availability]);
     const { currentAmount, targetAmount, backers, daysLeft } = stats;
     // Calculate percentage based on values (ratio stays same regardless of currency)
     const percentage = Math.min((currentAmount / targetAmount) * 100, 100);
@@ -47,7 +90,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedTier, setSelectedTier] = useState<DonationTier | null>(null);
+    const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
     const [paymentStep, setPaymentStep] = useState<PaymentStep>('tier');
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [isCreatingIntent, setIsCreatingIntent] = useState(false);
@@ -59,6 +102,13 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         notes: ''
     });
     const [detailsErrors, setDetailsErrors] = useState<Partial<Record<keyof DonorDetails, string>>>({});
+
+    const selectedTier = useMemo(() => {
+        if (!selectedTierId) {
+            return null;
+        }
+        return tiers.find((tier) => tier.id === selectedTierId) ?? null;
+    }, [tiers, selectedTierId]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -93,6 +143,17 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
             document.body.style.overflow = 'unset';
         };
     }, [isModalOpen]);
+
+    useEffect(() => {
+        if (!selectedTier) {
+            return;
+        }
+
+        if (isTierSoldOut(selectedTier)) {
+            setPaymentStep('tier');
+            setSelectedTierId(null);
+        }
+    }, [selectedTier, isTierSoldOut]);
 
     useEffect(() => {
         if (paymentStep !== 'card' || !selectedTier) {
@@ -131,10 +192,13 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                     signal: controller.signal
                 });
 
-                const data: { clientSecret?: string; error?: string } = await response.json().catch(() => ({}));
+                const data: { clientSecret?: string; error?: string; code?: string } = await response.json().catch(() => ({}));
 
                 if (!response.ok || !data.clientSecret) {
-                    throw new Error(data.error ?? 'Failed to create payment intent.');
+                    const fallbackMessage = data.code === 'tier_sold_out'
+                        ? content.modal.availability.soldOut
+                        : data.error ?? 'Failed to create payment intent.';
+                    throw new Error(fallbackMessage);
                 }
 
                 setClientSecret(data.clientSecret);
@@ -156,14 +220,17 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         return () => {
             controller.abort();
         };
-    }, [paymentStep, selectedTier, lang, clientSecret]);
+    }, [paymentStep, selectedTier, lang, clientSecret, content.modal.availability.soldOut]);
 
     const createEmptyDonor = (): DonorDetails => ({ firstName: '', lastName: '', email: '', notes: '' });
 
     const openModal = () => {
+        if (!hasAvailableTier) {
+            return;
+        }
         setIsModalOpen(true);
         setPaymentStep('tier');
-        setSelectedTier(null);
+        setSelectedTierId(null);
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
@@ -174,7 +241,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
     const closeModal = () => {
         setIsModalOpen(false);
         setPaymentStep('tier');
-        setSelectedTier(null);
+        setSelectedTierId(null);
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
@@ -183,7 +250,10 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
     };
 
     const handleTierSelect = (tier: DonationTier) => {
-        setSelectedTier(tier);
+        if (isTierSoldOut(tier)) {
+            return;
+        }
+        setSelectedTierId(tier.id);
         setPaymentStep('details');
         setClientSecret(null);
         setIntentError(null);
@@ -195,7 +265,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
         setClientSecret(null);
         setIntentError(null);
         setIsCreatingIntent(false);
-        setSelectedTier(null);
+        setSelectedTierId(null);
         setDonorDetails(createEmptyDonor());
         setDetailsErrors({});
     };
@@ -337,13 +407,18 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                 <div className="flex justify-center mb-24 animate-fade-in">
                     <button
                         onClick={openModal}
-                        disabled={isFailed}
+                        disabled={isFailed || !hasAvailableTier}
                         className="cursor-pointer group relative bg-transparent border border-blood text-blood hover:bg-blood hover:text-white font-serif tracking-widest py-3 px-12 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed">
                         <span className="relative z-10 uppercase text-sm font-bold flex items-center gap-2">
                             {content.cta}
                         </span>
                     </button>
                 </div>
+                {!hasAvailableTier && (
+                    <p className="text-center text-xs uppercase tracking-[0.3em] text-blood mb-12">
+                        {content.modal.availability.soldOut}
+                    </p>
+                )}
 
                 {/* Developer & Breakdown Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
@@ -436,11 +511,16 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                 <div className="text-center">
                     <button
                         onClick={openModal}
-                        disabled={isFailed}
+                        disabled={isFailed || !hasAvailableTier}
                         className="cursor-pointer group relative bg-blood hover:bg-red-900 text-white font-serif tracking-widest py-4 px-16 transition-all duration-300 shadow-[0_0_20px_rgba(138,11,11,0.3)] hover:shadow-[0_0_40px_rgba(138,11,11,0.6)] overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:bg-blood">
                         <span className="relative z-10 uppercase">{content.cta}</span>
                         <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
                     </button>
+                    {!hasAvailableTier && (
+                        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-blood">
+                            {content.modal.availability.soldOut}
+                        </p>
+                    )}
                 </div>
 
                 {/* Payment Modal */}
@@ -470,11 +550,12 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     <div className="space-y-4">
                                         <p className="text-zinc-400 font-body mb-4">{content.modal.stepDescriptions.tier}</p>
                                         <div className="grid gap-4">
-                                            {content.modal.tiers.map((tier) => (
+                                            {tiers.map((tier) => (
                                                 <CrowdfundingTierCard
                                                     key={tier.id}
                                                     tier={tier}
                                                     recommendedLabel={content.modal.recommendedLabel}
+                                                    availabilityMessages={content.modal.availability}
                                                     onSelect={handleTierSelect}
                                                 />
                                             ))}
@@ -487,12 +568,24 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     <div className="space-y-6">
                                         <p className="text-zinc-400 font-body">{content.modal.stepDescriptions.details}</p>
 
-                                        <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex justify-between items-center">
+                                        <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                                             <div>
                                                 <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
                                                 <div className="text-white font-serif">{selectedTier.name}</div>
                                             </div>
                                             <div className="text-blood font-bold text-xl">{formatAmountForLanguage(selectedTier.price, selectedTier.currency, lang)}</div>
+                                            {(() => {
+                                                const availabilityLabel = formatAvailabilityLabel(selectedTier);
+                                                if (!availabilityLabel) {
+                                                    return null;
+                                                }
+                                                const soldOut = isTierSoldOut(selectedTier);
+                                                return (
+                                                    <div className={`text-xs uppercase tracking-widest ${soldOut ? 'text-blood' : 'text-zinc-500'}`}>
+                                                        {availabilityLabel}
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
 
                                         <form onSubmit={handleDetailsSubmit} className="space-y-4">
@@ -568,12 +661,24 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate 
                                     <div className="space-y-6">
                                         <p className="text-zinc-400 font-body">{content.modal.stepDescriptions[paymentStep]}</p>
 
-                                        <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex justify-between items-center">
+                                        <div className="bg-zinc-900/50 p-4 border border-zinc-800 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                                             <div>
                                                 <div className="text-zinc-500 text-xs uppercase tracking-wider">{content.modal.selectedTier}</div>
                                                 <div className="text-white font-serif">{selectedTier.name}</div>
                                             </div>
                                             <div className="text-blood font-bold text-xl">{formatAmountForLanguage(selectedTier.price, selectedTier.currency, lang)}</div>
+                                            {(() => {
+                                                const availabilityLabel = formatAvailabilityLabel(selectedTier);
+                                                if (!availabilityLabel) {
+                                                    return null;
+                                                }
+                                                const soldOut = isTierSoldOut(selectedTier);
+                                                return (
+                                                    <div className={`text-xs uppercase tracking-widest ${soldOut ? 'text-blood' : 'text-zinc-500'}`}>
+                                                        {availabilityLabel}
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
 
                                         {intentError && (

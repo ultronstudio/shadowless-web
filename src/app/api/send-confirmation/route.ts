@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildOrderConfirmationEmail } from "@/lib/email";
-import { recordDonation, getCrowdfundingTotals } from "@/lib/db";
+import { recordDonation, getCrowdfundingTotals, TierSoldOutError } from "@/lib/db";
 import type { Content, OrderDetails } from "@/types";
 
 export const runtime = "nodejs";
@@ -34,8 +34,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 500 });
     }
 
-    const insertedId = await recordDonation(order);
-    const totals = await getCrowdfundingTotals();
+    let insertedId: number | null = null;
+
+    let totals: Awaited<ReturnType<typeof getCrowdfundingTotals>>;
+
+    try {
+      insertedId = await recordDonation(order);
+      totals = await getCrowdfundingTotals();
+    } catch (error) {
+      if (error instanceof TierSoldOutError) {
+        const currentTotals = await getCrowdfundingTotals();
+        return NextResponse.json({ error: "Tier sold out", tierId: error.tierId, totals: currentTotals }, { status: 409 });
+      }
+
+      console.error("Failed to record donation", error);
+      return NextResponse.json({ error: "Failed to record donation" }, { status: 500 });
+    }
 
     const { subject, html, text } = buildOrderConfirmationEmail({ order, thankYouContent, origin });
 
