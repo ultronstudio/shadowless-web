@@ -4,7 +4,7 @@ import { getTierLimit } from "@/constants/tiers";
 import { getTierPurchaseCount } from "@/lib/db";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const stripeApiVersion: Stripe.LatestApiVersion = "2024-06-20";
+const stripeApiVersion: Stripe.LatestApiVersion = "2025-11-17.clover";
 
 export async function POST(request: NextRequest) {
   if (!stripeSecretKey) {
