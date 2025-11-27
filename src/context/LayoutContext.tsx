@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/purity */
 'use client';
 
@@ -85,6 +86,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
       tier,
       orderId: `SHD-${Math.floor(Math.random() * 100000)}`,
       date: new Date().toLocaleDateString(),
+      donor: {} as any,
     });
 
     setView("thank-you");
