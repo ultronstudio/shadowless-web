@@ -138,10 +138,6 @@ export default function StripeCheckoutForm({
         </div>
       )}
 
-      <div className="rounded border border-zinc-800 bg-zinc-900/50 p-4 text-xs text-zinc-400">
-        {modalContent.testCardNotice}
-      </div>
-
       {paymentStep === "card" ? (
         <div className="flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-between">
           <button
