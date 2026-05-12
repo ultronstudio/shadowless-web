@@ -1,10 +1,9 @@
-import mysql, { ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { Pool, PoolClient, QueryResult } from "pg";
 import type { DonorContribution, OrderDetails } from "@/types";
 import { getTierLimit } from "@/constants/tiers";
 
-let pool: mysql.Pool | null = null;
+let pool: Pool | null = null;
 let schemaInitialization: Promise<void> | null = null;
-let databaseInitialization: Promise<void> | null = null;
 
 const SUPPORTED_CURRENCIES = ["USD", "CZK", "EUR"] as const;
 type SupportedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
@@ -70,147 +69,98 @@ function convertAmounts(amountValue: number, currencyCode: string | null | undef
   return { amountUsd, amountCzk, amountEur };
 }
 
-type TierCountRow = RowDataPacket & {
-  tierId: string | null;
-  sold: number | string | null;
+type TierCountRow = {
+  tierid: string | null;
+  sold: string | null;
 };
 
-type TierCountSingleRow = RowDataPacket & {
-  sold: number | string | null;
+type TierCountSingleRow = {
+  sold: string | null;
 };
 
-async function fetchTierCounts(executor: mysql.Pool | mysql.PoolConnection): Promise<Record<string, number>> {
-  const [rows] = await executor.query<TierCountRow[]>(
-    `SELECT tier_id AS tierId, COUNT(*) AS sold FROM donations GROUP BY tier_id`
-  );
+type TotalsRow = {
+  totalamountusd: string | null;
+  totalamountczk: string | null;
+  totalamounteur: string | null;
+  backers: string | null;
+};
 
-  return rows.reduce<Record<string, number>>((accumulator, row) => {
-    if (!row.tierId) {
-      return accumulator;
-    }
-    accumulator[row.tierId] = Number(row.sold) || 0;
-    return accumulator;
-  }, {});
+type DonorContributionRow = {
+  firstname: string | null;
+  lastname: string | null;
+  totalamountusd: string | null;
+};
+
+function getConnectionString(): string | null {
+  return process.env.DATABASE_URL ?? process.env.POSTGRES_URL_NON_POOLING ?? process.env.POSTGRES_URL ?? null;
 }
 
-async function fetchTierSoldCount(
-  executor: mysql.Pool | mysql.PoolConnection,
-  tierId: string,
-  options: { forUpdate?: boolean } = {}
-): Promise<number> {
-  const lockClause = options.forUpdate ? " FOR UPDATE" : "";
-  const [rows] = await executor.query<TierCountSingleRow[]>(
-    `SELECT COUNT(*) AS sold FROM donations WHERE tier_id = ?${lockClause}`,
-    [tierId]
-  );
-
-  return Number(rows[0]?.sold) || 0;
-}
-
-async function ensureDatabaseExists(connectionString: string): Promise<void> {
-  if (databaseInitialization) {
-    return databaseInitialization;
-  }
-
-  databaseInitialization = (async () => {
-    try {
-      const url = new URL(connectionString);
-      const databaseName = url.pathname.replace(/^\//, "");
-
-      if (!databaseName) {
-        return;
-      }
-
-      url.pathname = "/";
-
-      const connection = await mysql.createConnection(url.toString());
-      await connection.query(
-        `CREATE DATABASE IF NOT EXISTS \`${databaseName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
-      );
-      await connection.end();
-    } catch (error) {
-      databaseInitialization = null;
-      console.error("Failed to ensure database exists", error);
-      throw error;
-    }
-  })();
-
-  await databaseInitialization;
-}
-
-async function getPool(): Promise<mysql.Pool | null> {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    return null;
-  }
-
+async function getPool(): Promise<Pool | null> {
   if (!pool) {
-    await ensureDatabaseExists(connectionString);
-    pool = mysql.createPool(connectionString);
+    const connectionString = getConnectionString();
+    if (!connectionString) {
+      return null;
+    }
+    pool = new Pool({ connectionString });
   }
 
   return pool;
 }
 
-async function ensureSchema(db: mysql.Pool): Promise<void> {
+async function fetchTierCounts(executor: Pool | PoolClient): Promise<Record<string, number>> {
+  const result: QueryResult<TierCountRow> = await executor.query(
+    `SELECT tier_id AS tierid, COUNT(*) AS sold FROM donations GROUP BY tier_id`
+  );
+
+  return result.rows.reduce<Record<string, number>>((accumulator, row) => {
+    if (!row.tierid) {
+      return accumulator;
+    }
+    accumulator[row.tierid] = Number(row.sold) || 0;
+    return accumulator;
+  }, {});
+}
+
+async function fetchTierSoldCount(
+  executor: Pool | PoolClient,
+  tierId: string,
+  options: { forUpdate?: boolean } = {}
+): Promise<number> {
+  const lockClause = options.forUpdate ? " FOR UPDATE" : "";
+  const result: QueryResult<TierCountSingleRow> = await executor.query(
+    `SELECT COUNT(*) AS sold FROM donations WHERE tier_id = $1${lockClause}`,
+    [tierId]
+  );
+
+  return Number(result.rows[0]?.sold) || 0;
+}
+
+async function ensureSchema(db: Pool): Promise<void> {
   if (!schemaInitialization) {
     schemaInitialization = db
       .query(`
         CREATE TABLE IF NOT EXISTS donations (
-          id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+          id BIGSERIAL PRIMARY KEY,
           order_public_id VARCHAR(255) NOT NULL,
-          stripe_payment_id VARCHAR(255) NULL,
+          stripe_payment_id VARCHAR(255),
           tier_id VARCHAR(100) NOT NULL,
           tier_name VARCHAR(255) NOT NULL,
-          amount DECIMAL(12,2) NOT NULL,
-          amount_usd DECIMAL(12,2) NOT NULL DEFAULT 0,
-          amount_czk DECIMAL(12,2) NOT NULL DEFAULT 0,
-          amount_eur DECIMAL(12,2) NOT NULL DEFAULT 0,
+          amount NUMERIC(12,2) NOT NULL,
+          amount_usd NUMERIC(12,2) NOT NULL DEFAULT 0,
+          amount_czk NUMERIC(12,2) NOT NULL DEFAULT 0,
+          amount_eur NUMERIC(12,2) NOT NULL DEFAULT 0,
           currency_symbol VARCHAR(16) NOT NULL,
-          currency_code VARCHAR(8) NULL,
+          currency_code VARCHAR(8),
           donor_first_name VARCHAR(255) NOT NULL,
           donor_last_name VARCHAR(255) NOT NULL,
           donor_email VARCHAR(320) NOT NULL,
-          donor_notes TEXT NULL,
-          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          INDEX idx_order_public_id (order_public_id),
-          INDEX idx_stripe_payment_id (stripe_payment_id)
-        )
-        ENGINE=InnoDB
-        DEFAULT CHARACTER SET utf8mb4
-        COLLATE utf8mb4_unicode_ci;
-      `)
-      .then(async () => {
-        await db.query(`
-          ALTER TABLE donations
-            ADD COLUMN IF NOT EXISTS amount_usd DECIMAL(12,2) NOT NULL DEFAULT 0,
-            ADD COLUMN IF NOT EXISTS amount_czk DECIMAL(12,2) NOT NULL DEFAULT 0,
-            ADD COLUMN IF NOT EXISTS amount_eur DECIMAL(12,2) NOT NULL DEFAULT 0;
-        `);
+          donor_notes TEXT,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
 
-        await db.query(`
-          UPDATE donations
-          SET amount_usd = CASE
-            WHEN currency_code IS NULL OR UPPER(currency_code) = 'USD' THEN amount
-            WHEN UPPER(currency_code) = 'CZK' THEN ROUND(amount / 24)
-            WHEN UPPER(currency_code) = 'EUR' THEN ROUND(amount / 0.91)
-            ELSE amount
-          END,
-          amount_czk = CASE
-            WHEN currency_code IS NULL OR UPPER(currency_code) = 'USD' THEN ROUND(amount * 24)
-            WHEN UPPER(currency_code) = 'CZK' THEN amount
-            WHEN UPPER(currency_code) = 'EUR' THEN ROUND((amount / 0.91) * 24)
-            ELSE amount
-          END,
-          amount_eur = CASE
-            WHEN currency_code IS NULL OR UPPER(currency_code) = 'USD' THEN ROUND(amount * 0.91)
-            WHEN UPPER(currency_code) = 'CZK' THEN ROUND((amount / 24) * 0.91)
-            WHEN UPPER(currency_code) = 'EUR' THEN amount
-            ELSE amount
-          END
-          WHERE amount > 0;
-        `);
-      })
+        CREATE INDEX IF NOT EXISTS idx_order_public_id ON donations(order_public_id);
+        CREATE INDEX IF NOT EXISTS idx_stripe_payment_id ON donations(stripe_payment_id);
+      `)
       .then(() => undefined)
       .catch((error) => {
         schemaInitialization = null;
@@ -225,36 +175,34 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
   const db = await getPool();
 
   if (!db) {
-    console.warn("Database connection not configured. Set DATABASE_URL for MariaDB/MySQL integration.");
+    console.warn("Database connection not configured. Set DATABASE_URL or POSTGRES_URL_NON_POOLING for Supabase Postgres integration.");
     return null;
   }
 
-  let connection: mysql.PoolConnection | null = null;
+  await ensureSchema(db);
+
+  const amountValue = Number(order.tier.price) || 0;
+  const currencySymbol = order.tier.currency.trim();
+  const currencyCode = order.currencyCode ?? null;
+  const { amountUsd, amountCzk, amountEur } = convertAmounts(amountValue, currencyCode);
+
+  const client = await db.connect();
   let transactionStarted = false;
 
   try {
-    await ensureSchema(db);
-
-    const amountValue = Number(order.tier.price) || 0;
-    const currencySymbol = order.tier.currency.trim();
-    const currencyCode = order.currencyCode ?? null;
-    const { amountUsd, amountCzk, amountEur } = convertAmounts(amountValue, currencyCode);
-
-    connection = await db.getConnection();
-    await connection.beginTransaction();
+    await client.query("BEGIN");
     transactionStarted = true;
 
     const tierLimit = getTierLimit(order.tier.id);
-
     if (tierLimit !== null) {
-      const soldCount = await fetchTierSoldCount(connection, order.tier.id, { forUpdate: true });
+      const soldCount = await fetchTierSoldCount(client, order.tier.id, { forUpdate: true });
       if (soldCount >= tierLimit) {
-        await connection.rollback();
+        await client.query("ROLLBACK");
         throw new TierSoldOutError(order.tier.id, tierLimit);
       }
     }
 
-    const [result] = await connection.execute<ResultSetHeader>(
+    const result = await client.query<{ id: string }>(
       `INSERT INTO donations (
         order_public_id,
         stripe_payment_id,
@@ -271,7 +219,7 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
         donor_email,
         donor_notes,
         created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, NOW()) RETURNING id`,
       [
         order.orderId,
         order.stripePaymentIntentId ?? null,
@@ -290,13 +238,12 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
       ]
     );
 
-    await connection.commit();
-
-    return typeof result.insertId === "number" ? result.insertId : null;
+    await client.query("COMMIT");
+    return Number(result.rows[0]?.id) || null;
   } catch (error) {
-    if (connection && transactionStarted) {
+    if (transactionStarted) {
       try {
-        await connection.rollback();
+        await client.query("ROLLBACK");
       } catch (rollbackError) {
         console.error("Failed to roll back donation transaction", rollbackError);
       }
@@ -309,7 +256,7 @@ export async function recordDonation(order: OrderDetails): Promise<number | null
     console.error("Failed to persist donation record", error);
     return null;
   } finally {
-    connection?.release();
+    client.release();
   }
 }
 
@@ -319,19 +266,6 @@ export async function closePool(): Promise<void> {
     pool = null;
   }
 }
-
-type TotalsRow = RowDataPacket & {
-  totalAmountUsd: number | string | null;
-  totalAmountCzk: number | string | null;
-  totalAmountEur: number | string | null;
-  backers: number | string | null;
-};
-
-type DonorContributionRow = RowDataPacket & {
-  firstName: string | null;
-  lastName: string | null;
-  totalAmountUsd: number | string | null;
-};
 
 export interface CrowdfundingTotals {
   totalAmountUsd: number;
@@ -351,22 +285,22 @@ export async function getCrowdfundingTotals(): Promise<CrowdfundingTotals> {
   try {
     await ensureSchema(db);
 
-    const [rows] = await db.query<TotalsRow[]>(
+    const result = await db.query<TotalsRow>(
       `SELECT
-        COALESCE(SUM(amount_usd), 0) AS totalAmountUsd,
-        COALESCE(SUM(amount_czk), 0) AS totalAmountCzk,
-        COALESCE(SUM(amount_eur), 0) AS totalAmountEur,
+        COALESCE(SUM(amount_usd), 0) AS totalamountusd,
+        COALESCE(SUM(amount_czk), 0) AS totalamountczk,
+        COALESCE(SUM(amount_eur), 0) AS totalamounteur,
         COALESCE(COUNT(DISTINCT donor_email), 0) AS backers
        FROM donations`
     );
 
-    const row = rows[0] ?? { totalAmountUsd: 0, totalAmountCzk: 0, totalAmountEur: 0, backers: 0 };
+    const row = result.rows[0] ?? { totalamountusd: "0", totalamountczk: "0", totalamounteur: "0", backers: "0" };
     const tierCounts = await fetchTierCounts(db);
 
     return {
-      totalAmountUsd: Number(row.totalAmountUsd) || 0,
-      totalAmountCzk: Number(row.totalAmountCzk) || 0,
-      totalAmountEur: Number(row.totalAmountEur) || 0,
+      totalAmountUsd: Number(row.totalamountusd) || 0,
+      totalAmountCzk: Number(row.totalamountczk) || 0,
+      totalAmountEur: Number(row.totalamounteur) || 0,
       backers: Number(row.backers) || 0,
       tierCounts,
     };
@@ -424,23 +358,23 @@ export async function getDonorContributions(limit = 50): Promise<DonorContributi
 
     const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.min(Math.floor(limit), 500) : 50;
 
-    const [rows] = await db.query<DonorContributionRow[]>(
+    const result = await db.query<DonorContributionRow>(
       `SELECT
-        COALESCE(MAX(donor_first_name), '') AS firstName,
-        COALESCE(MAX(donor_last_name), '') AS lastName,
-        COALESCE(SUM(amount_usd), 0) AS totalAmountUsd
+        COALESCE(MAX(donor_first_name), '') AS firstname,
+        COALESCE(MAX(donor_last_name), '') AS lastname,
+        COALESCE(SUM(amount_usd), 0) AS totalamountusd
        FROM donations
        WHERE donor_email IS NOT NULL AND donor_email <> ''
        GROUP BY donor_email
-       ORDER BY totalAmountUsd DESC, firstName ASC, lastName ASC
-       LIMIT ?`,
+       ORDER BY totalamountusd DESC, firstname ASC, lastname ASC
+       LIMIT $1`,
       [normalizedLimit]
     );
 
-    return rows.map<DonorContribution>((row) => ({
-      firstName: row.firstName ? String(row.firstName) : "",
-      lastName: row.lastName ? String(row.lastName) : "",
-      totalAmountUsd: Number(row.totalAmountUsd) || 0,
+    return result.rows.map<DonorContribution>((row) => ({
+      firstName: row.firstname ? String(row.firstname) : "",
+      lastName: row.lastname ? String(row.lastname) : "",
+      totalAmountUsd: Number(row.totalamountusd) || 0,
     }));
   } catch (error) {
     console.error("Failed to load donor contributions", error);

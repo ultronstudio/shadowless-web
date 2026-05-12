@@ -13,7 +13,12 @@ Marketing site for the Shadowless crowdfunding campaign. The app is built with N
 
 1. Install dependencies: `npm install`
 2. Copy `.env.local.example` to `.env.local`
-3. In the Stripe Dashboard go to Developers → API keys → Test keys and copy the test keys into `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` and `STRIPE_SECRET_KEY`
+3. Add your Stripe and Supabase credentials to `.env.local`:
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+   - `STRIPE_SECRET_KEY`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `DATABASE_URL` (or `POSTGRES_URL_NON_POOLING` / `POSTGRES_URL`)
 4. Run the dev server: `npm run dev`
 5. Visit `http://localhost:3000` and open the crowdfunding modal to simulate a pledge
 
