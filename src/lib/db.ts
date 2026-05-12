@@ -93,7 +93,7 @@ type DonorContributionRow = {
 };
 
 function getConnectionString(): string | null {
-  return process.env.DATABASE_URL ?? process.env.POSTGRES_URL_NON_POOLING ?? process.env.POSTGRES_URL ?? null;
+  return process.env.POSTGRES_URL_NON_POOLING ?? process.env.DATABASE_URL ?? process.env.POSTGRES_URL ?? null;
 }
 
 async function getPool(): Promise<Pool | null> {
@@ -102,12 +102,11 @@ async function getPool(): Promise<Pool | null> {
     if (!connectionString) {
       return null;
     }
-    // For Supabase, always allow self-signed certificates in development/local
-    // In production (Vercel), Supabase certs should be valid
-    const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
+    // For Supabase, always allow self-signed certificates
+    // Supabase uses sslmode=require in connection string
     pool = new Pool({ 
       connectionString,
-      ssl: isVercel ? true : { rejectUnauthorized: false }
+      ssl: { rejectUnauthorized: false }
     });
   }
 

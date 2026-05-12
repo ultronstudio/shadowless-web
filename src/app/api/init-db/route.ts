@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Pool } from "pg";
 
 function getConnectionString(): string | null {
-  return process.env.DATABASE_URL ?? process.env.POSTGRES_URL_NON_POOLING ?? process.env.POSTGRES_URL ?? null;
+  return process.env.POSTGRES_URL_NON_POOLING ?? process.env.DATABASE_URL ?? process.env.POSTGRES_URL ?? null;
 }
 
 export async function GET(request: NextRequest) {
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     const pool = new Pool({ 
       connectionString,
-      ssl: process.env.NODE_ENV === 'production' ? true : { rejectUnauthorized: false }
+      ssl: { rejectUnauthorized: false }
     });
 
     await pool.query(`
