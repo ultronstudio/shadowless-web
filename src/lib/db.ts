@@ -102,9 +102,12 @@ async function getPool(): Promise<Pool | null> {
     if (!connectionString) {
       return null;
     }
+    // For Supabase, always allow self-signed certificates in development/local
+    // In production (Vercel), Supabase certs should be valid
+    const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
     pool = new Pool({ 
       connectionString,
-      ssl: process.env.NODE_ENV === 'production' ? true : { rejectUnauthorized: false }
+      ssl: isVercel ? true : { rejectUnauthorized: false }
     });
   }
 
