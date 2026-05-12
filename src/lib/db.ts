@@ -101,7 +101,10 @@ async function getPool(): Promise<Pool | null> {
     if (!connectionString) {
       return null;
     }
-    pool = new Pool({ connectionString });
+    pool = new Pool({ 
+      connectionString,
+      ssl: process.env.NODE_ENV === 'production' ? true : { rejectUnauthorized: false }
+    });
   }
 
   return pool;
