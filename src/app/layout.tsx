@@ -30,7 +30,7 @@ export default async function RootLayout({
   const lang = resolveLanguage(headerList.get("accept-language"));
 
   return (
-    <html lang={lang} className={`${cinzel.variable} ${martel.variable} scroll-smooth`}>
+    <html suppressHydrationWarning lang={lang} className={`${cinzel.variable} ${martel.variable} scroll-smooth`}>
       <head>
         <link rel="icon" href="/assets/img/icon.png" />
       </head>
