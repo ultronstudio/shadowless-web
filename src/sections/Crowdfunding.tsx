@@ -21,6 +21,7 @@ const currencyByLanguage: Record<Language, string> = {
 };
 
 const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? '';
+const createPaymentIntentUrl = process.env.NEXT_PUBLIC_CREATE_PAYMENT_INTENT_URL || '/api/create-payment-intent';
 
 type PaymentStep = 'tier' | 'details' | 'card' | 'review';
 
@@ -239,7 +240,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
             setClientSecret(null);
 
             try {
-                const response = await fetch('/api/create-payment-intent', {
+                const response = await fetch(createPaymentIntentUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
