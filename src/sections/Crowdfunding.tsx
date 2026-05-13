@@ -485,7 +485,7 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                         <h3 className="font-serif text-2xl text-white uppercase tracking-widest">{content.supporters.title}</h3>
                         <button
                             onClick={handleSupportersToggle}
-                            className="self-start md:self-auto inline-flex items-center gap-2 border border-zinc-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-zinc-200 hover:border-blood hover:text-white transition-colors"
+                            className="self-start md:self-auto inline-flex items-center gap-2 border border-zinc-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-zinc-200 hover:border-blood hover:text-white transition-colors cursor-pointer"
                             aria-expanded={isSupportersOpen}
                             type="button"
                         >
