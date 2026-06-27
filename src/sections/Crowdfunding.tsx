@@ -2,7 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import { Users, Clock, Code, Music, Shield, Banknote, X } from 'lucide-react';
+import { Users, Clock, Code, Music, Shield, Banknote, X, Check, ChevronRight, AlertTriangle } from 'lucide-react';
 import CrowdfundingTierCard from '@/components/CrowdfundingTierCard';
 import StretchGoalCard from '@/components/StretchGoalCard';
 import StripeCheckoutForm from '@/components/StripeCheckoutForm';
@@ -10,6 +10,7 @@ import { getStripe } from '@/lib/stripe';
 import { formatAmountForLanguage } from '@/lib/currency';
 import { useLanguageContext } from '@/context/LanguageContext';
 import { RATES } from '@/types';
+import { STARTOVAC_URL } from '@/constants';
 import type { Content, DonationTier, CrowdfundingStats, DonorContribution, DonorDetails, Language } from '@/types';
 
 const stripePromise = getStripe();
@@ -78,19 +79,15 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
             .replace('{total}', limit.toString());
     }, [content.modal.availability]);
     const { currentAmount, targetAmount, backers, daysLeft } = stats;
-    // Calculate percentage based on values (ratio stays same regardless of currency)
     const percentage = Math.min((currentAmount / targetAmount) * 100, 100);
 
-    // Campaign Status Logic
     const isSuccess = currentAmount >= targetAmount;
     const isFailed = currentAmount < targetAmount && daysLeft <= 0;
     const isLive = daysLeft > 0 && !isSuccess;
 
-    // Animation for the bar
     const [width, setWidth] = useState(0);
     const progressRef = useRef<HTMLDivElement>(null);
 
-    // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTierId, setSelectedTierId] = useState<string | null>(null);
     const [paymentStep, setPaymentStep] = useState<PaymentStep>('tier');
@@ -193,7 +190,6 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
         };
     }, [percentage]);
 
-    // Lock body scroll when modal is open
     useEffect(() => {
         if (isModalOpen) {
             document.body.style.overflow = 'hidden';
@@ -412,12 +408,24 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
             <div className="max-w-6xl mx-auto px-4">
 
                 {/* Intro */}
-                <div className="text-center mb-20">
+                <div className="text-center mb-16">
                     <h2 className="font-serif text-3xl md:text-5xl text-white mb-4 uppercase">{content.title}</h2>
                     <div className="w-24 h-1 bg-blood mx-auto mb-8"></div>
-                    <p className="font-body text-zinc-300 max-w-2xl mx-auto text-lg leading-relaxed">
+                    <p className="font-body text-zinc-300 max-w-2xl mx-auto text-lg leading-relaxed mb-6">
                         {content.intro}
                     </p>
+                    {/* Primary Note — web vs Startovač */}
+                    <div className="max-w-2xl mx-auto bg-zinc-900/60 border border-zinc-800 p-5 text-sm text-zinc-400 leading-relaxed text-left">
+                        <p>{content.primaryNote}</p>
+                        <a
+                            href={STARTOVAC_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 mt-3 text-xs uppercase tracking-widest text-zinc-500 hover:text-zinc-200 transition-colors"
+                        >
+                            Startovač <ChevronRight size={12} />
+                        </a>
+                    </div>
                 </div>
 
                 {/* Campaign Status Card */}
@@ -464,23 +472,44 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                     </div>
                 </div>
 
-                {/* Early CTA Button - Visible without scrolling down */}
-                <div className="flex justify-center mb-24 animate-fade-in">
+                {/* First Milestone highlight */}
+                <div className="mb-12 border border-blood/40 bg-blood/5 p-6 md:p-8 relative">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-blood"></div>
+                    <div className="pl-4">
+                        <p className="text-xs uppercase tracking-[0.3em] text-blood mb-2">{content.firstMilestone.title}</p>
+                        <p className="font-serif text-2xl md:text-3xl text-white mb-3">
+                            {formatAmountForLanguage(content.firstMilestone.amount, currencySymbol, lang)}
+                        </p>
+                        <p className="text-zinc-300 text-sm leading-relaxed mb-2">{content.firstMilestone.description}</p>
+                        <p className="text-zinc-500 text-xs italic">{content.firstMilestone.note}</p>
+                    </div>
+                </div>
+
+                {/* Early CTA */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-24 animate-fade-in">
                     <button
                         onClick={openModal}
                         disabled={isFailed || !hasAvailableTier}
-                        className="cursor-pointer group relative bg-transparent border border-blood text-blood hover:bg-blood hover:text-white font-serif tracking-widest py-3 px-12 transition-all duration-300 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed">
-                        <span className="relative z-10 uppercase text-sm font-bold flex items-center gap-2">
-                            {content.cta}
-                        </span>
+                        className="cursor-pointer group relative bg-blood hover:bg-red-900 text-white font-serif tracking-widest py-3 px-12 transition-all duration-300 shadow-[0_0_20px_rgba(138,11,11,0.3)] hover:shadow-[0_0_40px_rgba(138,11,11,0.6)] overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span className="relative z-10 uppercase text-sm font-bold">{content.cta}</span>
                     </button>
+                    <a
+                        href={STARTOVAC_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 border border-zinc-700 px-8 py-3 text-sm font-serif uppercase tracking-widest text-zinc-400 hover:border-zinc-500 hover:text-zinc-200 transition-colors"
+                    >
+                        Startovač <ChevronRight size={14} />
+                    </a>
                 </div>
+
                 {!hasAvailableTier && (
                     <p className="text-center text-xs uppercase tracking-[0.3em] text-blood mb-12">
                         {content.modal.availability.soldOut}
                     </p>
                 )}
 
+                {/* Supporters */}
                 <div className="mb-20">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <h3 className="font-serif text-2xl text-white uppercase tracking-widest">{content.supporters.title}</h3>
@@ -562,18 +591,16 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                     <div>
                         <h3 className="font-serif text-2xl text-white mb-6 border-l-4 border-blood pl-4 uppercase">{content.breakdownTitle}</h3>
                         <div className="space-y-4 font-body text-sm">
-
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Code size={14} className="text-blood" /> {content.breakdown.dev}</span>
-                                    <span>50%</span>    
+                                    <span>50%</span>
                                 </div>
                                 <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
                                     <div className="h-full bg-zinc-500 w-[80%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                                 <p className="text-zinc-400 text-xs mt-1">{content.breakdown.devDesc}</p>
                             </div>
-
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Music size={14} className="text-blood" /> {content.breakdown.audio}</span>
@@ -584,7 +611,6 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                                 </div>
                                 <p className="text-zinc-400 text-xs mt-1">{content.breakdown.audioDesc}</p>
                             </div>
-
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Shield size={14} className="text-blood" /> {content.breakdown.tax}</span>
@@ -594,7 +620,6 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                                     <div className="h-full bg-zinc-500 w-[45%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                             </div>
-
                             <div className="group">
                                 <div className="flex justify-between text-zinc-200 mb-1">
                                     <span className="flex items-center gap-2"><Banknote size={14} className="text-blood" /> {content.breakdown.fees}</span>
@@ -604,8 +629,33 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                                     <div className="h-full bg-zinc-500 w-[20%] group-hover:bg-blood transition-colors duration-500"></div>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
+                </div>
+
+                {/* Where money goes + What exists */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                    <div>
+                        <h3 className="font-serif text-xl text-white mb-6 border-l-4 border-blood pl-4 uppercase">{content.whereMoneyGoesTitle}</h3>
+                        <ul className="space-y-3">
+                            {content.whereMoneyGoesItems.map((item, index) => (
+                                <li key={index} className="flex items-start gap-3 text-sm text-zinc-300">
+                                    <ChevronRight size={14} className="text-blood mt-0.5 flex-shrink-0" />
+                                    <span>{item.label}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 className="font-serif text-xl text-white mb-6 border-l-4 border-blood pl-4 uppercase">{content.whatExistsTitle}</h3>
+                        <ul className="space-y-3">
+                            {content.whatExistsItems.map((item, index) => (
+                                <li key={index} className="flex items-start gap-3 text-sm text-zinc-300">
+                                    <Check size={14} className="text-zinc-500 mt-0.5 flex-shrink-0" />
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 
@@ -627,8 +677,14 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                     </div>
                 </div>
 
-                {/* CTA Button */}
-                <div className="text-center">
+                {/* Fair Warning */}
+                <div className="mb-16 border border-zinc-800 bg-zinc-900/40 p-6 flex gap-4 items-start">
+                    <AlertTriangle size={18} className="text-zinc-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-zinc-400 text-sm leading-relaxed">{content.fairWarning}</p>
+                </div>
+
+                {/* CTA */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button
                         onClick={openModal}
                         disabled={isFailed || !hasAvailableTier}
@@ -636,12 +692,20 @@ export default function Crowdfunding({ content, stats, currencySymbol, onDonate,
                         <span className="relative z-10 uppercase">{content.cta}</span>
                         <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
                     </button>
-                    {!hasAvailableTier && (
-                        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-blood">
-                            {content.modal.availability.soldOut}
-                        </p>
-                    )}
+                    <a
+                        href={STARTOVAC_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 border border-zinc-700 px-10 py-4 text-sm font-serif uppercase tracking-widest text-zinc-400 hover:border-zinc-500 hover:text-zinc-200 transition-colors"
+                    >
+                        Startovač <ChevronRight size={14} />
+                    </a>
                 </div>
+                {!hasAvailableTier && (
+                    <p className="mt-4 text-xs uppercase tracking-[0.3em] text-blood text-center">
+                        {content.modal.availability.soldOut}
+                    </p>
+                )}
 
                 {/* Payment Modal */}
                 {isModalOpen && (

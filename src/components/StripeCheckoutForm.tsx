@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useLanguageContext } from "@/context/LanguageContext";
@@ -33,8 +34,14 @@ export default function StripeCheckoutForm({
   const [message, setMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAdvancing, setIsAdvancing] = useState(false);
+  const [consentTerms, setConsentTerms] = useState(false);
+  const [consentPrivacy, setConsentPrivacy] = useState(false);
+  const [consentGameDev, setConsentGameDev] = useState(false);
+  const [consentError, setConsentError] = useState(false);
 
   const formattedAmount = formatAmountForLanguage(tier.price, tier.currency, lang);
+
+  const allConsentsGiven = consentTerms && consentPrivacy && consentGameDev;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,6 +64,11 @@ export default function StripeCheckoutForm({
 
       onStepChange("review");
       setIsAdvancing(false);
+      return;
+    }
+
+    if (!allConsentsGiven) {
+      setConsentError(true);
       return;
     }
 
@@ -129,6 +141,50 @@ export default function StripeCheckoutForm({
               <span>{formattedAmount}</span>
             </div>
           </div>
+
+          {/* Consent checkboxes */}
+          <div className="border-t border-zinc-800 pt-4 space-y-3">
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={consentTerms}
+                onChange={(e) => { setConsentTerms(e.target.checked); setConsentError(false); }}
+                className="mt-0.5 w-4 h-4 accent-blood cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors leading-relaxed">
+                <Link href="/terms" target="_blank" className="underline underline-offset-2 hover:text-white">
+                  {modalContent.consentTerms}
+                </Link>
+              </span>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={consentPrivacy}
+                onChange={(e) => { setConsentPrivacy(e.target.checked); setConsentError(false); }}
+                className="mt-0.5 w-4 h-4 accent-blood cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors leading-relaxed">
+                <Link href="/privacy" target="_blank" className="underline underline-offset-2 hover:text-white">
+                  {modalContent.consentPrivacy}
+                </Link>
+              </span>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={consentGameDev}
+                onChange={(e) => { setConsentGameDev(e.target.checked); setConsentError(false); }}
+                className="mt-0.5 w-4 h-4 accent-blood cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors leading-relaxed">
+                {modalContent.consentGameDev}
+              </span>
+            </label>
+            {consentError && (
+              <p className="text-xs text-blood">{modalContent.consentRequired}</p>
+            )}
+          </div>
         </div>
       )}
 
@@ -161,7 +217,7 @@ export default function StripeCheckoutForm({
         <div className="space-y-4">
           <button
             type="submit"
-            disabled={isSubmitting || !stripe || !elements}
+            disabled={isSubmitting || !stripe || !elements || !allConsentsGiven}
             className="cursor-pointer w-full bg-blood py-4 font-serif uppercase tracking-widest text-white transition-all hover:bg-red-900 disabled:cursor-not-allowed disabled:opacity-60 flex items-center justify-center gap-2"
           >
             {isSubmitting && <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>}

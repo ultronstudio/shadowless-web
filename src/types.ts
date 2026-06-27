@@ -1,6 +1,6 @@
 /**
  * Crowdfunding statistics interface
- * 
+ *
  * @property {number} currentAmmount The current amount of funds raised.
  * @property {number} targetAmmount The target amount of funds to be raised.
  * @property {number} backers The number of backers who have contributed.
@@ -15,7 +15,7 @@ export interface CrowdfundingStats {
 
 /**
  * Game feature interface
- * 
+ *
  * @property {string} title The title of the game feature.
  * @property {string} description A brief description of the game feature.
  * @property {string} icon The icon representing the game feature.
@@ -28,7 +28,7 @@ export interface GameFeature {
 
 /**
  * Supported language codes
- * 
+ *
  * Suported languages in the application:
  * - 'en' for English
  * - 'cs' for Czech
@@ -100,6 +100,17 @@ export interface TermsContent {
   backLinkLabel: string;
 }
 
+export interface PrivacyContent {
+  title: string;
+  lastUpdatedLabel: string;
+  lastUpdatedValue: string;
+  intro: string;
+  sections: TermsSection[];
+  contactHeading: string;
+  contactEmail: string;
+  backLinkLabel: string;
+}
+
 export interface Content {
   nav: {
     story: string;
@@ -111,8 +122,10 @@ export interface Content {
   hero: {
     subtitle: string;
     quote: string;
+    pitch: string;
     wishlist: string;
     support: string;
+    supportStartovac: string;
   };
   lore: {
     label: string;
@@ -139,6 +152,7 @@ export interface Content {
   crowdfunding: {
     title: string;
     intro: string;
+    primaryNote: string;
     funded: string;
     statusLabel: {
       live: string;
@@ -161,6 +175,17 @@ export interface Content {
       tax: string;
       fees: string;
     };
+    firstMilestone: {
+      title: string;
+      amount: number;
+      description: string;
+      note: string;
+    };
+    whereMoneyGoesTitle: string;
+    whereMoneyGoesItems: { label: string; description?: string }[];
+    whatExistsTitle: string;
+    whatExistsItems: string[];
+    fairWarning: string;
     stretchGoalsTitle: string;
     stretchGoals: StretchGoal[];
     cta: string;
@@ -214,6 +239,10 @@ export interface Content {
       summaryNotes: string;
       summaryAmount: string;
       notesEmpty: string;
+      consentTerms: string;
+      consentPrivacy: string;
+      consentGameDev: string;
+      consentRequired: string;
       validation: {
         required: string;
         email: string;
@@ -240,11 +269,13 @@ export interface Content {
     backBtn: string;
   };
   terms: TermsContent;
+  privacy: PrivacyContent;
   footer: {
     rights: string;
     madeIn: string;
     quote: string;
     termsLink: string;
+    privacyLink: string;
   };
 }
 

@@ -10,10 +10,12 @@ export const csContent: Content = {
     steam: "Steam"
   },
   hero: {
-    subtitle: "Psychologický horor z pohledu první osoby",
-    quote: "\"Nejhorší pravda není ta, co číhá ve tmě. Je to ta, kterou uvidíš, když rozsvítíš.\"",
+    subtitle: "Český psychologický horor",
+    quote: "\"Český psychologický horor o vině, tichu a domě, který nezapomíná.\"",
+    pitch: "Pomozte financovat první produkční fázi hry: anglický voice-over, zvuk, hratelnou ukázku a přípravu na Steam. Shadowless je nezávislý solo projekt a každá podpora posouvá hru blíž k dokončení.",
     wishlist: "Přidat do seznamu přání",
-    support: "Přilej olej do ohně"
+    support: "Podpořit přímo",
+    supportStartovac: "Podpořit přes Startovač"
   },
   lore: {
     label: "Příběh",
@@ -68,49 +70,75 @@ export const csContent: Content = {
     ]
   },
   crowdfunding: {
-    title: "Podpořte stíny",
-    intro: "Shadowless je projekt zrozený z čisté posedlosti hororem. Kostra je hotová, noční můra je napsaná. Teď potřebuji vás, abychom stíny probudili k životu.",
+    title: "Podpořte projekt",
+    intro: "Shadowless je nezávislý psychologický horor v aktivním vývoji. Příběh je napsaný, vize je jasná. Vaše podpora pomáhá financovat další produkční fázi a přivádí tuto hru k životu.",
+    primaryNote: "Tento web je hlavní místo podpory projektu Shadowless. Platba přes web přímo financuje vývoj hry. Alternativně můžete přispět přes Startovač — českou crowdfundingovou platformu. Obě cesty podporují stejný vývoj Shadowless.",
     funded: "Vybráno",
     statusLabel: {
       live: "AKTIVNÍ",
       success: "ÚSPĚCH",
       failed: "UZAVŘENO"
     },
-    backers: "Duší se upsalo",
+    backers: "Podporovatelů",
     daysLeft: "Dní do konce",
     developerTitle: "Vývojář",
     developerName: "Petr Vurm",
     developerRole: "Samostatný vývojář",
     developerBio: "Jsem Petr. Student, vývojář, fanatik do hororu. Nechci jen vyrobit hru. Chci vám vytvořit jizvu na psychice. Shadowless je moje vize toho, co se stane, když v hlavě zhasne světlo.",
     developerQuote: "\"Pomozte mi vybudovat noční můru, kterou budeme sdílet.\"",
-    breakdownTitle: "Využití darovaných prostředků",
+    breakdownTitle: "Jak jsou prostředky využity",
     breakdown: {
       dev: "Základní vývoj",
-      devDesc: "Assety, mocap, licence, optimalizace.",
-      audio: "Zvukový design",
-      audioDesc: "Profesionální skladatel, dabing, zvukový design.",
+      devDesc: "3D assety, textury, prostředí, licence enginu",
+      audio: "Audio a voice-over",
+      audioDesc: "Dabingové testy, casting, zvukový design, atmosféra",
       tax: "Odměny pro podporovatele",
-      fees: "Daně a poplatky"
+      fees: "Daně, poplatky a rezerva"
     },
+    firstMilestone: {
+      title: "První milník",
+      amount: 60000,
+      description: "Casting / voice test, anglický voice-over test, zvukový směr, příprava traileru a první veřejná prezentace.",
+      note: "První milník nezaplatí celou hru — zaplatí první produkční krok."
+    },
+    whereMoneyGoesTitle: "Kam peníze půjdou",
+    whereMoneyGoesItems: [
+      { label: "Voice-over / casting / dabingové testy" },
+      { label: "Zvukové assety a atmosféra" },
+      { label: "3D assety, textury a prostředí" },
+      { label: "Trailer a prezentační materiály" },
+      { label: "Steam / technické náklady" },
+      { label: "Poplatky, daně a rezerva" }
+    ],
+    whatExistsTitle: "Co už existuje",
+    whatExistsItems: [
+      "Příběhová bible",
+      "Hlavní koncept hry",
+      "Plán kapitol a konců",
+      "Web projektu",
+      "Vizuální směr",
+      "Rozpracované prostředí domu",
+      "Prototypování mechanik",
+      "Příprava Steam prezentace",
+      "Galerie a první prezentační materiály"
+    ],
+    fairWarning: "Shadowless je hra ve vývoji. Podporou pomáháte financovat její další tvorbu. Digitální odměny budou doručeny postupně podle stavu vývoje. Termíny se mohou změnit podle rozsahu hry, rozpočtu a technických možností. Pokud by se rozsah nebo plán výrazně změnil, podporovatelé budou informováni přes web a e-mail.",
     stretchGoalsTitle: "Milníky",
     stretchGoals: [
-      { amount: 666666, title: "Oživení", description: "Úspěch kampaně. Digitální odměny zajištěny. Noční můra začíná." },
-      { amount: 1320000, title: "Symfonie strachu", description: "Najmutí profesionálního skladatele pro unikátní, nervy drásající soundtrack." },
-      { amount: 2640000, title: "Binaurální noční můra", description: "Plně imerzivní 3D zvuk. Uslyšíte je dýchat přímo za sebou." },
-      { amount: 5760000, title: "Hlas šílenství", description: "Profesionální anglický dabing, který vdechne postavám zoufalství." },
-      { amount: 7920000, title: "Pravá vize", description: "Plná produkční kvalita. Žádné kompromisy. Hra přesně taková, jaká má být." },
-      { amount: 9600000, title: "Hyper-realismus", description: "Rozšířené detaily prostředí a plynulé motion-matching animace." },
-      { amount: 12000000, title: "Filmové trauma", description: "Klíčové momenty příběhu jako plně renderované filmové scény." },
-      { amount: 15840000, title: "Kapesní děs", description: "Port na Nintendo Switch. Vezměte si strach s sebou." },
-      { amount: 21600000, title: "Ztracená kapitola", description: "Nová příběhová expanze, která jde hlouběji do historie domu." },
-      { amount: 28800000, title: "Konzolový debut", description: "Vydání pro PlayStation 5 a Xbox Series X/S." }
+      { amount: 60000, title: "První hlas stínů", description: "Casting, anglický voice-over test, zvukový směr a první veřejná prezentace." },
+      { amount: 250000, title: "Hratelná ukázka", description: "První hratelný vertical slice zachycující klíčovou atmosféru a mechaniky hry." },
+      { amount: 600000, title: "Anglický dabing pro demo", description: "Profesionální anglický voice-over pro hratelné demo — první postavy ožívají." },
+      { amount: 1200000, title: "Steam + veřejné demo", description: "Spuštění Steam stránky, vydání veřejného dema, první velká prezentace Shadowless." },
+      { amount: 2400000, title: "Širší anglická produkce", description: "Rozšíření anglického dabingu a audio produkce na větší část hry." },
+      { amount: 4800000, title: "Český profesionální dabing", description: "Profesionální český dabing — hra bude plně hratelná i v češtině." },
+      { amount: 9600000, title: "Český dabing se známými hlasy", description: "Vyšší rozpočet umožní oslovit známé české dabéry a herce. Konkrétní jména nejsou garantována — záleží na uzavřených smlouvách v době produkce." }
     ],
     cta: "Podpořit projekt",
     supporters: {
       title: "Příspěvky podporovatelů",
       toggleOpen: "Zobrazit podporovatele",
       toggleClose: "Skrýt podporovatele",
-      loading: "Vyvolávám podporovatele...",
+      loading: "Načítám podporovatele...",
       error: "Podporovatele se momentálně nepodařilo načíst.",
       empty: "Zatím není zaznamenán žádný podporovatel. Buď prvním, kdo se přidá.",
       tableHeaders: {
@@ -119,11 +147,11 @@ export const csContent: Content = {
       }
     },
     modal: {
-      title: "Zvolte svůj osud",
+      title: "Zvolte svou podporu",
       recommendedLabel: "Doporučeno",
       stepTitles: {
         tier: "Vyberte úroveň",
-        details: "Údaje podporovatele",
+        details: "Vaše údaje",
         card: "Platební metoda",
         review: "Kontrola a potvrzení"
       },
@@ -131,34 +159,38 @@ export const csContent: Content = {
         tier: "Zvolte příspěvek, který odpovídá vaší ochotě pomoct.",
         details: "Napište nám, komu máme odměny doručit.",
         card: "Zadejte údaje o kartě v zabezpečeném formuláři Stripe.",
-        review: "Než odešlete platbu, potvrďte všechny údaje."
+        review: "Před dokončením příspěvku potvrďte všechny údaje."
       },
-      payBtn: "Přispět",
+      payBtn: "Dokončit podporu",
       continueBtn: "Pokračovat",
       reviewBtn: "Přejít na rekapitulaci",
-      processing: "Synchronizace...",
+      processing: "Zpracovávám...",
       successTitle: "Příspěvek přijat",
-      successMsg: "Vaše podpora rezonuje v prázdnotě. Potvrzení dorazí emailem.",
+      successMsg: "Děkujeme. Potvrzení dorazí na váš e-mail.",
       closeBtn: "Zavřít",
       backToTiers: "Zpět na výběr",
       backToDetails: "Upravit údaje",
-      editDetails: "Změnit údaje podporovatele",
+      editDetails: "Změnit údaje",
       editPayment: "Změnit způsob platby",
       selectedTier: "Vybraná úroveň",
       testCardNotice: "Použijte testovací kartu Stripe 4242 4242 4242 4242, libovolné budoucí datum expirace, CVC 123 a PSČ 12345.",
       firstNameLabel: "Jméno",
       lastNameLabel: "Příjmení",
-      emailLabel: "Email",
+      emailLabel: "E-mail",
       notesLabel: "Poznámky",
-      notesOptionalHint: "Volitelné. Cokoliv, co bychom měli vědět o vašem příspěvku",
+      notesOptionalHint: "Volitelné.",
       summaryHeading: "Finální rekapitulace",
       summaryContact: "Kontakt",
       summaryNotes: "Poznámky",
       summaryAmount: "Celkem",
       notesEmpty: "Bez doplňujících poznámek.",
+      consentTerms: "Přečetl/a jsem si obchodní podmínky a souhlasím s nimi.",
+      consentPrivacy: "Přečetl/a jsem si zásady zpracování osobních údajů a souhlasím s nimi.",
+      consentGameDev: "Beru na vědomí, že Shadowless je hra ve vývoji a digitální odměny budou doručovány postupně podle stavu vývoje.",
+      consentRequired: "Pro dokončení platby je nutné potvrdit všechna políčka.",
       validation: {
         required: "Toto pole je povinné.",
-        email: "Zadejte platný email."
+        email: "Zadejte platný e-mail."
       },
       availability: {
         available: "Zbývá {remaining} z {total}",
@@ -167,143 +199,107 @@ export const csContent: Content = {
       tiers: [
         {
           id: "tier1",
-          name: "Pozorovatel stínů",
+          name: "Symbolická podpora",
           price: 150,
           currency: " Kč",
-          rewards: ["Digitální vděčnost", "Jméno v titulcích"],
+          rewards: ["Digitální poděkování", "Jméno na stránce podporovatelů webu"],
           limit: TIER_LIMITS["tier1"] ?? undefined,
           sold: 0
         },
         {
           id: "tier2",
-          name: "Poutník",
-          price: 450,
+          name: "Jméno v titulcích",
+          price: 300,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Digitální kopie Shadowless"],
+          rewards: ["Všechny předchozí odměny", "Jméno v titulcích hry v sekci podporovatelů"],
           limit: TIER_LIMITS["tier2"] ?? undefined,
           sold: 0
         },
         {
           id: "tier3",
-          name: "Průzkumník",
-          price: 750,
+          name: "Digitální kopie hry",
+          price: 450,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Originální Soundtrack", "Balíček tapet ve vysokém rozlišení"],
+          rewards: ["Všechny předchozí odměny", "Digitální kopie Shadowless po vydání. Preferovaná platforma je Steam — konkrétní způsob doručení bude potvrzen podle pravidel distribuční platformy v době vydání."],
           limit: TIER_LIMITS["tier3"] ?? undefined,
           sold: 0
         },
         {
           id: "tier4",
-          name: "Hledač pravdy",
-          price: 1350,
+          name: "Founder Pack",
+          price: 750,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Digitální artbook", "Kniha Lore (PDF)", "Předběžný přístup", "Vstup do uzavřené komunity"],
+          rewards: ["Digitální kopie hry", "Soundtrack v digitální podobě", "Balíček tapet", "Jméno na stránce podporovatelů"],
           limit: TIER_LIMITS["tier4"] ?? undefined,
           sold: 0
         },
         {
           id: "tier5",
-          name: "DLC: Hellwalker",
-          price: 1800,
+          name: "Hledač pravdy",
+          price: 1350,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Příběhové DLC \"HELL\""],
+          rewards: ["Všechny předchozí odměny", "Digitální artbook", "Lore dokument v PDF", "Jméno v titulcích hry"],
           recommended: true,
           limit: TIER_LIMITS["tier5"] ?? undefined,
           sold: 0
         },
         {
           id: "tier6",
-          name: "Digitální kurátor",
+          name: "Archivář",
           price: 2250,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Digitální certifikát", "Osobní video poděkování"],
+          rewards: ["Všechny předchozí odměny", "Přístup k vývojovým novinkám a zákulisním materiálům", "Uzavřená komunita (po spuštění)"],
           limit: TIER_LIMITS["tier6"] ?? undefined,
           sold: 0
         },
         {
           id: "tier7",
-          name: "Fyzický kurátor",
-          price: 2700,
+          name: "Patron vývoje",
+          price: 4500,
           currency: " Kč",
-          rewards: ["Všechny odměny \"Digitální kurátor\"", "Fyzická kopie (Box)", "Tištěný artbook"],
+          rewards: ["Všechny předchozí odměny", "Přístup k testovací verzi, až bude připravena — termín závisí na stavu vývoje", "Výraznější poděkování v titulcích a na webu"],
           limit: TIER_LIMITS["tier7"] ?? undefined,
           sold: 0
         },
         {
           id: "tier8",
-          name: "Sběratel Deluxe",
-          price: 3300,
+          name: "Patron hlasů",
+          price: 9000,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Soundtrack na CD", "Sada samolepek"],
+          rewards: ["Všechny předchozí odměny", "Speciální poděkování v sekci 'Voice & Audio Supporters'"],
           limit: TIER_LIMITS["tier8"] ?? undefined,
           sold: 0
         },
         {
           id: "tier9",
-          name: "Nositel stínu",
-          price: 4500,
+          name: "Produkční patronát",
+          price: 18000,
           currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Exkluzivní oblečení Shadowless"],
+          rewards: ["Zvláštní poděkování jako významný produkční podporovatel", "Výrazné poděkování na webu a v titulcích hry"],
           limit: TIER_LIMITS["tier9"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier10",
-          name: "Vizionář",
-          price: 6000,
-          currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Unikátní artwork na míru"],
-          limit: TIER_LIMITS["tier10"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier11",
-          name: "Tvůrce stínů",
-          price: 9000,
-          currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Soukromé Q&A na Discordu", "Návrh vedlejší postavy do hry"],
-          limit: TIER_LIMITS["tier11"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier12",
-          name: "Architekt",
-          price: 30000,
-          currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Konzultace vývoje", "Vlastní easter egg / reference ve hře"],
-          limit: TIER_LIMITS["tier12"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier14",
-          name: "Vládce prázdnoty",
-          price: 45000,
-          currency: " Kč",
-          rewards: ["Všechny předchozí odměny", "Ultimátní sběratelský box"],
-          limit: TIER_LIMITS["tier14"] ?? undefined,
           sold: 0
         }
       ]
     }
   },
   thankYou: {
-    title: "Vítejte v prázdnotě",
+    title: "Děkujeme",
     subtitle: "Váš příspěvek byl přijat.",
-    orderLabel: "ID Objednávky",
+    orderLabel: "ID objednávky",
     tierLabel: "Zvolená úroveň",
     amountLabel: "Částka příspěvku",
     supporterLabel: "Podporovatel",
-    emailLabel: "Kontaktní email",
+    emailLabel: "Kontaktní e-mail",
     paymentIdLabel: "ID Stripe platby",
     notesLabel: "Poznámky",
     notesEmpty: "Žádné doplňující poznámky.",
-    emailNote: "Potvrzení a detaily příspěvku byly odeslány na váš email.",
+    emailNote: "Potvrzení a detaily příspěvku byly odeslány na váš e-mail.",
     backBtn: "Přejít na web"
   },
   terms: {
     title: "Všeobecné obchodní podmínky",
     lastUpdatedLabel: "Poslední aktualizace",
-    lastUpdatedValue: "26. listopadu 2025",
+    lastUpdatedValue: "27. června 2026",
     intro: "Tyto Všeobecné obchodní podmínky upravují účast na crowdfundingové kampani Shadowless, kterou pořádá Petr Vurm (\"Tvůrce\"). Odesláním příspěvku potvrzujete, že s nimi souhlasíte.",
     sections: [
       {
@@ -319,7 +315,7 @@ export const csContent: Content = {
         heading: "2. Způsobilost a registrace",
         paragraphs: [
           "Stvrzujete, že je vám alespoň 18 let, případně že máte souhlas zákonného zástupce, a že podle platných právních předpisů máte způsobilost k uzavření těchto Podmínek.",
-          "Souhlasíte s poskytnutím přesných kontaktních a doručovacích údajů a s jejich včasnou aktualizací, aby vás Tvůrce mohl informovat a doručit vám odměny spojené s vybranou úrovní."
+          "Souhlasíte s poskytnutím přesných kontaktních údajů a s jejich včasnou aktualizací, aby vás Tvůrce mohl informovat a doručit vám odměny spojené s vybranou úrovní."
         ]
       },
       {
@@ -338,9 +334,9 @@ export const csContent: Content = {
         id: "rewards",
         heading: "4. Odměny a plnění",
         paragraphs: [
-          "Každá úroveň popisuje plánované odměny. Digitální odměny budou doručeny elektronicky, fyzické zboží vyžaduje platnou doručovací adresu a může podléhat clu, daním či místním poplatkům.",
-          "Uvedené termíny jsou orientační. Produkční nebo logistická omezení mohou vyžadovat úpravy; Tvůrce bude o změnách informovat na e-mail připojený k vašemu příspěvku.",
-          "Pokud se konkrétní odměnu nepodaří zajistit, poskytne Tvůrce přiměřenou náhradu stejné či vyšší hodnoty. Náhrada peněžní formou se neposkytuje."
+          "Každá úroveň popisuje zamýšlené digitální odměny. Veškeré odměny jsou doručovány digitálně a elektronicky — žádná úroveň nezahrnuje fyzické zboží.",
+          "Uvedené termíny jsou orientační. Produkční omezení mohou vyžadovat úpravy; Tvůrce bude o změnách informovat na e-mail připojený k vašemu příspěvku.",
+          "Pokud se konkrétní odměnu nepodaří zajistit, poskytne Tvůrce přiměřenou digitální náhradu stejné či vyšší hodnoty. Náhrada peněžní formou se neposkytuje."
         ]
       },
       {
@@ -348,7 +344,7 @@ export const csContent: Content = {
         heading: "5. Změny projektu a harmonogram",
         paragraphs: [
           "Tvůrce může upravovat rozsah, funkce nebo stretch cíle tak, aby reagoval na technické, právní či finanční okolnosti a zachoval celkovou kvalitu Shadowless.",
-          "V případě podstatného zpoždění budou přispěvatelé informováni a obdrží aktualizovaný plán plnění. Váš nárok na odměny zvoleného stupně zůstává zachován bez ohledu na celkově vybranou částku."
+          "V případě podstatného zpoždění nebo změny rozsahu budou přispěvatelé informováni přes web a e-mail a obdrží aktualizovaný plán plnění. Váš nárok na odměny zvoleného stupně zůstává zachován bez ohledu na celkově vybranou částku."
         ]
       },
       {
@@ -356,7 +352,8 @@ export const csContent: Content = {
         heading: "6. Komunikace a ochrana údajů",
         paragraphs: [
           "Tvůrce používá vaše osobní údaje výhradně ke správě příspěvků, splnění zákonných povinností, doručení odměn a komunikaci o kampani. Údaje nebudou prodány třetím stranám.",
-          "Z nevyžádaných novinek se můžete kdykoli odhlásit. Transakční nebo plnící e-maily budou zasílány po dobu, po kterou je váš příspěvek aktivní, aby bylo zajištěno dodání odměn."
+          "Z nevyžádaných novinek se můžete kdykoli odhlásit. Transakční nebo plnící e-maily budou zasílány po dobu, po kterou je váš příspěvek aktivní, aby bylo zajištěno dodání odměn.",
+          "Podrobnosti o zpracování osobních údajů naleznete v Zásadách zpracování osobních údajů."
         ]
       },
       {
@@ -369,7 +366,7 @@ export const csContent: Content = {
       }
     ],
     pledgeReminderHeading: "Důležité upozornění k nevratnosti příspěvků",
-    pledgeReminderBody: "Všechny příspěvky do kampaně Shadowless se považují za nevratné dary, pokud vám závazná spotřebitelská legislativa neposkytuje jiné právo. Váš nárok na odměny zvoleného stupně trvá bez ohledu na celkovou vybranou částku a Tvůrce je po jejich výrobě dodá.",
+    pledgeReminderBody: "Všechny příspěvky do kampaně Shadowless se považují za nevratné dary, pokud vám závazná spotřebitelská legislativa neposkytuje jiné právo. Digitální odměny budou doručovány postupně podle stavu vývoje. Pokud by se rozsah nebo plán výrazně změnil, podporovatelé budou informováni přes web a e-mail.",
     contactHeading: "Kontakt",
     contactBusinessLabel: "Provozovatel",
     contactBusinessValue: "Petr Vurm, živnostník (Česká republika)",
@@ -379,10 +376,86 @@ export const csContent: Content = {
     contactEmail: "kontakt@petrvurm.cz",
     backLinkLabel: "Zpět na hlavní stránku"
   },
+  privacy: {
+    title: "Zásady zpracování osobních údajů",
+    lastUpdatedLabel: "Poslední aktualizace",
+    lastUpdatedValue: "27. června 2026",
+    intro: "Tyto Zásady zpracování osobních údajů popisují, jak Petr Vurm (\"Tvůrce\") shromažďuje, zpracovává a chrání osobní údaje v rámci crowdfundingové kampaně Shadowless provozované na adrese shadowlessthegame.eu.",
+    sections: [
+      {
+        id: "controller",
+        heading: "1. Správce osobních údajů",
+        paragraphs: [
+          "Správcem osobních údajů je Petr Vurm, živnostník, Česká republika, IČ 21180164. Kontakt: kontakt@petrvurm.cz."
+        ]
+      },
+      {
+        id: "data-collected",
+        heading: "2. Jaké údaje shromažďujeme",
+        paragraphs: [
+          "Při odesílání příspěvku shromažďujeme: jméno, příjmení, e-mailovou adresu, volitelné poznámky, referenci platby (Stripe payment intent ID), výši příspěvku, zvolenou úroveň a datum příspěvku.",
+          "Čísla platebních karet ani platební údaje neukládáme — zpracovává je výhradně Stripe (stripe.com). Podrobnosti o zpracování dat ze strany Stripe naleznete v jejich zásadách ochrany osobních údajů."
+        ]
+      },
+      {
+        id: "purpose",
+        heading: "3. Účel a právní základ zpracování",
+        paragraphs: [
+          "Vaše osobní údaje zpracováváme pro následující účely:",
+        ],
+        bullets: [
+          "Správa příspěvku a doručení digitálních odměn — právní základ: plnění smlouvy.",
+          "Zasílání potvrzení objednávky a novinek o kampani — právní základ: oprávněný zájem / souhlas.",
+          "Plnění zákonných a účetních povinností — právní základ: zákonná povinnost.",
+          "Vedení veřejného seznamu podporovatelů (jméno, příjmení, částka) — právní základ: oprávněný zájem. Vymazání z tohoto seznamu lze kdykoliv vyžádat."
+        ]
+      },
+      {
+        id: "retention",
+        heading: "4. Doba uchovávání údajů",
+        paragraphs: [
+          "Záznamy o příspěvcích jsou uchovávány po dobu stanovenou českým účetním zákonem (zpravidla 10 let). Kontaktní údaje jsou uchovávány do doby, kdy jsou odměny splněny a údaje již nejsou potřebné pro zákonné účely.",
+          "Vymazání vašich osobních údajů lze kdykoli vyžádat, s výhradou zákonných povinností uchovávání."
+        ]
+      },
+      {
+        id: "rights",
+        heading: "5. Vaše práva",
+        paragraphs: [
+          "Na základě GDPR a platné české legislativy máte právo na: přístup ke svým osobním údajům, opravu nepřesných údajů, výmaz (právo být zapomenut), omezení zpracování a vznesení námitky proti zpracování.",
+          "Pro uplatnění jakéhokoli z těchto práv nás kontaktujte na kontakt@petrvurm.cz. Odpovíme do 30 dnů."
+        ]
+      },
+      {
+        id: "third-parties",
+        heading: "6. Třetí strany",
+        paragraphs: [
+          "Vaše údaje sdílíme výhradně s níže uvedenými poskytovateli služeb za účelem provozu kampaně:",
+        ],
+        bullets: [
+          "Stripe, Inc. — zpracování plateb.",
+          "Resend / poskytovatel e-mailových služeb — zasílání potvrzení objednávek.",
+          "Supabase / hostitel databáze — uchovávání záznamů o příspěvcích."
+        ]
+      },
+      {
+        id: "security",
+        heading: "7. Bezpečnost",
+        paragraphs: [
+          "Přijímáme přiměřená technická a organizační opatření na ochranu vašich osobních údajů. Veškeré platební údaje jsou zpracovávány výhradně prostřednictvím PCI-DSS-kompatibilní infrastruktury Stripe.",
+          "V případě narušení bezpečnosti dat, které představuje riziko pro vaše práva, budeme v souladu se zákonem informovat příslušný dozorový úřad a dotčené osoby."
+        ]
+      }
+    ],
+    contactHeading: "Kontakt",
+    contactEmail: "kontakt@petrvurm.cz",
+    backLinkLabel: "Zpět na hlavní stránku"
+  },
   footer: {
     rights: "Všechna práva vyhrazena.",
     madeIn: "Vyrobeno v temném srdci České republiky.",
     quote: "\"Světlo je jen dočasná iluze.\"",
-    termsLink: "Obchodní podmínky"
+    termsLink: "Obchodní podmínky",
+    privacyLink: "Zásady zpracování údajů"
   }
 };

@@ -10,10 +10,12 @@ export const enContent: Content = {
     steam: "Steam"
   },
   hero: {
-    subtitle: "First-Person Psychological Horror",
-    quote: "\"The darkness isn't what you should fear. It's what you see when you turn on the light.\"",
+    subtitle: "Czech Psychological Horror",
+    quote: "\"A Czech psychological horror about guilt, silence, and a house that never forgets.\"",
+    pitch: "Help fund the first production phase: English voice-over, sound design, a playable demo, and Steam preparation. Shadowless is an independent solo project — every contribution brings the game closer to completion.",
     wishlist: "Add to Wishlist",
-    support: "Fuel the Nightmare"
+    support: "Support Directly",
+    supportStartovac: "Support via Startovač"
   },
   lore: {
     label: "The Narrative",
@@ -68,94 +70,124 @@ export const enContent: Content = {
     ]
   },
   crowdfunding: {
-    title: "Join the Descent",
-    intro: "Shadowless is a passion project born from a love for true horror. The foundation is laid, the nightmare is scripted. Now, I need you to help me bring the shadows to life.",
+    title: "Support the Project",
+    intro: "Shadowless is an independent psychological horror in active development. The story is written, the vision is clear. Your support helps fund the next production phase and bring this game to life.",
+    primaryNote: "This website is the primary place to support Shadowless. Payments made here go directly to fund the game's development. Alternatively, you can support via Startovač — a well-known Czech crowdfunding platform. Both paths fund the same development of Shadowless.",
     funded: "Funded",
     statusLabel: {
       live: "ACTIVE",
       success: "SUCCESS",
       failed: "CLOSED"
     },
-    backers: "Souls Pledged",
+    backers: "Supporters",
     daysLeft: "Days Remaining",
     developerTitle: "The Developer",
     developerName: "Petr Vurm",
     developerRole: "Solo Developer",
     developerBio: "I am Petr. A student, a developer, a horror enthusiast. I don't just want to make a game; I want to create a scar on your psyche. Shadowless is my vision of what happens when the lights go out inside your head.",
     developerQuote: "\"Help me build a nightmare we can all share.\"",
-    breakdownTitle: "Allocation of Resources",
+    breakdownTitle: "How Funds Are Used",
     breakdown: {
       dev: "Core Development",
-      devDesc: "Assets, mocap, licensing, polishing",
-      audio: "Auditory Design",
-      audioDesc: "Professional composition, dubbing, sound engineering",
-      tax: "Rewards for Backers",
-      fees: "Taxes and Fees"
+      devDesc: "3D assets, textures, environments, engine licensing",
+      audio: "Audio & Voice-Over",
+      audioDesc: "Voice acting, casting, sound design, atmosphere",
+      tax: "Backer Rewards",
+      fees: "Taxes, Fees & Reserve"
     },
+    firstMilestone: {
+      title: "First Milestone",
+      amount: 2500,
+      description: "Casting / voice test, English voice-over test, audio direction, trailer preparation, first public presentation.",
+      note: "The first milestone does not pay for the whole game — it funds the first production step."
+    },
+    whereMoneyGoesTitle: "Where the Money Goes",
+    whereMoneyGoesItems: [
+      { label: "Voice-over / casting / dubbing tests" },
+      { label: "Sound assets and atmosphere" },
+      { label: "3D assets, textures and environments" },
+      { label: "Trailer and presentation materials" },
+      { label: "Steam / technical costs" },
+      { label: "Fees, taxes and reserve" }
+    ],
+    whatExistsTitle: "What Already Exists",
+    whatExistsItems: [
+      "Story bible",
+      "Core game concept",
+      "Chapter and ending plan",
+      "Project website",
+      "Visual direction",
+      "Work-in-progress house environment",
+      "Mechanics prototyping",
+      "Steam presentation preparation",
+      "Gallery and first presentation materials"
+    ],
+    fairWarning: "Shadowless is a game in development. Your support helps fund its continued creation. Digital rewards will be delivered gradually based on development progress. Timelines may change depending on the scope, budget, and technical requirements of the game. If the scope or plan changes significantly, supporters will be informed via the website and email.",
     stretchGoalsTitle: "Milestones",
     stretchGoals: [
-      { amount: 27777, title: "It Breaths", description: "Campaign success. Digital rewards secured. The nightmare begins." },
-      { amount: 55000, title: "Symphony of Fear", description: "Professional composer hired to create a unique, nerve-wracking score." },
-      { amount: 110000, title: "Binaural Nightmare", description: "Full 3D immersive sound design. You will hear them breathing behind you." },
-      { amount: 240000, title: "Voice of Madness", description: "Professional English voice acting to bring the characters' despair to life." },
-      { amount: 330000, title: "The True Vision", description: "Full production quality. No compromises. The game exactly as envisioned." },
-      { amount: 400000, title: "Hyper-Realism", description: "Expanded asset fidelity and fluid motion-matched animations." },
-      { amount: 500000, title: "Cinematic Trauma", description: "Key narrative beats rendered as film-quality in-game cutscenes." },
-      { amount: 660000, title: "Portable Dread", description: "Nintendo Switch port. Take the fear with you." },
-      { amount: 900000, title: "The Lost Chapter", description: "A new narrative expansion plunging deeper into the lore." },
-      { amount: 1200000, title: "Console Release", description: "PlayStation 5 and Xbox Series X/S versions." }
+      { amount: 2500, title: "First Voice of Shadows", description: "Casting, English voice-over test, audio direction and first public presentation." },
+      { amount: 10400, title: "Playable Demo", description: "First playable vertical slice demonstrating the core atmosphere and mechanics." },
+      { amount: 25000, title: "English Voice-Over for Demo", description: "Professional English voice acting for the playable demo — first characters brought to life." },
+      { amount: 50000, title: "Steam + Public Demo", description: "Steam page launch, public demo release, first wide-audience presentation of Shadowless." },
+      { amount: 100000, title: "Broader English Production", description: "Expanded English voice-over and audio production across more of the game." },
+      { amount: 200000, title: "Professional Czech Voice-Over", description: "Professional Czech dubbing — the game can be fully experienced in Czech as well." },
+      { amount: 400000, title: "Czech Dubbing with Known Voices", description: "Higher budget makes it possible to approach well-known Czech actors and voice artists. No specific names are guaranteed until contracts are signed." }
     ],
-    cta: "Back this Project",
+    cta: "Support the Project",
     supporters: {
       title: "Supporter Contributions",
       toggleOpen: "Show supporters",
       toggleClose: "Hide supporters",
-      loading: "Summoning supporters...",
+      loading: "Loading supporters...",
       error: "Unable to load supporters right now.",
-      empty: "No recorded supporters yet. Be the first to descend.",
+      empty: "No recorded supporters yet. Be the first to contribute.",
       tableHeaders: {
         name: "Name",
         amount: "Total contributed"
       }
     },
     modal: {
-      title: "Choose Your Fate",
+      title: "Choose Your Support",
       recommendedLabel: "Recommended",
       stepTitles: {
         tier: "Select a Tier",
-        details: "Backer Details",
+        details: "Your Details",
         card: "Payment Method",
         review: "Review & Confirm"
       },
       stepDescriptions: {
-        tier: "Pick the pledge that matches your devotion.",
+        tier: "Pick the tier that matches your level of support.",
         details: "Tell us who you are so we can deliver your rewards.",
         card: "Enter your card details using the secure Stripe form.",
-        review: "Confirm every detail before committing your pledge."
+        review: "Review everything before completing your contribution."
       },
-      payBtn: "Commit",
+      payBtn: "Complete Support",
       continueBtn: "Continue",
       reviewBtn: "Go to Summary",
-      processing: "Synchronizing...",
-      successTitle: "Pact Sealed",
-      successMsg: "Your support echoes in the void. Check your inbox for confirmation.",
+      processing: "Processing...",
+      successTitle: "Support Received",
+      successMsg: "Thank you. Check your inbox for confirmation.",
       closeBtn: "Close",
       backToTiers: "Back to Tiers",
       backToDetails: "Edit Details",
-      editDetails: "Change Backer Details",
+      editDetails: "Change Details",
       editPayment: "Change Payment Method",
-      selectedTier: "Chosen Tier",
+      selectedTier: "Selected Tier",
       testCardNotice: "Use Stripe test card 4242 4242 4242 4242 with any future expiry, CVC 123, ZIP 12345.",
       firstNameLabel: "First Name",
       lastNameLabel: "Last Name",
       emailLabel: "Email",
       notesLabel: "Additional Notes",
-      notesOptionalHint: "Optional. Anything we should know about your pledge?",
+      notesOptionalHint: "Optional.",
       summaryHeading: "Final Review",
       summaryContact: "Contact",
       summaryNotes: "Notes",
       summaryAmount: "Total",
       notesEmpty: "No additional notes provided.",
+      consentTerms: "I have read and agree to the Terms & Conditions.",
+      consentPrivacy: "I have read and agree to the Privacy Policy.",
+      consentGameDev: "I understand that Shadowless is a game in development and that digital rewards will be delivered gradually based on development progress.",
+      consentRequired: "Please confirm all consents to complete your contribution.",
       validation: {
         required: "This field is required.",
         email: "Enter a valid email address."
@@ -167,128 +199,92 @@ export const enContent: Content = {
       tiers: [
         {
           id: "tier1",
-          name: "Shadow Observer",
-          price: 5,
+          name: "Symbolic Support",
+          price: 6,
           currency: "$",
-          rewards: ["Digital Gratitude", "Name in Credits"],
+          rewards: ["Digital thank-you", "Name on the supporters wall on our website"],
           limit: TIER_LIMITS["tier1"] ?? undefined,
           sold: 0
         },
         {
           id: "tier2",
-          name: "Wanderer",
-          price: 15,
+          name: "Name in Credits",
+          price: 12,
           currency: "$",
-          rewards: ["All previous rewards", "Digital Copy of Shadowless"],
+          rewards: ["All previous rewards", "Your name in the game credits — Supporters section"],
           limit: TIER_LIMITS["tier2"] ?? undefined,
           sold: 0
         },
         {
           id: "tier3",
-          name: "Explorer",
-          price: 25,
+          name: "Digital Copy",
+          price: 19,
           currency: "$",
-          rewards: ["All previous rewards", "Original Soundtrack", "High-Res Wallpapers"],
+          rewards: ["All previous rewards", "Digital copy of Shadowless after release. Preferred platform is Steam — exact delivery method will be confirmed based on distribution platform rules at the time of release."],
           limit: TIER_LIMITS["tier3"] ?? undefined,
           sold: 0
         },
         {
           id: "tier4",
-          name: "Truth Seeker",
-          price: 45,
+          name: "Founder Pack",
+          price: 31,
           currency: "$",
-          rewards: ["All previous rewards", "Digital Artbook", "Lore Book (PDF)", "Early Access", "Inner Circle Community"],
+          rewards: ["Digital copy of Shadowless", "Digital soundtrack", "Wallpaper pack", "Name on the supporters wall"],
           limit: TIER_LIMITS["tier4"] ?? undefined,
           sold: 0
         },
         {
           id: "tier5",
-          name: "DLC: Hellwalker",
-          price: 60,
+          name: "Truth Seeker",
+          price: 56,
           currency: "$",
-          rewards: ["All previous rewards", "DLC \"HELL\" Expansion"],
+          rewards: ["All previous rewards", "Digital artbook", "Lore PDF document", "Name in game credits"],
           recommended: true,
           limit: TIER_LIMITS["tier5"] ?? undefined,
           sold: 0
         },
         {
           id: "tier6",
-          name: "Digital Curator",
-          price: 75,
+          name: "Archivist",
+          price: 94,
           currency: "$",
-          rewards: ["All previous rewards", "Digital Backer Certificate", "Personalized Video Message"],
+          rewards: ["All previous rewards", "Access to development updates and behind-the-scenes materials", "Closed community access (when launched)"],
           limit: TIER_LIMITS["tier6"] ?? undefined,
           sold: 0
         },
         {
           id: "tier7",
-          name: "Physical Curator",
-          price: 90,
+          name: "Dev Patron",
+          price: 188,
           currency: "$",
-          rewards: ["All \"Digital Curator\" rewards", "Physical Copy (Boxed)", "Printed Artbook"],
+          rewards: ["All previous rewards", "Access to a test build when available — timeline depends on development progress", "Featured thanks in credits and on the website"],
           limit: TIER_LIMITS["tier7"] ?? undefined,
           sold: 0
         },
         {
           id: "tier8",
-          name: "Collector Deluxe",
-          price: 110,
+          name: "Voice Patron",
+          price: 375,
           currency: "$",
-          rewards: ["All previous rewards", "Physical Soundtrack CD", "Sticker Pack"],
+          rewards: ["All previous rewards", "Special thanks in the 'Voice & Audio Supporters' section"],
           limit: TIER_LIMITS["tier8"] ?? undefined,
           sold: 0
         },
         {
           id: "tier9",
-          name: "Wearer of Shadows",
-          price: 150,
+          name: "Production Patron",
+          price: 750,
           currency: "$",
-          rewards: ["All previous rewards", "Exclusive \"Shadowless\" Apparel"],
+          rewards: ["Special thanks as a significant production supporter", "Prominent thanks on the website and in game credits"],
           limit: TIER_LIMITS["tier9"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier10",
-          name: "The Visionary",
-          price: 200,
-          currency: "$",
-          rewards: ["All previous rewards", "Unique Personalized Artwork"],
-          limit: TIER_LIMITS["tier10"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier11",
-          name: "Shadow Shaper",
-          price: 300,
-          currency: "$",
-          rewards: ["All previous rewards", "Private Discord Q&A", "Design a Background Character"],
-          limit: TIER_LIMITS["tier11"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier12",
-          name: "Architect",
-          price: 1000,
-          currency: "$",
-          rewards: ["All previous rewards", "Consult on Development", "In-Game Reference/Easter Egg"],
-          limit: TIER_LIMITS["tier12"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier14",
-          name: "Lord of the Void",
-          price: 1500,
-          currency: "$",
-          rewards: ["All previous rewards", "Ultimate Collector's Box"],
-          limit: TIER_LIMITS["tier14"] ?? undefined,
           sold: 0
         }
       ]
     }
   },
   thankYou: {
-    title: "Welcome to the Void",
-    subtitle: "Your contribution has been accepted.",
+    title: "Thank You",
+    subtitle: "Your contribution has been received.",
     orderLabel: "Order ID",
     tierLabel: "Selected Tier",
     amountLabel: "Contribution Amount",
@@ -303,7 +299,7 @@ export const enContent: Content = {
   terms: {
     title: "Terms & Conditions",
     lastUpdatedLabel: "Last updated",
-    lastUpdatedValue: "26 November 2025",
+    lastUpdatedValue: "27 June 2026",
     intro: "These Terms & Conditions govern your participation in the Shadowless crowdfunding campaign operated by Petr Vurm (the \"Creator\"). By making a pledge you acknowledge and accept the provisions below.",
     sections: [
       {
@@ -319,7 +315,7 @@ export const enContent: Content = {
         heading: "2. Eligibility and Registration",
         paragraphs: [
           "You confirm that you are at least 18 years old, or have obtained the consent of a legal guardian, and that you have the legal capacity to enter into these Terms under the laws applicable to you.",
-          "You agree to provide accurate contact and delivery details and to update them promptly so the Creator can issue legally required notices and deliver any rewards linked to your pledge tier."
+          "You agree to provide accurate contact details and to update them promptly so the Creator can issue legally required notices and deliver any rewards linked to your pledge tier."
         ]
       },
       {
@@ -338,9 +334,9 @@ export const enContent: Content = {
         id: "rewards",
         heading: "4. Rewards and Fulfilment",
         paragraphs: [
-          "Each pledge tier describes the intended rewards. Digital rewards may be delivered electronically, while any physical goods require a valid shipping address and may trigger customs duties, import taxes, or local handling fees.",
-          "Delivery timelines are estimates. Production or logistics constraints may require adjustments, and the Creator will communicate updates via the email associated with your pledge.",
-          "If a specific reward becomes impracticable, the Creator will provide a reasonable substitute of equal or greater value. Refunds are not available in lieu of such substitutions."
+          "Each pledge tier describes intended digital rewards. All rewards are delivered digitally and electronically — there are no physical goods associated with any tier.",
+          "Delivery timelines are estimates. Production constraints may require adjustments, and the Creator will communicate updates via the email associated with your pledge.",
+          "If a specific reward becomes impracticable, the Creator will provide a reasonable digital substitute of equal or greater value. Refunds are not available in lieu of such substitutions."
         ]
       },
       {
@@ -348,7 +344,7 @@ export const enContent: Content = {
         heading: "5. Project Changes and Timelines",
         paragraphs: [
           "The Creator may refine scope, features, or stretch goals to respond to technical, legal, or financial constraints while safeguarding the overall quality of Shadowless.",
-          "In the event of material delays, the Creator will inform backers and supply an updated fulfilment plan. Your entitlement to the rewards of your selected tier remains valid regardless of the total amount ultimately raised."
+          "In the event of material delays or scope changes, the Creator will inform backers via the website and email and supply an updated fulfilment plan. Your entitlement to the rewards of your selected tier remains valid regardless of the total amount ultimately raised."
         ]
       },
       {
@@ -356,7 +352,8 @@ export const enContent: Content = {
         heading: "6. Communication and Data Protection",
         paragraphs: [
           "The Creator uses your personal data solely to administer pledges, comply with legal obligations, deliver rewards, and communicate campaign information. Your data will never be sold to third parties.",
-          "You may opt out of non-essential updates at any time. Transactional or fulfilment-related communications will continue while your pledge remains outstanding to ensure you receive the rewards owed to you."
+          "You may opt out of non-essential updates at any time. Transactional or fulfilment-related communications will continue while your pledge remains outstanding to ensure you receive the rewards owed to you.",
+          "For full details on data processing, please see our Privacy Policy."
         ]
       },
       {
@@ -369,7 +366,7 @@ export const enContent: Content = {
       }
     ],
     pledgeReminderHeading: "Important notice on non-refundable pledges",
-    pledgeReminderBody: "All contributions to the Shadowless campaign are treated as non-refundable donations unless mandatory consumer law provides otherwise. Your right to receive the rewards attached to your selected tier survives regardless of the final funding amount, and the Creator remains obliged to deliver them once produced.",
+    pledgeReminderBody: "All contributions to the Shadowless campaign are treated as non-refundable donations unless mandatory consumer law provides otherwise. Digital rewards will be delivered gradually based on development progress. If the scope or plan changes significantly, supporters will be informed via the website and email.",
     contactHeading: "Contact",
     contactBusinessLabel: "Registered owner",
     contactBusinessValue: "Petr Vurm, sole proprietor (Czech Republic)",
@@ -379,10 +376,86 @@ export const enContent: Content = {
     contactEmail: "kontakt@petrvurm.cz",
     backLinkLabel: "Back to home"
   },
+  privacy: {
+    title: "Privacy Policy",
+    lastUpdatedLabel: "Last updated",
+    lastUpdatedValue: "27 June 2026",
+    intro: "This Privacy Policy explains how Petr Vurm (\"the Creator\") collects, uses, and protects personal data in connection with the Shadowless crowdfunding campaign operated via shadowlessthegame.eu.",
+    sections: [
+      {
+        id: "controller",
+        heading: "1. Data Controller",
+        paragraphs: [
+          "The data controller is Petr Vurm, sole proprietor, Czech Republic, IČ 21180164. Contact: kontakt@petrvurm.cz."
+        ]
+      },
+      {
+        id: "data-collected",
+        heading: "2. Data We Collect",
+        paragraphs: [
+          "When you make a contribution, we collect: first name, last name, email address, optional notes, payment reference (Stripe payment intent ID), amount contributed, selected tier, and date of contribution.",
+          "We do not store full card numbers or payment credentials — these are handled exclusively by Stripe (stripe.com). Please refer to Stripe's privacy policy for details on their data handling."
+        ]
+      },
+      {
+        id: "purpose",
+        heading: "3. Purpose and Legal Basis",
+        paragraphs: [
+          "We process your personal data for the following purposes:",
+        ],
+        bullets: [
+          "Administering your pledge and delivering digital rewards — legal basis: performance of a contract.",
+          "Sending order confirmations and campaign updates — legal basis: legitimate interest / consent.",
+          "Complying with legal and accounting obligations — legal basis: legal obligation.",
+          "Maintaining the public supporters list (first name, last name, amount) — legal basis: legitimate interest. You may request removal at any time."
+        ]
+      },
+      {
+        id: "retention",
+        heading: "4. Data Retention",
+        paragraphs: [
+          "Contribution records are retained for the duration required by Czech accounting law (typically 10 years). Contact data is retained until rewards have been fulfilled and no longer needed for legal purposes.",
+          "You may request deletion of your personal data at any time, subject to legal retention obligations."
+        ]
+      },
+      {
+        id: "rights",
+        heading: "5. Your Rights",
+        paragraphs: [
+          "Under the GDPR and applicable Czech law, you have the right to: access your personal data, correct inaccurate data, request erasure (right to be forgotten), restrict processing, and object to processing.",
+          "To exercise any of these rights, please contact us at kontakt@petrvurm.cz. We will respond within 30 days."
+        ]
+      },
+      {
+        id: "third-parties",
+        heading: "6. Third Parties",
+        paragraphs: [
+          "We share your data with the following service providers solely to operate the campaign:",
+        ],
+        bullets: [
+          "Stripe, Inc. — payment processing.",
+          "Resend / email service provider — sending order confirmations.",
+          "Supabase / database host — storing contribution records."
+        ]
+      },
+      {
+        id: "security",
+        heading: "7. Security",
+        paragraphs: [
+          "We take reasonable technical and organisational measures to protect your personal data. All payment data is processed exclusively through Stripe's PCI-DSS-compliant infrastructure.",
+          "In the event of a data breach that poses a risk to your rights, we will notify the relevant supervisory authority and affected individuals as required by law."
+        ]
+      }
+    ],
+    contactHeading: "Contact",
+    contactEmail: "kontakt@petrvurm.cz",
+    backLinkLabel: "Back to home"
+  },
   footer: {
     rights: "All rights reserved.",
     madeIn: "Crafted in the dark heart of the Czech Republic.",
     quote: "\"Light is just a temporary illusion.\"",
-    termsLink: "Terms & Conditions"
+    termsLink: "Terms & Conditions",
+    privacyLink: "Privacy Policy"
   }
 };

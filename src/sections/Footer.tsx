@@ -11,13 +11,13 @@ export default function Footer({ content }: FooterProps) {
   return (
     <footer className="bg-black py-12 border-t border-zinc-900 text-center">
       <div className="max-w-4xl mx-auto px-4">
-        
+
         <div className="flex justify-center items-center gap-10 mb-10">
           {/* Steam */}
-          <a 
-            href={STEAM_URL} 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href={STEAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group flex flex-col items-center gap-2 text-zinc-400 hover:text-white transition-all duration-300"
             aria-label="Steam"
           >
@@ -29,10 +29,10 @@ export default function Footer({ content }: FooterProps) {
           </a>
 
           {/* Instagram */}
-          <a 
-            href={INSTAGRAM_URL} 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group flex flex-col items-center gap-2 text-zinc-400 hover:text-white transition-all duration-300"
             aria-label="Instagram"
           >
@@ -57,9 +57,13 @@ export default function Footer({ content }: FooterProps) {
         <p className="font-serif text-zinc-500 text-sm tracking-widest uppercase mb-2">
           &copy; {new Date().getFullYear()} <a href="https://petrvurm.cz?utm_source=shadowless_web&utm_medium=referral" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Petr Vurm</a>. {content.rights}
         </p>
-        <div className="mb-4">
+        <div className="flex justify-center gap-6 mb-4">
           <Link href="/terms" className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 hover:text-white transition-colors">
             {content.termsLink}
+          </Link>
+          <span className="text-zinc-800">·</span>
+          <Link href="/privacy" className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 hover:text-white transition-colors">
+            {content.privacyLink}
           </Link>
         </div>
         <p className="font-body text-zinc-600 text-xs mb-6">

@@ -2,7 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ChevronDown } from "lucide-react";
-import { STEAM_URL } from "@/constants";
+import { STEAM_URL, STARTOVAC_URL } from "@/constants";
 import type { Content } from "@/types";
 import Image from "next/image";
 
@@ -13,6 +13,10 @@ interface HeroProps {
 export default function Hero({ content }: HeroProps) {
   const scrollToLore = () => {
     document.getElementById("lore")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToCrowdfunding = () => {
+    document.getElementById("crowdfunding")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const baseLogoSize = 100;
@@ -32,7 +36,7 @@ export default function Hero({ content }: HeroProps) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-transparent via-void/50 to-void"></div>
       </div>
 
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center animate-fade-in">
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center animate-fade-in">
         <div className="mb-6 flex items-center gap-4 opacity-80">
           <div className="h-px w-12 bg-blood"></div>
           <h2 className="text-zinc-300 font-serif tracking-[0.3em] text-xs md:text-sm uppercase">
@@ -51,29 +55,39 @@ export default function Hero({ content }: HeroProps) {
           />
         </div>
 
-        <p className="font-body text-zinc-200 text-lg md:text-2xl mb-12 max-w-2xl leading-relaxed italic border-l-2 border-blood pl-6 text-left opacity-0 animate-[fadeIn_1s_ease-in_forwards_0.5s]">
+        <p className="font-body text-zinc-200 text-lg md:text-2xl mb-6 max-w-2xl leading-relaxed italic border-l-2 border-blood pl-6 text-left opacity-0 animate-[fadeIn_1s_ease-in_forwards_0.5s]">
           {content.quote}
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-8 opacity-0 animate-[fadeIn_1s_ease-in_forwards_1s]">
+        <p className="font-body text-zinc-400 text-sm md:text-base mb-10 max-w-xl leading-relaxed text-center opacity-0 animate-[fadeIn_1s_ease-in_forwards_0.8s]">
+          {content.pitch}
+        </p>
+
+        <div className="flex flex-col items-center gap-4 opacity-0 animate-[fadeIn_1s_ease-in_forwards_1s] w-full max-w-sm">
+          <button
+            onClick={scrollToCrowdfunding}
+            className="cursor-pointer w-full group relative px-10 py-4 bg-blood hover:bg-red-900 text-white transition-all duration-300 overflow-hidden font-serif tracking-[0.2em] uppercase text-sm shadow-[0_0_20px_rgba(138,11,11,0.3)] hover:shadow-[0_0_40px_rgba(138,11,11,0.6)]"
+          >
+            {content.support}
+          </button>
+
+          <a
+            href={STARTOVAC_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full group relative px-10 py-3 bg-transparent border border-zinc-600 hover:border-zinc-400 transition-all duration-300 overflow-hidden font-serif tracking-[0.2em] uppercase text-sm text-zinc-400 hover:text-zinc-200 text-center"
+          >
+            {content.supportStartovac}
+          </a>
+
           <a
             href={STEAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative px-10 py-4 bg-transparent border border-zinc-600 hover:border-blood transition-all duration-500 overflow-hidden"
+            className="text-zinc-600 hover:text-zinc-400 transition-colors font-serif tracking-[0.2em] uppercase text-xs mt-1"
           >
-            <div className="absolute inset-0 bg-blood translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-            <span className="relative font-serif text-white tracking-[0.2em] uppercase text-sm z-10 group-hover:text-white transition-colors">
-              {content.wishlist}
-            </span>
+            {content.wishlist}
           </a>
-
-          <button
-            onClick={() => document.getElementById("crowdfunding")?.scrollIntoView({ behavior: "smooth" })}
-            className="cursor-pointer px-10 py-4 text-zinc-400 hover:text-white transition-all duration-300 font-serif tracking-[0.2em] uppercase text-sm border-b border-transparent hover:border-white"
-          >
-            {content.support}
-          </button>
         </div>
       </div>
 

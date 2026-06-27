@@ -21,79 +21,105 @@ export const BASE_META: Record<Language, BaseMeta> = {
   en: {
     siteTitle: "Shadowless",
     description:
-      "Shadowless is a psychological horror video game in development. Join the crowdfunding campaign, explore the story, and unlock exclusive backer rewards.",
-    keywords: ["Shadowless", "psychological horror", "indie game", "crowdfunding", "Petr Vurm"],
+      "Shadowless is an independent Czech psychological horror game in development. Support the campaign directly or via Startovač, explore the story, and help bring the voice-over and playable demo to life.",
+    keywords: [
+      "Shadowless", "psychological horror", "indie game", "crowdfunding",
+      "voice-over", "Steam", "playable demo", "Petr Vurm", "Czech horror"
+    ],
     locale: "en_US",
-    openGraphAlt: "Shadowless crowdfunding cover art",
+    openGraphAlt: "Shadowless — Czech psychological horror in development",
   },
   cs: {
     siteTitle: "Shadowless",
     description:
-      "Shadowless je psychologický hororový projekt ve vývoji. Podpořte crowdfunding, prozkoumejte příběh a odemkněte odměny pro přispěvatele.",
-    keywords: ["Shadowless", "psychologický horor", "indie hra", "crowdfunding", "Petr Vurm"],
+      "Shadowless je nezávislý český psychologický horor ve vývoji. Podpořte projekt přímo na webu nebo přes Startovač a pomozte financovat anglický voice-over, zvukový design a hratelnou ukázku.",
+    keywords: [
+      "Shadowless", "psychologický horor", "indie hra", "crowdfunding",
+      "voice-over", "dabing", "Steam", "hratelná ukázka", "Petr Vurm"
+    ],
     locale: "cs_CZ",
-    openGraphAlt: "Shadowless crowdfunding grafika",
+    openGraphAlt: "Shadowless — český psychologický horor ve vývoji",
   },
   de: {
     siteTitle: "Shadowless",
     description:
-      "Shadowless ist ein psychologisches Horror-Indie-Spiel in Entwicklung. Unterstütze die Crowdfunding-Kampagne, entdecke die Geschichte und sichere dir Belohnungen.",
-    keywords: ["Shadowless", "psychologischer Horror", "Indie-Spiel", "Crowdfunding", "Petr Vurm"],
+      "Shadowless ist ein unabhängiges tschechisches Psycho-Horror-Spiel in Entwicklung. Unterstütze das Projekt direkt oder über Startovač und hilf, die englische Vertonung und ein spielbares Demo zu finanzieren.",
+    keywords: [
+      "Shadowless", "psychologischer Horror", "Indie-Spiel", "Crowdfunding",
+      "Vertonung", "Steam", "spielbares Demo", "Petr Vurm", "tschechischer Horror"
+    ],
     locale: "de_DE",
-    openGraphAlt: "Shadowless Crowdfunding Artwork",
+    openGraphAlt: "Shadowless — tschechischer Psycho-Horror in Entwicklung",
   },
 };
 
-export const PAGE_META: Record<"home" | "terms" | "thankYou", Record<Language, PageMeta>> = {
+export const PAGE_META: Record<"home" | "terms" | "thankYou" | "privacy", Record<Language, PageMeta>> = {
   home: {
     en: {
-      title: "Shadowless",
+      title: "Shadowless — Czech Psychological Horror",
       description:
-        "Experience the Shadowless crowdfunding campaign: discover the lore, select a tier, and help bring the psychological horror vision to life.",
+        "Support the first production phase of Shadowless: English voice-over, sound design, a playable demo, and Steam preparation. This is the official crowdfunding page for the independent solo project.",
     },
     cs: {
-      title: "Shadowless",
+      title: "Shadowless — Český psychologický horor",
       description:
-        "Poznejte crowdfunding Shadowless: ponořte se do lore, vyberte si úroveň příspěvku a pomozte oživit psychologický horor.",
+        "Podpořte první produkční fázi Shadowless: anglický voice-over, zvuk, hratelnou ukázku a přípravu na Steam. Vlastní web je hlavní místo podpory tohoto nezávislého solo projektu.",
     },
     de: {
-      title: "Shadowless",
+      title: "Shadowless — Tschechischer psychologischer Horror",
       description:
-        "Erlebe die Shadowless-Crowdfunding-Kampagne: tauche in die Geschichte ein, wähle deine Unterstützerstufe und hilf, den psychologischen Horror zu verwirklichen.",
+        "Unterstütze die erste Produktionsphase von Shadowless: englische Vertonung, Sound, ein spielbares Demo und Steam-Vorbereitung. Die offizielle Crowdfunding-Seite des unabhängigen Solo-Projekts.",
     },
   },
   terms: {
     en: {
-      title: "Terms & Conditions",
+      title: "Terms & Conditions — Shadowless",
       description:
-        "Read the Shadowless crowdfunding terms covering non-refundable pledges, reward fulfilment obligations, and contact details for creator Petr Vurm (ID 21180164).",
+        "Read the Shadowless crowdfunding terms covering non-refundable pledges, digital reward fulfilment, and contact details for creator Petr Vurm (IČ 21180164).",
     },
     cs: {
-      title: "Všeobecné obchodní podmínky",
+      title: "Všeobecné obchodní podmínky — Shadowless",
       description:
-        "Přečtěte si obchodní podmínky kampaně Shadowless – nevratnost příspěvků, dodání odměn a kontaktní údaje na Petra Vurma (IČ 21180164).",
+        "Přečtěte si obchodní podmínky kampaně Shadowless – nevratnost příspěvků, dodání digitálních odměn a kontaktní údaje na Petra Vurma (IČ 21180164).",
     },
     de: {
-      title: "Allgemeine Geschäftsbedingungen",
+      title: "AGB — Shadowless",
       description:
-        "Lies die Geschäftsbedingungen der Shadowless-Kampagne – nicht rückerstattbare Beiträge, Belohnungserfüllung und Kontaktdaten von Petr Vurm (ID 21180164).",
+        "Lies die Shadowless-Kampagnenbedingungen – nicht erstattbare Beiträge, digitale Belohnungserfüllung und Kontaktdaten von Petr Vurm (IČ 21180164).",
     },
   },
   thankYou: {
     en: {
-      title: "Thank You",
+      title: "Thank You — Shadowless",
       description:
-        "Your Shadowless support has been recorded. Review your pledge details and return to the campaign whenever you are ready to explore more.",
+        "Your Shadowless support has been recorded. Review your pledge details and return to the campaign whenever you are ready.",
     },
     cs: {
-      title: "Poděkování",
+      title: "Poděkování — Shadowless",
       description:
-        "Váš příspěvek pro Shadowless byl zaznamenán. Podívejte se na detaily odměny a kdykoli se vraťte zpět do kampaně.",
+        "Váš příspěvek pro Shadowless byl zaznamenán. Podívejte se na detaily odměny a kdykoli se vraťte zpět na web.",
     },
     de: {
-      title: "Danke",
+      title: "Danke — Shadowless",
       description:
         "Deine Unterstützung für Shadowless wurde erfasst. Prüfe deine Belohnung und kehre jederzeit zur Kampagne zurück.",
+    },
+  },
+  privacy: {
+    en: {
+      title: "Privacy Policy — Shadowless",
+      description:
+        "Read the Shadowless privacy policy covering personal data processing, your rights, and contact details for creator Petr Vurm.",
+    },
+    cs: {
+      title: "Zásady zpracování osobních údajů — Shadowless",
+      description:
+        "Přečtěte si zásady zpracování osobních údajů kampaně Shadowless – účel zpracování, vaše práva a kontakt na Petra Vurma.",
+    },
+    de: {
+      title: "Datenschutzerklärung — Shadowless",
+      description:
+        "Lies die Datenschutzerklärung der Shadowless-Kampagne – Verarbeitungszwecke, deine Rechte und Kontaktdaten von Petr Vurm.",
     },
   },
 };

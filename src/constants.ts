@@ -16,3 +16,5 @@ CAMPAIGN_END_DATE.setDate(CAMPAIGN_START_DATE.getDate() + CROWDFUNDING_DATA.days
 
 export const STEAM_URL = "https://store.steampowered.com/app/3774430/Shadowless";
 export const INSTAGRAM_URL = "https://www.instagram.com/shadowlessthegame";
+// Set NEXT_PUBLIC_STARTOVAC_URL in .env.local once the Startovač campaign is live
+export const STARTOVAC_URL = process.env.NEXT_PUBLIC_STARTOVAC_URL ?? "#startovac";

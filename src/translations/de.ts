@@ -10,10 +10,12 @@ export const deContent: Content = {
     steam: "Steam"
   },
   hero: {
-    subtitle: "Psychologischer Horror in der Ego-Perspektive",
-    quote: "\"Die Dunkelheit ist nicht das, was du fürchten solltest. Sondern das, was du siehst, wenn du das Licht einschaltest.\"",
+    subtitle: "Tschechischer psychologischer Horror",
+    quote: "\"Ein tschechischer psychologischer Horror über Schuld, Stille und ein Haus, das niemals vergisst.\"",
+    pitch: "Hilf dabei, die erste Produktionsphase zu finanzieren: englische Vertonung, Sound, ein spielbares Demo und die Steam-Vorbereitung. Shadowless ist ein unabhängiges Solo-Projekt — jede Unterstützung bringt das Spiel dem Abschluss näher.",
     wishlist: "Auf die Wunschliste",
-    support: "Nähre den Albtraum"
+    support: "Direkt unterstützen",
+    supportStartovac: "Über Startovač unterstützen"
   },
   lore: {
     label: "Die Erzählung",
@@ -68,81 +70,107 @@ export const deContent: Content = {
     ]
   },
   crowdfunding: {
-    title: "Tritt in die Schatten",
-    intro: "Shadowless ist ein Leidenschaftsprojekt, geboren aus purer Liebe zum Horror. Das Fundament steht, der Albtraum ist geschrieben. Jetzt brauche ich dich, um die Schatten zum Leben zu erwecken.",
+    title: "Das Projekt unterstützen",
+    intro: "Shadowless ist ein unabhängiger psychologischer Horror in aktiver Entwicklung. Die Geschichte ist geschrieben, die Vision ist klar. Deine Unterstützung finanziert die nächste Produktionsphase und bringt dieses Spiel zum Leben.",
+    primaryNote: "Diese Website ist der primäre Ort zur Unterstützung von Shadowless. Zahlungen über diese Website fließen direkt in die Spielentwicklung. Alternativ kannst du über Startovač unterstützen — eine bekannte tschechische Crowdfunding-Plattform. Beide Wege finanzieren dieselbe Entwicklung von Shadowless.",
     funded: "Finanziert",
     statusLabel: {
       live: "AKTIV",
       success: "ERFOLG",
       failed: "GESCHLOSSEN"
     },
-    backers: "Seelen verpflichtet",
+    backers: "Unterstützer",
     daysLeft: "Verbleibende Tage",
     developerTitle: "Der Entwickler",
     developerName: "Petr Vurm",
     developerRole: "Einzelentwickler",
     developerBio: "Ich bin Petr. Schüler, Entwickler, Horror-Fanatiker. Ich will nicht nur ein Spiel machen – ich will eine Narbe auf deiner Psyche hinterlassen. Shadowless ist meine Vision davon, was geschieht, wenn im Kopf das Licht erlischt.",
     developerQuote: "\"Hilf mir, einen Albtraum zu bauen, den wir alle teilen können.\"",
-    breakdownTitle: "Verwendung der Mittel",
+    breakdownTitle: "Wie die Mittel verwendet werden",
     breakdown: {
       dev: "Grundlegende Entwicklung",
-      devDesc: "Assets, Mocap, Lizenzen, Feinschliff",
-      audio: "Audiodesign",
-      audioDesc: "Professioneller Komponist, Sprachaufnahmen, Sounddesign",
+      devDesc: "3D-Assets, Texturen, Umgebungen, Engine-Lizenz",
+      audio: "Audio & Vertonung",
+      audioDesc: "Sprachaufnahmen, Casting, Sounddesign, Atmosphäre",
       tax: "Belohnungen für Unterstützer",
-      fees: "Steuern und Gebühren"
+      fees: "Steuern, Gebühren & Reserve"
     },
+    firstMilestone: {
+      title: "Erster Meilenstein",
+      amount: 2275,
+      description: "Casting / Sprach-Test, englischer Voice-Over-Test, Audioleitung, Trailer-Vorbereitung und erste öffentliche Präsentation.",
+      note: "Der erste Meilenstein finanziert nicht das gesamte Spiel — er finanziert den ersten Produktionsschritt."
+    },
+    whereMoneyGoesTitle: "Wofür das Geld verwendet wird",
+    whereMoneyGoesItems: [
+      { label: "Voice-Over / Casting / Vertonungstests" },
+      { label: "Soundassets und Atmosphäre" },
+      { label: "3D-Assets, Texturen und Umgebungen" },
+      { label: "Trailer und Präsentationsmaterialien" },
+      { label: "Steam / technische Kosten" },
+      { label: "Gebühren, Steuern und Reserve" }
+    ],
+    whatExistsTitle: "Was bereits existiert",
+    whatExistsItems: [
+      "Story-Bibel",
+      "Kern-Spielkonzept",
+      "Kapitel- und Endingsplan",
+      "Projektwebsite",
+      "Visuelle Richtung",
+      "In Arbeit befindliche Hausumgebung",
+      "Mechanik-Prototyping",
+      "Steam-Präsentationsvorbereitung",
+      "Galerie und erste Präsentationsmaterialien"
+    ],
+    fairWarning: "Shadowless ist ein Spiel in Entwicklung. Deine Unterstützung hilft, seine weitere Entwicklung zu finanzieren. Digitale Belohnungen werden schrittweise je nach Entwicklungsfortschritt geliefert. Zeitpläne können sich je nach Umfang, Budget und technischen Anforderungen des Spiels ändern. Wenn sich Umfang oder Plan wesentlich ändert, werden Unterstützer über die Website und per E-Mail informiert.",
     stretchGoalsTitle: "Meilensteine",
     stretchGoals: [
-      { amount: 25200, title: "Es erwacht", description: "Kampagnenerfolg. Digitale Belohnungen gesichert. Der Albtraum beginnt." },
-      { amount: 50400, title: "Symphonie der Angst", description: "Professioneller Komponist für einen einzigartigen, nervenaufreibenden Soundtrack." },
-      { amount: 100800, title: "Binauraler Albtraum", description: "Vollständig immersives 3D-Audio. Du wirst sie hinter dir atmen hören." },
-      { amount: 218400, title: "Stimme des Wahnsinns", description: "Professionelle englische Sprecher, die der Verzweiflung Leben einhauchen." },
-      { amount: 300300, title: "Die wahre Vision", description: "Volle Produktionsqualität. Keine Kompromisse. Das Spiel genau wie geplant." },
-      { amount: 364000, title: "Hyper-Realismus", description: "Erweiterte Umgebungsdetails und flüssige Motion-Matching-Animationen." },
-      { amount: 455000, title: "Filmisches Trauma", description: "Wichtige Story-Momente als voll gerenderte In-Game-Zwischensequenzen." },
-      { amount: 600600, title: "Tragbares Grauen", description: "Portierung auf Nintendo Switch. Nimm die Angst mit." },
-      { amount: 819000, title: "Das verlorene Kapitel", description: "Eine neue narrative Erweiterung, die tiefer in die Geschichte eintaucht." },
-      { amount: 1092000, title: "Konsolen-Debüt", description: "Veröffentlichung auf PlayStation 5 und Xbox Series X/S." }
+      { amount: 2275, title: "Erste Stimme der Schatten", description: "Casting, englischer Voice-Over-Test, Audioleitung und erste öffentliche Präsentation." },
+      { amount: 9450, title: "Spielbares Demo", description: "Erster spielbarer Vertical Slice, der die Kernatmosphäre und Mechaniken zeigt." },
+      { amount: 22750, title: "Englische Vertonung für Demo", description: "Professionelle englische Sprecher für das spielbare Demo — erste Charaktere werden lebendig." },
+      { amount: 45500, title: "Steam + Öffentliches Demo", description: "Steam-Seiten-Launch, Veröffentlichung des öffentlichen Demos, erste breite Präsentation von Shadowless." },
+      { amount: 91000, title: "Erweiterte englische Produktion", description: "Erweiterung der englischen Vertonung und Audioproduktion auf mehr Teile des Spiels." },
+      { amount: 182000, title: "Professionelle tschechische Vertonung", description: "Professionelle tschechische Synchronisation — das Spiel ist vollständig auf Tschechisch spielbar." },
+      { amount: 364000, title: "Tschechische Synchronisation mit bekannten Stimmen", description: "Höheres Budget ermöglicht es, bekannte tschechische Schauspieler und Sprecher anzusprechen. Keine spezifischen Namen werden garantiert, bis Verträge unterzeichnet sind." }
     ],
     cta: "Projekt unterstützen",
     supporters: {
       title: "Beiträge der Unterstützer",
       toggleOpen: "Unterstützer anzeigen",
       toggleClose: "Unterstützer verbergen",
-      loading: "Unterstützer werden heraufbeschworen...",
+      loading: "Unterstützer werden geladen...",
       error: "Unterstützer konnten gerade nicht geladen werden.",
-      empty: "Noch keine Unterstützer verzeichnet. Sei die erste Seele.",
+      empty: "Noch keine Unterstützer verzeichnet. Sei die Erste.",
       tableHeaders: {
         name: "Name",
         amount: "Gesamtbeitrag"
       }
     },
     modal: {
-      title: "Wähle dein Schicksal",
+      title: "Unterstützung wählen",
       recommendedLabel: "Empfohlen",
       stepTitles: {
         tier: "Stufe wählen",
-        details: "Unterstützerdaten",
+        details: "Deine Angaben",
         card: "Zahlungsmethode",
         review: "Prüfen & Bestätigen"
       },
       stepDescriptions: {
-        tier: "Wähle den Beitrag, der zu deiner Hingabe passt.",
+        tier: "Wähle die Stufe, die zu deiner Unterstützung passt.",
         details: "Sag uns, wohin wir deine Belohnungen schicken sollen.",
         card: "Gib deine Kartendaten im sicheren Stripe-Formular ein.",
-        review: "Bestätige alle Angaben, bevor du den Beitrag abschließt."
+        review: "Überprüfe alles, bevor du deinen Beitrag abschließt."
       },
-      payBtn: "Beitragen",
+      payBtn: "Unterstützung abschließen",
       continueBtn: "Weiter",
       reviewBtn: "Zur Zusammenfassung",
-      processing: "Synchronisierung...",
-      successTitle: "Beitrag angenommen",
-      successMsg: "Deine Unterstützung hallt in der Leere wider. Bestätigung per E-Mail.",
+      processing: "Wird verarbeitet...",
+      successTitle: "Unterstützung erhalten",
+      successMsg: "Danke. Bestätigung per E-Mail erhalten.",
       closeBtn: "Schließen",
       backToTiers: "Zurück zur Auswahl",
-      backToDetails: "Details bearbeiten",
-      editDetails: "Unterstützerdaten ändern",
+      backToDetails: "Angaben bearbeiten",
+      editDetails: "Angaben ändern",
       editPayment: "Zahlungsmethode ändern",
       selectedTier: "Gewählte Stufe",
       testCardNotice: "Verwende die Stripe-Testkarte 4242 4242 4242 4242 mit beliebigem zukünftigen Ablaufdatum, CVC 123 und PLZ 12345.",
@@ -150,12 +178,16 @@ export const deContent: Content = {
       lastNameLabel: "Nachname",
       emailLabel: "E-Mail",
       notesLabel: "Zusätzliche Hinweise",
-      notesOptionalHint: "Optional. Alles, was wir über deinen Beitrag wissen sollten?",
+      notesOptionalHint: "Optional.",
       summaryHeading: "Letzte Prüfung",
       summaryContact: "Kontakt",
       summaryNotes: "Hinweise",
       summaryAmount: "Gesamt",
       notesEmpty: "Keine zusätzlichen Hinweise.",
+      consentTerms: "Ich habe die Allgemeinen Geschäftsbedingungen gelesen und stimme zu.",
+      consentPrivacy: "Ich habe die Datenschutzerklärung gelesen und stimme zu.",
+      consentGameDev: "Ich verstehe, dass Shadowless ein Spiel in Entwicklung ist und digitale Belohnungen schrittweise je nach Entwicklungsfortschritt geliefert werden.",
+      consentRequired: "Bitte bestätige alle Zustimmungen, um deinen Beitrag abzuschließen.",
       validation: {
         required: "Dieses Feld ist erforderlich.",
         email: "Bitte eine gültige E-Mail eingeben."
@@ -167,128 +199,92 @@ export const deContent: Content = {
       tiers: [
         {
           id: "tier1",
-          name: "Schatten-Beobachter",
+          name: "Symbolische Unterstützung",
           price: 5,
           currency: " €",
-          rewards: ["Digitaler Dank", "Name in den Credits"],
+          rewards: ["Digitaler Dank", "Name auf der Unterstützer-Seite der Website"],
           limit: TIER_LIMITS["tier1"] ?? undefined,
           sold: 0
         },
         {
           id: "tier2",
-          name: "Wanderer",
-          price: 14,
+          name: "Name in den Credits",
+          price: 11,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Digitale Kopie von Shadowless"],
+          rewards: ["Alle vorherigen Belohnungen", "Dein Name in den Spielcredits — Unterstützer-Sektion"],
           limit: TIER_LIMITS["tier2"] ?? undefined,
           sold: 0
         },
         {
           id: "tier3",
-          name: "Entdecker",
-          price: 24,
+          name: "Digitale Spielkopie",
+          price: 17,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Original Soundtrack", "High-Res Wallpaper-Paket"],
+          rewards: ["Alle vorherigen Belohnungen", "Digitale Kopie von Shadowless nach der Veröffentlichung. Bevorzugte Plattform ist Steam — die genaue Liefermethode wird gemäß den Regeln der Distributionsplattform zum Zeitpunkt der Veröffentlichung bestätigt."],
           limit: TIER_LIMITS["tier3"] ?? undefined,
           sold: 0
         },
         {
           id: "tier4",
-          name: "Wahrheitssucher",
-          price: 43,
+          name: "Founder Pack",
+          price: 28,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Digitales Artbook", "Lore-Buch (PDF)", "Early Access", "Innerer Kreis"],
+          rewards: ["Digitale Spielkopie", "Digitaler Soundtrack", "Wallpaper-Paket", "Name auf der Unterstützer-Seite"],
           limit: TIER_LIMITS["tier4"] ?? undefined,
           sold: 0
         },
         {
           id: "tier5",
-          name: "DLC: Höllenwanderer",
-          price: 57,
+          name: "Wahrheitssucher",
+          price: 51,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "DLC \"HÖLLE\" Erweiterung"],
+          rewards: ["Alle vorherigen Belohnungen", "Digitales Artbook", "Lore-PDF-Dokument", "Name in den Spielcredits"],
           recommended: true,
           limit: TIER_LIMITS["tier5"] ?? undefined,
           sold: 0
         },
         {
           id: "tier6",
-          name: "Digitaler Kurator",
-          price: 71,
+          name: "Archivar",
+          price: 85,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Digitales Zertifikat", "Persönliche Videobotschaft"],
+          rewards: ["Alle vorherigen Belohnungen", "Zugang zu Entwicklungs-Updates und Behind-the-Scenes-Materialien", "Zugang zur geschlossenen Community (bei Launch)"],
           limit: TIER_LIMITS["tier6"] ?? undefined,
           sold: 0
         },
         {
           id: "tier7",
-          name: "Physischer Kurator",
-          price: 85,
+          name: "Entwicklungs-Patron",
+          price: 170,
           currency: " €",
-          rewards: ["Alle \"Digitaler Kurator\" Belohnungen", "Physische Box-Version", "Gedrucktes Artbook"],
+          rewards: ["Alle vorherigen Belohnungen", "Zugang zu einem Test-Build, wenn verfügbar — Zeitplan abhängig vom Entwicklungsfortschritt", "Hervorgehobener Dank in den Credits und auf der Website"],
           limit: TIER_LIMITS["tier7"] ?? undefined,
           sold: 0
         },
         {
           id: "tier8",
-          name: "Sammler Deluxe",
-          price: 105,
+          name: "Stimmen-Patron",
+          price: 340,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Soundtrack auf CD", "Sticker-Set"],
+          rewards: ["Alle vorherigen Belohnungen", "Besonderer Dank in der Sektion 'Voice & Audio Supporters'"],
           limit: TIER_LIMITS["tier8"] ?? undefined,
           sold: 0
         },
         {
           id: "tier9",
-          name: "Träger des Schattens",
-          price: 142,
+          name: "Produktions-Patron",
+          price: 680,
           currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Exklusive Shadowless-Kleidung"],
+          rewards: ["Besonderer Dank als bedeutender Produktionsunterstützer", "Prominenter Dank auf der Website und in den Spielcredits"],
           limit: TIER_LIMITS["tier9"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier10",
-          name: "Der Visionär",
-          price: 190,
-          currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Einzigartiges personalisiertes Kunstwerk"],
-          limit: TIER_LIMITS["tier10"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier11",
-          name: "Schatten-Gestalter",
-          price: 285,
-          currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Privates Discord Q&A", "Gestalte einen Nebencharakter"],
-          limit: TIER_LIMITS["tier11"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier12",
-          name: "Architekt",
-          price: 950,
-          currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Mitwirkung an der Entwicklung", "Eigenes Easter Egg im Spiel"],
-          limit: TIER_LIMITS["tier12"] ?? undefined,
-          sold: 0
-        },
-        {
-          id: "tier14",
-          name: "Herr der Leere",
-          price: 1425,
-          currency: " €",
-          rewards: ["Alle vorherigen Belohnungen", "Ultimative Sammlerbox"],
-          limit: TIER_LIMITS["tier14"] ?? undefined,
           sold: 0
         }
       ]
     }
   },
   thankYou: {
-    title: "Willkommen in der Leere",
-    subtitle: "Dein Beitrag wurde akzeptiert.",
+    title: "Danke",
+    subtitle: "Dein Beitrag wurde empfangen.",
     orderLabel: "Bestell-ID",
     tierLabel: "Gewählte Stufe",
     amountLabel: "Beitragsbetrag",
@@ -303,7 +299,7 @@ export const deContent: Content = {
   terms: {
     title: "Allgemeine Geschäftsbedingungen",
     lastUpdatedLabel: "Zuletzt aktualisiert",
-    lastUpdatedValue: "26. November 2025",
+    lastUpdatedValue: "27. Juni 2026",
     intro: "Diese Allgemeinen Geschäftsbedingungen regeln deine Teilnahme an der Shadowless-Crowdfunding-Kampagne von Petr Vurm (dem \"Schöpfer\"). Mit dem Abschicken eines Beitrags erkennst du die folgenden Bestimmungen an.",
     sections: [
       {
@@ -319,7 +315,7 @@ export const deContent: Content = {
         heading: "2. Teilnahmeberechtigung und Registrierung",
         paragraphs: [
           "Du bestätigst, mindestens 18 Jahre alt zu sein oder die Zustimmung eines gesetzlichen Vertreters zu besitzen und nach dem für dich geltenden Recht geschäftsfähig zu sein.",
-          "Du verpflichtest dich, korrekte Kontakt- und Lieferdaten bereitzustellen und zeitnah zu aktualisieren, damit der Schöpfer gesetzliche Mitteilungen versenden und Belohnungen zustellen kann."
+          "Du verpflichtest dich, korrekte Kontaktdaten bereitzustellen und zeitnah zu aktualisieren, damit der Schöpfer gesetzliche Mitteilungen versenden und Belohnungen zustellen kann."
         ]
       },
       {
@@ -338,17 +334,17 @@ export const deContent: Content = {
         id: "rewards",
         heading: "4. Belohnungen und Erfüllung",
         paragraphs: [
-          "Jede Unterstützerstufe beschreibt die vorgesehenen Belohnungen. Digitale Inhalte werden elektronisch geliefert; physische Güter erfordern eine gültige Versandadresse und können Zölle, Einfuhrsteuern oder lokale Gebühren auslösen.",
-          "Die angegebenen Lieferzeiten sind Schätzungen. Produktions- oder Logistikzwänge können Anpassungen erforderlich machen; der Schöpfer informiert per E-Mail über Änderungen.",
-          "Sollte eine bestimmte Belohnung nicht umsetzbar sein, stellt der Schöpfer eine angemessene Alternative gleichen oder höheren Wertes bereit. Rückerstattungen werden nicht gewährt."
+          "Jede Unterstützerstufe beschreibt vorgesehene digitale Belohnungen. Alle Belohnungen werden digital und elektronisch geliefert — es sind keine physischen Güter mit einer Stufe verbunden.",
+          "Die angegebenen Lieferzeiten sind Schätzungen. Produktionszwänge können Anpassungen erforderlich machen; der Schöpfer informiert per E-Mail über Änderungen.",
+          "Sollte eine bestimmte Belohnung nicht umsetzbar sein, stellt der Schöpfer eine angemessene digitale Alternative gleichen oder höheren Wertes bereit. Rückerstattungen werden nicht gewährt."
         ]
       },
       {
         id: "changes",
         heading: "5. Projektänderungen und Zeitpläne",
         paragraphs: [
-          "Der Schöpfer darf Umfang, Funktionen oder Stretch-Goals anpassen, um auf technische, rechtliche oder finanzielle Rahmenbedingungen zu reagieren und die Qualität von Shadowless zu sichern.",
-          "Bei wesentlichen Verzögerungen informiert der Schöpfer die Unterstützer und stellt einen aktualisierten Erfüllungsplan zur Verfügung. Dein Anspruch auf die Belohnungen deiner Stufe bleibt unabhängig vom Endbetrag bestehen."
+          "Der Schöpfer darf Umfang, Funktionen oder Meilensteine anpassen, um auf technische, rechtliche oder finanzielle Rahmenbedingungen zu reagieren und die Qualität von Shadowless zu sichern.",
+          "Bei wesentlichen Verzögerungen oder Umfangsänderungen informiert der Schöpfer die Unterstützer über die Website und per E-Mail und stellt einen aktualisierten Erfüllungsplan zur Verfügung. Dein Anspruch auf die Belohnungen deiner Stufe bleibt unabhängig vom Endbetrag bestehen."
         ]
       },
       {
@@ -356,7 +352,8 @@ export const deContent: Content = {
         heading: "6. Kommunikation und Datenschutz",
         paragraphs: [
           "Der Schöpfer verwendet deine personenbezogenen Daten ausschließlich zur Verwaltung der Beiträge, zur Erfüllung gesetzlicher Pflichten, zur Lieferung der Belohnungen und zur Kampagnenkommunikation. Eine Weitergabe an Dritte findet nicht statt.",
-          "Du kannst dich jederzeit von nicht zwingenden Benachrichtigungen abmelden. Transaktions- und Erfüllungsnachrichten werden jedoch weiterhin versendet, solange dein Beitrag offen ist, damit du deine Belohnungen erhältst."
+          "Du kannst dich jederzeit von nicht zwingenden Benachrichtigungen abmelden. Transaktions- und Erfüllungsnachrichten werden jedoch weiterhin versendet, solange dein Beitrag offen ist.",
+          "Vollständige Informationen zur Datenverarbeitung findest du in unserer Datenschutzerklärung."
         ]
       },
       {
@@ -369,7 +366,7 @@ export const deContent: Content = {
       }
     ],
     pledgeReminderHeading: "Wichtiger Hinweis zur Nicht-Rückerstattung von Beiträgen",
-    pledgeReminderBody: "Alle Beiträge für die Shadowless-Kampagne gelten als nicht erstattungsfähige Zuwendungen, es sei denn, zwingendes Verbraucherrecht sieht etwas anderes vor. Dein Anspruch auf die Belohnungen deiner gewählten Stufe bleibt unabhängig vom endgültigen Finanzierungsbetrag bestehen und der Schöpfer liefert sie nach Fertigstellung aus.",
+    pledgeReminderBody: "Alle Beiträge für die Shadowless-Kampagne gelten als nicht erstattungsfähige Zuwendungen, es sei denn, zwingendes Verbraucherrecht sieht etwas anderes vor. Digitale Belohnungen werden schrittweise je nach Entwicklungsfortschritt geliefert. Bei wesentlichen Änderungen des Umfangs oder Plans werden Unterstützer über die Website und per E-Mail informiert.",
     contactHeading: "Kontakt",
     contactBusinessLabel: "Betreiber",
     contactBusinessValue: "Petr Vurm, Einzelunternehmer (Tschechische Republik)",
@@ -379,10 +376,86 @@ export const deContent: Content = {
     contactEmail: "kontakt@petrvurm.cz",
     backLinkLabel: "Zurück zur Startseite"
   },
+  privacy: {
+    title: "Datenschutzerklärung",
+    lastUpdatedLabel: "Zuletzt aktualisiert",
+    lastUpdatedValue: "27. Juni 2026",
+    intro: "Diese Datenschutzerklärung erläutert, wie Petr Vurm (\"der Schöpfer\") personenbezogene Daten im Rahmen der Shadowless-Crowdfunding-Kampagne auf shadowlessthegame.eu erhebt, verwendet und schützt.",
+    sections: [
+      {
+        id: "controller",
+        heading: "1. Verantwortlicher",
+        paragraphs: [
+          "Verantwortlicher ist Petr Vurm, Einzelunternehmer, Tschechische Republik, IČ 21180164. Kontakt: kontakt@petrvurm.cz."
+        ]
+      },
+      {
+        id: "data-collected",
+        heading: "2. Welche Daten wir erheben",
+        paragraphs: [
+          "Bei einem Beitrag erheben wir: Vorname, Nachname, E-Mail-Adresse, optionale Hinweise, Zahlungsreferenz (Stripe Payment Intent ID), Beitragsbetrag, gewählte Stufe und Datum des Beitrags.",
+          "Vollständige Kartennummern oder Zahlungsdaten speichern wir nicht — diese werden ausschließlich von Stripe (stripe.com) verarbeitet. Details zur Datenverarbeitung durch Stripe findest du in deren Datenschutzrichtlinie."
+        ]
+      },
+      {
+        id: "purpose",
+        heading: "3. Zweck und Rechtsgrundlage",
+        paragraphs: [
+          "Wir verarbeiten deine personenbezogenen Daten für folgende Zwecke:",
+        ],
+        bullets: [
+          "Verwaltung deines Beitrags und Lieferung digitaler Belohnungen — Rechtsgrundlage: Vertragserfüllung.",
+          "Versand von Bestellbestätigungen und Kampagnen-Updates — Rechtsgrundlage: berechtigtes Interesse / Einwilligung.",
+          "Erfüllung gesetzlicher und buchhalterischer Pflichten — Rechtsgrundlage: gesetzliche Verpflichtung.",
+          "Pflege der öffentlichen Unterstützerliste (Vorname, Nachname, Betrag) — Rechtsgrundlage: berechtigtes Interesse. Löschung kann jederzeit beantragt werden."
+        ]
+      },
+      {
+        id: "retention",
+        heading: "4. Aufbewahrungsdauer",
+        paragraphs: [
+          "Beitragsdaten werden für den nach tschechischem Buchhalterrecht erforderlichen Zeitraum aufbewahrt (in der Regel 10 Jahre). Kontaktdaten werden aufbewahrt, bis Belohnungen erfüllt und die Daten für rechtliche Zwecke nicht mehr benötigt werden.",
+          "Du kannst jederzeit die Löschung deiner personenbezogenen Daten beantragen, vorbehaltlich gesetzlicher Aufbewahrungspflichten."
+        ]
+      },
+      {
+        id: "rights",
+        heading: "5. Deine Rechte",
+        paragraphs: [
+          "Gemäß DSGVO und anwendbarem tschechischen Recht hast du das Recht auf: Auskunft über deine Daten, Berichtigung unrichtiger Daten, Löschung (Recht auf Vergessenwerden), Einschränkung der Verarbeitung und Widerspruch gegen die Verarbeitung.",
+          "Um eines dieser Rechte auszuüben, kontaktiere uns bitte unter kontakt@petrvurm.cz. Wir antworten innerhalb von 30 Tagen."
+        ]
+      },
+      {
+        id: "third-parties",
+        heading: "6. Dritte",
+        paragraphs: [
+          "Wir geben deine Daten ausschließlich an folgende Dienstleister weiter, um die Kampagne zu betreiben:",
+        ],
+        bullets: [
+          "Stripe, Inc. — Zahlungsabwicklung.",
+          "Resend / E-Mail-Dienstleister — Versand von Bestellbestätigungen.",
+          "Supabase / Datenbankhost — Speicherung von Beitragsdaten."
+        ]
+      },
+      {
+        id: "security",
+        heading: "7. Sicherheit",
+        paragraphs: [
+          "Wir treffen angemessene technische und organisatorische Maßnahmen zum Schutz deiner personenbezogenen Daten. Alle Zahlungsdaten werden ausschließlich über die PCI-DSS-konforme Infrastruktur von Stripe verarbeitet.",
+          "Im Falle eines Datenschutzvorfalls, der deine Rechte gefährdet, werden wir die zuständige Aufsichtsbehörde und betroffene Personen gemäß gesetzlichen Anforderungen informieren."
+        ]
+      }
+    ],
+    contactHeading: "Kontakt",
+    contactEmail: "kontakt@petrvurm.cz",
+    backLinkLabel: "Zurück zur Startseite"
+  },
   footer: {
     rights: "Alle Rechte vorbehalten.",
     madeIn: "Geschmiedet im dunklen Herzen der Tschechischen Republik.",
     quote: "\"Licht ist nur eine vorübergehende Illusion.\"",
-    termsLink: "AGB"
+    termsLink: "AGB",
+    privacyLink: "Datenschutz"
   }
 };
